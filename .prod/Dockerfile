@@ -75,15 +75,9 @@ COPY .prod/configs/supervisord.conf /etc/supervisord.conf
 # Устанавливаем рабочую директорию
 WORKDIR /var/www
 
-# Устанавливаем владельцем папки пользователя www-data
-RUN chown -R www-data:www-data /var/www
-
 RUN php artisan config:cache \
  && php artisan route:cache \
  && php artisan view:cache
-
-
-USER www-data
 
 # Порты и команда запуска
 EXPOSE 80

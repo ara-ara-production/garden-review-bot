@@ -81,7 +81,7 @@ export default () => {
                     {auth.user ?
                         <Button onClick={e => {
                             e.preventDefault();
-                            router.delete('/logout')
+                            router.post('/logout')
                         }}>
                             Выйти
                         </Button>
