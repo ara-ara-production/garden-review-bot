@@ -75,8 +75,7 @@ COPY .prod/configs/supervisord.conf /etc/supervisord.conf
 # Устанавливаем рабочую директорию
 WORKDIR /var/www
 
-RUN php artisan config:cache \
- && php artisan route:cache \
+RUN  php artisan route:cache \
  && php artisan view:cache
 
 # Порты и команда запуска
