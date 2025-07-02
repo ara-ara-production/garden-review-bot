@@ -17,6 +17,10 @@ RUN apk update && apk add \
         imagemagick-dev \
         imagemagick
 
+RUN apk add --no-cache curl-dev \
+    && docker-php-ext-install curl
+
+
 #COPY --from=node /usr/lib /usr/lib
 #COPY --from=node /usr/local/lib /usr/local/lib
 #COPY --from=node /usr/local/include /usr/local/include
