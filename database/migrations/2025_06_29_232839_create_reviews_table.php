@@ -26,7 +26,6 @@ return new class extends Migration
             $table->dateTime('end_work_on')->nullable();
             $table->text('control_review')->nullable();
             $table->text('final_answer')->nullable();
-            $table->json('message_id')->unique()->nullable();
         });
     }
 
