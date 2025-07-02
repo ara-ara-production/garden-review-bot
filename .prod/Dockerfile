@@ -29,7 +29,12 @@ RUN apk update && apk add \
 
 # Установка и настройка расширений для php
 RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype
-RUN docker-php-ext-install -j$(nproc) gd pdo pgsql pdo_pgsql redis
+RUN docker-php-ext-install -j$(nproc) gd pdo pgsql pdo_pgsql
+
+RUN apk add --no-cache $PHPIZE_DEPS autoconf gcc g++ make \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del $PHPIZE_DEPS autoconf gcc g++ make
 
 WORKDIR /var/www
 COPY . ./
