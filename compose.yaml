@@ -1,0 +1,60 @@
+services:
+  nginx:
+    image: nginx:1.20-alpine
+    ports:
+      - 80:80
+    working_dir: /srv/web
+    volumes:
+      - .dev/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./public/:/srv/web/public/
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: .dev/php/Dockerfile
+    working_dir: /srv/web
+    volumes:
+      - .:/srv/web
+      - ${HOME}/.composer:${HOME}/.composer
+#    command: php artisan inertia:start-ssr
+    depends_on:
+      - pgsql
+      - node
+
+  node:
+    build:
+      context: ./
+      dockerfile: .dev/node/Dockerfile
+    working_dir: /usr/src/app
+    command: npm run watch
+    user: 1000:1000
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+
+  pgsql:
+    image: postgres:17
+    ports:
+      - '${FORWARD_DB_PORT:-5432}:5432'
+    environment:
+      PGPASSWORD: '${DB_PASSWORD:-secret}'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+    volumes:
+      - 'database:/var/lib/postgresql/data'
+
+  redis:
+    image: redis:latest
+    ports:
+      - "127.0.0.1:6379:6379"
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  database:
+    driver: local

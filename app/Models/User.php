@@ -2,11 +2,24 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Casts\UserRoleName;
+use App\Dto\User\Factory\ForNotifyDtoFactory;
+use App\Enums\UserRoleEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
+/**
+ * @method static Builder dataForIndex()
+ * @method static Builder byTgUsername(string $username)
+ * @method static Collection toNotify(null|array $roles = null)
+ * @method static Collection chatIdByRole(array $roles)
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -21,6 +34,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'telegram_username',
+        'telegram_chat',
+        'role',
     ];
 
     /**
@@ -38,11 +54,47 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    #[CodeCoverageIgnore] protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_subscribed' => 'boolean',
+            'role' => UserRoleName::class,
         ];
+    }
+
+    public function scopeDataForIndex(Builder $query): Builder
+    {
+        return $query->selectRaw(
+            'id,
+            name,
+            telegram_username,
+            role,
+            (telegram_chat IS NOT NULL) AS "is_subscribed"'
+        );
+    }
+
+    public function scopeByTgUsername(Builder $query, string $username): Builder
+    {
+        return $query->where('telegram_username', $username);
+    }
+
+    public function scopeToNotify(Builder $query, ?array $roles = null): Collection
+    {
+        return $query->select('telegram_chat', 'id', 'role')
+            ->whereIn('role', $roles ?? UserRoleEnum::toArray()->pluck('name'))
+            ->whereNotNull('telegram_chat')
+            ->get()
+            ->map(fn (User $user) => app(ForNotifyDtoFactory::class)->fromEntity($user));
+    }
+
+    public function brunches()
+    {
+        return $this->hasMany(Brunch::class);
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(TelegramMessage::class);
     }
 }
