@@ -62,6 +62,10 @@ COPY --from=php-builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY --from=php-builder /usr/local/bin/docker-php-ext-* /usr/local/bin/
 COPY --from=php-builder /var/www /var/www
 
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+ && chmod -R ug+rw /var/www/storage /var/www/bootstrap/cache
+
+
 # Копируем собранные ассеты React
 COPY --from=node-builder /app/public/build /var/www/public/build
 
