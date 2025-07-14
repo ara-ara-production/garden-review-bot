@@ -14,7 +14,6 @@ use App\Enums\UserRoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Api;
 use Telegram\Bot\Objects\Message;
 
@@ -85,7 +84,7 @@ class TelegramService
         if (mb_strlen($dto->getTelegramFormat()) >= 1024 || empty($dto->photos)) {
             $message = $this->sendSimpleMessage($this->messageDtoFactory->fromDtos($dto, $user));
         }
-        return $this->telegramMessageReviewDtoFactory->fromData($dto, $message, $user);
+        return $message->get('message_id') ? $this->telegramMessageReviewDtoFactory->fromData($dto, $message, $user) : null;
     }
 
     /*public function changeButtonsOnMessages(Review $review, string $action, int $callbackId)

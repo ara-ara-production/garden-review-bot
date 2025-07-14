@@ -24,6 +24,7 @@ class NotifyMessageDtoFactory
             match ($user->role) {
                 UserRoleEnum::Control->name => $this->keyboardFactory->forControlFirstNotify($dto->dbId),
                 UserRoleEnum::Ssm->name => $this->keyboardFactory->forSMM($dto->dbId),
+                default => null,
             }
         );
     }

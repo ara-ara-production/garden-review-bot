@@ -14,7 +14,6 @@ use App\Exeptions\Telegram\NullPayloadException;
 use App\Exeptions\Telegram\WrongPayload;
 use App\Models\Review;
 use App\Models\TelegramMessage;
-use App\Models\User;
 use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;

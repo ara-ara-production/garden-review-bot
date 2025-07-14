@@ -49,6 +49,7 @@ export default ({paginator}) => {
                             <td>Дата начала проверки</td>
                             <td>Дата завершения проверки</td>
                             <td>Ревью управляющео</td>
+                            <td>Результат</td>
                             <td>Рейтинг</td>
                             <td>Платформа</td>
                             <td>Отзыв</td>
@@ -58,10 +59,11 @@ export default ({paginator}) => {
                         <tbody>
                             {paginator.data.map((row, i) => (<tr>
                                 <td key={`review_id-${i}`}>{row.review_id}</td>
-                                <td key={`posted_at-${i}`}>{ new Date(row.posted_at).toLocaleString('ru-RU', options)}</td>
+                                <td key={`posted_at-${i}`}>{new Date(row.posted_at).toLocaleString('ru-RU', options)}</td>
                                 <td key={`start_work_on-${i}`}>{row.start_work_on ? new Date(row.start_work_on).toLocaleString('ru-RU', options) : '-'}</td>
                                 <td key={`end_work_on-${i}`}>{row.end_work_on ? new Date(row.end_work_on).toLocaleString('ru-RU', options) : '-'}</td>
                                 <td key={`control_review-${i}`}>{row.control_review}</td>
+                                <td key={`final_answer-${i}`}>{row.final_answer}</td>
                                 <td key={`score-${i}`}>{row.score}</td>
                                 <td key={`resource-${i}`}>{row.resource}</td>
                                 <td key={`comment-${i}`}>{row.comment}</td>

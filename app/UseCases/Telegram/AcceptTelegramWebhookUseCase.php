@@ -20,7 +20,6 @@ class AcceptTelegramWebhookUseCase
 
     public function use(Update $updates): void
     {
-        Log::debug(var_export($updates->isEmpty(), true));
         if (!$updates->isEmpty()) {
             $dto = $this->updateDtoFactory->fromUpdate($updates);
 

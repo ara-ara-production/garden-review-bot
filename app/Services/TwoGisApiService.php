@@ -30,7 +30,7 @@ class TwoGisApiService extends ApiService
         $params = [
             'key' => config('api_keys.two_gis'),
             'locale' => 'ru_RU',
-            'limit' => 5,
+            'limit' => 20,
             'sort_by' => 'date_edited',
             'without_my_first_review' => true,
 

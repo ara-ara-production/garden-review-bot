@@ -23,7 +23,8 @@ class Review extends Model
         'end_work_on',
         'control_review',
         'final_answer',
-        'message_id'
+        'message_id',
+        'final_answer'
     ];
 
     public function casts()
@@ -51,6 +52,7 @@ class Review extends Model
                 'comment',
                 'brunches.name AS brunch_name',
                 'reviews.id AS review_id',
+                'final_answer'
             )
         ;
     }

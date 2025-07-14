@@ -23,7 +23,6 @@ class NotifyAboutNewReviewsTwoGisUseCase
     public function use()
     {
         try {
-            Log::info('start parce reviews');
             $rawData = $this->twoGisApiService->requestReviewsFromApi();
 
             $reviewDtos = $this->reviewDtoFactory->fromTwoGisCollection($rawData);
