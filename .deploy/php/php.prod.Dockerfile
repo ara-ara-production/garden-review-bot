@@ -21,7 +21,7 @@ COPY . ./
 
 # Установка Composer под текущую версию php, затем установка зависимостей
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer install --optimize-autoloader --no-interaction --no-progress --prefer-dist \
+    composer install --optimize-autoloader --no-interaction --no-progress --prefer-dist
 
 FROM php:8.4-fpm-alpine
 
