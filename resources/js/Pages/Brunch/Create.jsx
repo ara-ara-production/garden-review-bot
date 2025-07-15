@@ -19,9 +19,9 @@ export default ({users}) => {
 
     } = useForm({
         name: '',
-        user_id: users[0].name,
+        user_id: users[0]?.name,
         two_gis_id: '',
-        pupr_user_id: users[0].name,
+        pupr_user_id: users[0]?.name,
     })
 
     const {routes} = usePage().props;
