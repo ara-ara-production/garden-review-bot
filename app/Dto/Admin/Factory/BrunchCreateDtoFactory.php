@@ -13,6 +13,7 @@ class BrunchCreateDtoFactory
         return new BrunchCreateDto(
             $dataCollection->get('name'),
             $dataCollection->get('user_id'),
+            $dataCollection->get('pupr_user_id'),
             $dataCollection->get('two_gis_id'),
         );
     }

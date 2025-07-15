@@ -29,7 +29,12 @@ class UserService
 
     public function editUser(UserCreateDTO $dto, User $user): void
     {
-        $status = $user->update((array)$dto);
+        $dtoValues = (array)$dto;
+        if (!$dto->password) {
+            unset($dtoValues['password']);
+        }
+
+        $status = $user->update($dtoValues);
 
         if (!$status) {
             throw new Exception('Пользователь не обновлен!');

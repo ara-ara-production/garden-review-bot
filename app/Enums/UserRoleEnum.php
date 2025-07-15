@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 enum UserRoleEnum: string
 {
     case NullRole = "-";
-    case Control = "Управляющий";
+    case Control = "П.Упр.|Упр.";
     case Founder = "Учредитель";
     case Ssm = "SMM";
 

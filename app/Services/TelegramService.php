@@ -37,6 +37,16 @@ class TelegramService
         return $this->telegram->sendMediaGroup((array)$dto);
     }
 
+
+    /**
+     * @throws \Throwable если не удалось созранить
+     * @throws ModelNotFoundException если не удалось найти пользователя
+     */
+    public function getUser(SubscribeMessageDto $dto)
+    {
+        return User::byTgUsername($dto->username)->firstOrFail();
+    }
+
     /**
      * @throws \Throwable если не удалось созранить
      * @throws ModelNotFoundException если не удалось найти пользователя

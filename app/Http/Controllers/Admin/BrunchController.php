@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BrunchRequest;
 use App\Models\Brunch;
@@ -31,7 +32,11 @@ class BrunchController extends Controller
 
     public function create()
     {
-        return Inertia::render('Brunch/Create', ['users' => User::select('id as name', 'name as value')->get()->toArray()]);
+        return Inertia::render('Brunch/Create', [
+            'users' => User::select('id as name', 'name as value')
+                ->whereIn('role', [UserRoleEnum::Control->name])
+                ->get()
+                ->toArray()]);
     }
 
     public function store(BrunchRequest $request)

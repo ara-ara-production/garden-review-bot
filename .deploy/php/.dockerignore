@@ -6,3 +6,5 @@
 ./.gitignore
 ./.compose.yaml
 ./.tests
+./node_modules
+./vendor

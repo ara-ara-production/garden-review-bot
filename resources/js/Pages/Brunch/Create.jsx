@@ -21,6 +21,7 @@ export default ({users}) => {
         name: '',
         user_id: users[0].name,
         two_gis_id: '',
+        pupr_user_id: users[0].name,
     })
 
     const {routes} = usePage().props;
@@ -59,6 +60,13 @@ export default ({users}) => {
                         value={data.user_id}
                         onChange={e => setData('user_id', e.target.value)}
                         error={errors.user_id}
+                    />
+                    <RowFormGroupSelect
+                        label="Помошник управляющего"
+                        options={users}
+                        value={data.pupr_user_id}
+                        onChange={e => setData('pupr_user_id', e.target.value)}
+                        error={errors.pupr_user_id}
                     />
                 </Col>
 

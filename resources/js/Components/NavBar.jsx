@@ -2,14 +2,14 @@ import {
     Alert,
     Button, Col,
     Collapse,
-    Container,
+    Container, DropdownItem, DropdownMenu, DropdownToggle,
     Nav,
     Navbar,
     NavbarText,
     NavbarToggler,
     NavItem,
     NavLink,
-    Progress
+    Progress, UncontrolledDropdown
 } from "reactstrap";
 import React, {useEffect, useRef, useState} from "react";
 import {router, usePage} from "@inertiajs/react";
@@ -51,20 +51,9 @@ export default () => {
                             href=""
                             onClick={e => {
                                 e.preventDefault();
-                                router.visit(`/${routes.backendprefix}/${routes.user}`)
+                                location.href=`https://t.me/GardenReviewBot`
                             }}
-                        >
-                            Пользователи
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            href=""
-                            onClick={e => {
-                                e.preventDefault();
-                                router.visit(`/${routes.backendprefix}/${routes.brunch}`)
-                            }}
-                        >Филиалы</NavLink>
+                        >Бот</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
@@ -75,6 +64,53 @@ export default () => {
                             }}
                         >Отзывы</NavLink>
                     </NavItem>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret>
+                            Реестры
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem
+                                onClick={e => {
+                                    e.preventDefault();
+                                    router.visit(`/${routes.backendprefix}/${routes.user}`)
+                                }}
+                            >Пользователи</DropdownItem>
+                            <DropdownItem
+                                onClick={e => {
+                                    e.preventDefault();
+                                    router.visit(`/${routes.backendprefix}/${routes.brunch}`)
+                                }}
+                            >Филиалы
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret>
+                            Тех. часть
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem
+                                onClick={e => {
+                                    e.preventDefault();
+                                    router.visit(`/${routes.backendprefix}/logs`)
+                                }}
+                            >Логи</DropdownItem>
+                            <DropdownItem
+                                onClick={e => {
+                                    e.preventDefault();
+                                    router.visit(`/${routes.backendprefix}/horizon`)
+                                }}
+                            >Horizon
+                            </DropdownItem>
+                            <DropdownItem
+                                onClick={e => {
+                                    e.preventDefault();
+                                    location.href=`https://croner.rezone-random.ru/`
+                                }}
+                            >Кронер
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
                 </Nav>
                 <NavbarText>
 
