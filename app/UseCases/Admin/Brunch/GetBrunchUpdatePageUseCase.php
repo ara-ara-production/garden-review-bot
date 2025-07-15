@@ -3,6 +3,7 @@
 namespace App\UseCases\Admin\Brunch;
 
 use App\Dto\Admin\Factory\BrunchUpdateDtoFactory;
+use App\Enums\UserRoleEnum;
 use App\Models\Brunch;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,10 @@ class GetBrunchUpdatePageUseCase
 
             return Inertia::render(
                 'Brunch/Update',
-                ['values' => (array)$dto, 'users' => User::select('id as name', 'name as value')->get()->toArray()]
+                ['values' => (array)$dto, 'users' => User::select('id as name', 'name as value')
+                    ->whereIn('role', [UserRoleEnum::Control->name])
+                    ->get()
+                    ->toArray()]
             );
 
         } catch (\Throwable $exception) {

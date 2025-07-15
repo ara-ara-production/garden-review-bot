@@ -36,8 +36,7 @@ class User extends Authenticatable
         'password',
         'telegram_username',
         'telegram_chat',
-        'role',
-        'pupr_user_id'
+        'role'
     ];
 
     /**

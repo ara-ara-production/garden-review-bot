@@ -29,6 +29,7 @@ class BrunchService
 
     public function edit(BrunchCreateDTO $dto, Brunch $brunch): void
     {
+//        dd($dto);
         $status = $brunch->update((array)$dto);
 
         if (!$status) {

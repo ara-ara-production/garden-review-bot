@@ -12,7 +12,8 @@ class Brunch extends Model
     protected $fillable = [
         'name',
         'user_id',
-        'two_gis_id'
+        'two_gis_id',
+        'pupr_user_id'
     ];
 
     public function user()
