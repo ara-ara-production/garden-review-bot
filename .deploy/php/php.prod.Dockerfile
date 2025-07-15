@@ -1,6 +1,7 @@
 FROM php:8.4-fpm-alpine AS builder
 
 RUN apk update && apk add \
+        icu-libs \
         curl \
         autoconf \
         g++ \
@@ -54,7 +55,12 @@ WORKDIR /var/www
 RUN php artisan route:cache
 RUN php artisan view:cache
 
+RUN apk add --no-cache supervisor
+COPY ./.deploy/php/supervisord.conf /etc/supervisord.conf
+
+
 USER www-data
 
 EXPOSE 9000
-CMD ["php-fpm"]
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]
+
