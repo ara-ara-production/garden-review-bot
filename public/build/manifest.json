@@ -1,0 +1,282 @@
+{
+  "_Alert-BjESWk9v.js": {
+    "file": "assets/Alert-BjESWk9v.js",
+    "name": "Alert",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Row-BaC-3dof.js"
+    ]
+  },
+  "_Head-w5peUG2M.js": {
+    "file": "assets/Head-w5peUG2M.js",
+    "name": "Head",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Label-cSkGvJvA.js": {
+    "file": "assets/Label-cSkGvJvA.js",
+    "name": "Label",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Row-BaC-3dof.js"
+    ]
+  },
+  "_NavBar-muLNc2Y9.js": {
+    "file": "assets/NavBar-muLNc2Y9.js",
+    "name": "NavBar",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js"
+    ]
+  },
+  "_PaginationLink-tCV4ibsI.js": {
+    "file": "assets/PaginationLink-tCV4ibsI.js",
+    "name": "PaginationLink",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Row-BaC-3dof.js"
+    ]
+  },
+  "_Row-BaC-3dof.js": {
+    "file": "assets/Row-BaC-3dof.js",
+    "name": "Row",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_RowFormGroupSelect-D8KyBZNn.js": {
+    "file": "assets/RowFormGroupSelect-D8KyBZNn.js",
+    "name": "RowFormGroupSelect",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Alert-BjESWk9v.js",
+      "_Label-cSkGvJvA.js",
+      "_Row-BaC-3dof.js"
+    ]
+  },
+  "_RowFormGroupWithPrefix-BdcNd4hH.js": {
+    "file": "assets/RowFormGroupWithPrefix-BdcNd4hH.js",
+    "name": "RowFormGroupWithPrefix",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Alert-BjESWk9v.js",
+      "_Label-cSkGvJvA.js",
+      "_RowFormGroupSelect-D8KyBZNn.js",
+      "_Row-BaC-3dof.js"
+    ]
+  },
+  "resources/js/Pages/Brunch/Create.jsx": {
+    "file": "assets/Create-okMUchXu.js",
+    "name": "Create",
+    "src": "resources/js/Pages/Brunch/Create.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Head-w5peUG2M.js",
+      "_NavBar-muLNc2Y9.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_Label-cSkGvJvA.js",
+      "_RowFormGroupSelect-D8KyBZNn.js"
+    ]
+  },
+  "resources/js/Pages/Brunch/Index.jsx": {
+    "file": "assets/Index-D-hjPXuw.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Brunch/Index.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_NavBar-muLNc2Y9.js",
+      "_Head-w5peUG2M.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_PaginationLink-tCV4ibsI.js"
+    ]
+  },
+  "resources/js/Pages/Brunch/Update.jsx": {
+    "file": "assets/Update-TQw_BMDB.js",
+    "name": "Update",
+    "src": "resources/js/Pages/Brunch/Update.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Head-w5peUG2M.js",
+      "_NavBar-muLNc2Y9.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_Label-cSkGvJvA.js",
+      "_RowFormGroupSelect-D8KyBZNn.js"
+    ]
+  },
+  "resources/js/Pages/Login.jsx": {
+    "file": "assets/Login-4ROYBpgd.js",
+    "name": "Login",
+    "src": "resources/js/Pages/Login.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Head-w5peUG2M.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_Label-cSkGvJvA.js"
+    ]
+  },
+  "resources/js/Pages/Review/Index.jsx": {
+    "file": "assets/Index-BCP3IFVB.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Review/Index.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_NavBar-muLNc2Y9.js",
+      "_Head-w5peUG2M.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_PaginationLink-tCV4ibsI.js"
+    ]
+  },
+  "resources/js/Pages/Users/Create.jsx": {
+    "file": "assets/Create-C_Vl4-cb.js",
+    "name": "Create",
+    "src": "resources/js/Pages/Users/Create.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Head-w5peUG2M.js",
+      "_NavBar-muLNc2Y9.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_Label-cSkGvJvA.js",
+      "_RowFormGroupSelect-D8KyBZNn.js",
+      "_RowFormGroupWithPrefix-BdcNd4hH.js"
+    ]
+  },
+  "resources/js/Pages/Users/Index.jsx": {
+    "file": "assets/Index-xScceUwz.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Users/Index.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_NavBar-muLNc2Y9.js",
+      "_Head-w5peUG2M.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_PaginationLink-tCV4ibsI.js"
+    ]
+  },
+  "resources/js/Pages/Users/Update.jsx": {
+    "file": "assets/Update-DR-qaphW.js",
+    "name": "Update",
+    "src": "resources/js/Pages/Users/Update.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Head-w5peUG2M.js",
+      "_NavBar-muLNc2Y9.js",
+      "_Row-BaC-3dof.js",
+      "_Alert-BjESWk9v.js",
+      "_Label-cSkGvJvA.js",
+      "_RowFormGroupSelect-D8KyBZNn.js",
+      "_RowFormGroupWithPrefix-BdcNd4hH.js"
+    ]
+  },
+  "resources/js/Pages/Welcome.jsx": {
+    "file": "assets/Welcome-BhCToRIg.js",
+    "name": "Welcome",
+    "src": "resources/js/Pages/Welcome.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Row-BaC-3dof.js"
+    ]
+  },
+  "resources/js/Pages/WelcomeBackend.jsx": {
+    "file": "assets/WelcomeBackend-Bf0rCxxl.js",
+    "name": "WelcomeBackend",
+    "src": "resources/js/Pages/WelcomeBackend.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Row-BaC-3dof.js",
+      "_NavBar-muLNc2Y9.js",
+      "_Alert-BjESWk9v.js"
+    ]
+  },
+  "resources/js/app.jsx": {
+    "file": "assets/app-CCNGmOak.js",
+    "name": "app",
+    "src": "resources/js/app.jsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/Brunch/Create.jsx",
+      "resources/js/Pages/Brunch/Index.jsx",
+      "resources/js/Pages/Brunch/Update.jsx",
+      "resources/js/Pages/Login.jsx",
+      "resources/js/Pages/Review/Index.jsx",
+      "resources/js/Pages/Users/Create.jsx",
+      "resources/js/Pages/Users/Index.jsx",
+      "resources/js/Pages/Users/Update.jsx",
+      "resources/js/Pages/Welcome.jsx",
+      "resources/js/Pages/WelcomeBackend.jsx"
+    ],
+    "css": [
+      "assets/app-BmADcjg4.css"
+    ],
+    "assets": [
+      "assets/nucleo-icons-BgnVbBvX.eot",
+      "assets/nucleo-icons-CTnIBWcu.woff2",
+      "assets/nucleo-icons-BuEzPWOc.woff",
+      "assets/nucleo-icons-kNTzvw2K.ttf",
+      "assets/nucleo-icons-C6OFysxg.svg",
+      "assets/fontawesome-webfont-G5YE5S7X.eot",
+      "assets/fontawesome-webfont-B-jkhYfk.woff2",
+      "assets/fontawesome-webfont-CDK5bt4p.woff",
+      "assets/fontawesome-webfont-CQDK8MU3.ttf",
+      "assets/fontawesome-webfont-D13rzr4g.svg"
+    ]
+  },
+  "resources/vendor/font-awesome/fonts/fontawesome-webfont.eot": {
+    "file": "assets/fontawesome-webfont-G5YE5S7X.eot",
+    "src": "resources/vendor/font-awesome/fonts/fontawesome-webfont.eot"
+  },
+  "resources/vendor/font-awesome/fonts/fontawesome-webfont.svg": {
+    "file": "assets/fontawesome-webfont-D13rzr4g.svg",
+    "src": "resources/vendor/font-awesome/fonts/fontawesome-webfont.svg"
+  },
+  "resources/vendor/font-awesome/fonts/fontawesome-webfont.ttf": {
+    "file": "assets/fontawesome-webfont-CQDK8MU3.ttf",
+    "src": "resources/vendor/font-awesome/fonts/fontawesome-webfont.ttf"
+  },
+  "resources/vendor/font-awesome/fonts/fontawesome-webfont.woff": {
+    "file": "assets/fontawesome-webfont-CDK5bt4p.woff",
+    "src": "resources/vendor/font-awesome/fonts/fontawesome-webfont.woff"
+  },
+  "resources/vendor/font-awesome/fonts/fontawesome-webfont.woff2": {
+    "file": "assets/fontawesome-webfont-B-jkhYfk.woff2",
+    "src": "resources/vendor/font-awesome/fonts/fontawesome-webfont.woff2"
+  },
+  "resources/vendor/nucleo/fonts/nucleo-icons.eot": {
+    "file": "assets/nucleo-icons-BgnVbBvX.eot",
+    "src": "resources/vendor/nucleo/fonts/nucleo-icons.eot"
+  },
+  "resources/vendor/nucleo/fonts/nucleo-icons.svg": {
+    "file": "assets/nucleo-icons-C6OFysxg.svg",
+    "src": "resources/vendor/nucleo/fonts/nucleo-icons.svg"
+  },
+  "resources/vendor/nucleo/fonts/nucleo-icons.ttf": {
+    "file": "assets/nucleo-icons-kNTzvw2K.ttf",
+    "src": "resources/vendor/nucleo/fonts/nucleo-icons.ttf"
+  },
+  "resources/vendor/nucleo/fonts/nucleo-icons.woff": {
+    "file": "assets/nucleo-icons-BuEzPWOc.woff",
+    "src": "resources/vendor/nucleo/fonts/nucleo-icons.woff"
+  },
+  "resources/vendor/nucleo/fonts/nucleo-icons.woff2": {
+    "file": "assets/nucleo-icons-CTnIBWcu.woff2",
+    "src": "resources/vendor/nucleo/fonts/nucleo-icons.woff2"
+  }
+}

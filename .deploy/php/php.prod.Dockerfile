@@ -19,6 +19,7 @@ RUN docker-php-ext-install -j$(nproc) gd pdo pgsql pdo_pgsql
 WORKDIR /var/www
 COPY . ./
 
+
 # Установка Composer под текущую версию php, затем установка зависимостей
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer install --optimize-autoloader --no-interaction --no-progress --prefer-dist
@@ -43,7 +44,6 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY --from=builder /usr/local/bin/docker-php-ext-* /usr/local/bin/
 
 COPY --from=builder /var/www /var/www
-COPY ./public /var/www/public
 
 WORKDIR /var/www
 
