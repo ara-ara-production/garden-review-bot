@@ -1,1 +1,0 @@
-import{j as e}from"./app-CCNGmOak.js";import{C as r,R as t}from"./Row-BaC-3dof.js";const i=()=>e.jsx(e.Fragment,{children:e.jsx(r,{fluid:!0,className:"h-100 d-flex align-items-center justify-content-center",children:e.jsx(t,{children:e.jsx("h2",{children:"Публичная веб страница телеграм бота!"})})})});export{i as default};
