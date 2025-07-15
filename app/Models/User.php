@@ -94,6 +94,11 @@ class User extends Authenticatable
         return $this->hasMany(Brunch::class);
     }
 
+    public function brunchesPupr()
+    {
+        return $this->hasMany(Brunch::class, 'pupr_user_id','id');
+    }
+
     public function messages(): HasMany
     {
         return $this->hasMany(TelegramMessage::class);

@@ -80,7 +80,7 @@ class TelegramService
 
         if (!((
             $user->role === UserRoleEnum::Control->name
-            && User::findOrFail($user->id)->brunches()->where('id', $dto->branchDto->id)->exists()
+            && (User::findOrFail($user->id)->brunches()->where('id', $dto->branchDto->id)->exists() || User::findOrFail($user->id)->brunchesPupr()->where('id', $dto->branchDto->id)->exists())
             )
             || $user->role !== UserRoleEnum::Control->name)) {
             return null;
