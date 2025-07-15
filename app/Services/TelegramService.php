@@ -44,7 +44,7 @@ class TelegramService
      */
     public function getUser(SubscribeMessageDto $dto)
     {
-        return User::byTgUsername($dto->username)->firstOrFail();
+        return User::where('telegram_chat',  $dto->chatId)->firstOrFail();
     }
 
     /**

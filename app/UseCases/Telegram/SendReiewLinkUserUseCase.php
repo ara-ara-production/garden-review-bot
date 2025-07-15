@@ -29,9 +29,9 @@ class SendReiewLinkUserUseCase
 
             $this->telegram->getUser($messageDto);
 
-            $this->answerDtoFactory->fromUpdateAndText($update, "Ссылка:\nhttps://bot-reviewer.ru/a4a0d805-6680-422f-aed7-6fce5bd3425e/reviews");
+//            $this->answerDtoFactory->fromUpdateAndText($update, );
 
-            $answerText = MessageToUser::SuccesfulSubcribe->value;
+            $answerText = "Ссылка:\nhttps://bot-reviewer.ru/a4a0d805-6680-422f-aed7-6fce5bd3425e/reviews";
 
         } catch (NullUsernameException $exception) {
             Log::warning($exception);
