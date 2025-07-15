@@ -51,9 +51,6 @@ WORKDIR /var/www
 ## Устанавливаем владельцем папки пользователя www-data
 #RUN chown -R www-data:www-data /var/www
 
-# Кешируем маршруты и виды
-RUN php artisan route:cache
-RUN php artisan view:cache
 
 RUN apk add --no-cache supervisor
 COPY ./.deploy/php/supervisord.conf /etc/supervisord.conf
