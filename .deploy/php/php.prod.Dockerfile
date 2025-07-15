@@ -39,16 +39,16 @@ RUN apk add \
 # Устанавливаем конфиг для php
 ADD .deploy/php/php.prod.ini /usr/local/etc/php/php.ini
 
-COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
-COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
-COPY --from=builder /usr/local/bin/docker-php-ext-* /usr/local/bin/
+COPY --from=builder --chown=www-data:www-data /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=builder --chown=www-data:www-data /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY --from=builder --chown=www-data:www-data /usr/local/bin/docker-php-ext-* /usr/local/bin/
 
-COPY --from=builder /var/www /var/www
+COPY --from=builder --chown=www-data:www-data /var/www /var/www
 
 WORKDIR /var/www
 
-# Устанавливаем владельцем папки пользователя www-data
-RUN chown -R www-data:www-data /var/www
+## Устанавливаем владельцем папки пользователя www-data
+#RUN chown -R www-data:www-data /var/www
 
 # Кешируем маршруты и виды
 RUN php artisan route:cache

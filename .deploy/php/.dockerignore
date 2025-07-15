@@ -1,0 +1,8 @@
+./.dev
+./.deploy
+./.env.example
+./.git
+./.gitattributes
+./.gitignore
+./.compose.yaml
+./.tests
