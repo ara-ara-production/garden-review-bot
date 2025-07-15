@@ -39,7 +39,8 @@ Route::middleware('auth')->group(function () {
         Route::resource(config('resourseroutes.user'), UserController::class);
         Route::resource(config('resourseroutes.brunch'), BrunchController::class);
         Route::get('logs', [LogViewerController::class, 'index']);
-
     });
+
+    Horizon::routes();
 });
 
