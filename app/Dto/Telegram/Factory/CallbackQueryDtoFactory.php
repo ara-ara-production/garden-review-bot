@@ -7,6 +7,9 @@ use App\Dto\Telegram\Entity\FillReportPayloadDto;
 use App\Jobs\HandleNoWorkRequired;
 use App\Jobs\HandleReportInsert;
 use App\Jobs\HandleWorkStart;
+use App\UseCases\Telegram\InsertReportUseCase;
+use App\UseCases\Telegram\NotifyAboutNoWorkRequiredUseCase;
+use App\UseCases\Telegram\NotifyAboutWorkStart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
@@ -34,11 +37,18 @@ class CallbackQueryDtoFactory
 
     public function matchKeyToClass(string $key): string
     {
-        Log::debug($key);
+//        return match ($key) {
+//            'handle_no_work_required' => HandleNoWorkRequired::class,
+//            'handle_work_start' => HandleWorkStart::class,
+//            'handle_report_insert' => HandleReportInsert::class,
+//            default => null,
+//        };
+
         return match ($key) {
-            'handle_no_work_required' => HandleNoWorkRequired::class,
-            'handle_work_start' => HandleWorkStart::class,
-            'handle_report_insert' => HandleReportInsert::class,
+            'handle_no_work_required' => NotifyAboutNoWorkRequiredUseCase::class,
+            'handle_work_start' => NotifyAboutWorkStart::class,
+            'handle_report_insert' => InsertReportUseCase::class,
+            default => null,
         };
     }
 

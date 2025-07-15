@@ -24,9 +24,10 @@ class AcceptTelegramWebhookUseCase
             $dto = $this->updateDtoFactory->fromUpdate($updates);
 
             if ($dto->callback_query) {
-                $dto->callback_query->action::dispatch(
-                    $dto,
-                );
+                app($dto->callback_query->action)->use($dto);
+//                $dto->callback_query->action::dispatch(
+//                    $dto,
+//                );
             } else {
                 HandleReportSave::dispatch($dto);
             }
