@@ -40,7 +40,7 @@ class ReviewInfoDto
             . "\n👤 Управляющий: {$this->branchDto?->upr}"
             . "\n📣 Платформа: <a href=\"{$this->link}\">{$this->resource}</a>"
             . "\n📆 Дата: {$this->getDateHumanFormat()}"
-            . "✏ Оценка:" . " ({$this->totalsRate}) " . str_repeat('⭐', (int)$this->rating) . "({$this->rating} из 5)\n\n"
+            . "\n✏ Оценка:" . " ({$this->totalsRate}) " . str_repeat('⭐', (int)$this->rating) . "({$this->rating} из 5)\n\n"
             . ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null)
             . ($this->text ? " 📝 Отзыв:\n {$this->text}" : "");
     }

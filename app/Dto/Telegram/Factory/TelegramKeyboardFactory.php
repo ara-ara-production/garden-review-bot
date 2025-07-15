@@ -26,7 +26,7 @@ class TelegramKeyboardFactory
                     ]
                 ),
                 Keyboard::inlineButton([
-                    'text' => 'Ознакомился, мер не требуется',
+                    'text' => 'Ознакомился, меры не требуется',
                     'callback_data' => "action:handle_no_work_required|review_id:{$reviewId}"
 //                    'callback_data' => json_encode([
 //                        'action' => 'handle_no_work_required',
