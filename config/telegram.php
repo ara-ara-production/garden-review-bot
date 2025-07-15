@@ -41,7 +41,9 @@ return [
             'allowed_updates' => null,
             'commands' => [
                 \App\TelegramCommands\TestCommand::class,
-                \App\TelegramCommands\StartCommand::class
+                \App\TelegramCommands\StartCommand::class,
+                \App\TelegramCommands\HelpCommand::class,
+                \App\TelegramCommands\ReviewsCommand::class,
             ],
         ],
 
