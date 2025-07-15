@@ -14,9 +14,10 @@ class ReviewController extends Controller
     ) {
     }
 
-    public function findAndNotify(): void
+    public function findAndNotify()
     {
-        GetReviewsFromTwoGis::dispatch();
+        $this->notifyAboutNewReviewsTwoGisUseCase->use();
+//        GetReviewsFromTwoGis::dispatch();
     }
 
     public function index()

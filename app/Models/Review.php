@@ -24,7 +24,10 @@ class Review extends Model
         'control_review',
         'final_answer',
         'message_id',
-        'final_answer'
+        'final_answer',
+        'is_edited',
+        'is_on_check',
+        'total_brunch_rate',
     ];
 
     public function casts()
@@ -33,7 +36,6 @@ class Review extends Model
             'posted_at' => 'datetime',
             'start_work_on' => 'datetime',
             'end_work_on' => 'datetime',
-
             'message_id' => 'array'
         ];
     }

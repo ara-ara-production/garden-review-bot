@@ -22,10 +22,11 @@ class NotifyAboutNewReviewsTwoGisUseCase
 
     public function use()
     {
-        try {
-            $rawData = $this->twoGisApiService->requestReviewsFromApi();
+        dump(1);
+//        try {
+            $rawData = $this->twoGisApiService->foreachBrunches();
 
-            $reviewDtos = $this->reviewDtoFactory->fromTwoGisCollection($rawData);
+            $reviewDtos = $this->reviewDtoFactory->withMeta($rawData);
 
             $reviewDtos = $this->reviewService->removeExistedReviews($reviewDtos);
             $reviewDtos = $this->reviewService->storeReviews($reviewDtos);
@@ -33,8 +34,8 @@ class NotifyAboutNewReviewsTwoGisUseCase
             $messagesToStore = $this->telegramService->firstNotify($reviewDtos);
             $messagesToStore = $messagesToStore->filter();
             $this->messageService->store($messagesToStore);
-        } catch (\Throwable $exception) {
-            Log::error($exception);
-        }
+//        } catch (\Throwable $exception) {
+//            Log::error($exception);
+//        }
     }
 }

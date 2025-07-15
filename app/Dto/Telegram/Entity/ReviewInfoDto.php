@@ -2,6 +2,8 @@
 
 namespace App\Dto\Telegram\Entity;
 
+use DateTime;
+
 class ReviewInfoDto
 {
     public function __construct(
@@ -9,8 +11,12 @@ class ReviewInfoDto
         public string $text,
         public string $rating,
         public string $sender,
-        public \DateTime $time,
+        public DateTime $time,
         public string $resource,
+        public string $totalsRate,
+        public ?string $finalAnswer = '',
+        public ?DateTime $answerDate = null,
+        public bool $isOnCHeck = false,
         public ?string $link = null,
         public ?array $photos = null,
         public bool $isEdited = false,
@@ -34,7 +40,8 @@ class ReviewInfoDto
             . "\n👤 Управляющий: {$this->branchDto?->upr}"
             . "\n📣 Платформа: <a href=\"{$this->link}\">{$this->resource}</a>"
             . "\n📆 Дата: {$this->getDateHumanFormat()}"
-            . "✏ Оценка:" . str_repeat('⭐', (int)$this->rating) . "({$this->rating} из 5)\n\n"
+            . "✏ Оценка:" . " ({$this->totalsRate}) " . str_repeat('⭐', (int)$this->rating) . "({$this->rating} из 5)\n\n"
+            . ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null)
             . ($this->text ? " 📝 Отзыв:\n {$this->text}" : "");
     }
 }
