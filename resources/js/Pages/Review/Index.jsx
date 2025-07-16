@@ -35,11 +35,12 @@ export default ({paginator}) => {
         <Container fluid>
             <Row className="my-3">
                 <Col>
-                    <h2>ОТзывы</h2>
+                    <h2>Отзывы</h2>
                     <Alert color="info">Всего записей: {paginator.total}</Alert>
                 </Col>
             </Row>
-            <Row>
+
+            <Row className="small">
                 <Col>
                     <Table striped borderless responsive size="sm" hover>
                         <thead>
