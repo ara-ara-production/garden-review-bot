@@ -36,12 +36,28 @@ class ReviewInfoDto
 
     public function getTelegramFormat(): string
     {
-        return "☕ Кофейня: #{$this->branchDto?->name}"
-            . "\n👤 Управляющий: {$this->branchDto?->upr}"
-            . "\n📣 Платформа: <a href=\"{$this->link}\">{$this->resource}</a>"
-            . "\n📆 Дата: {$this->getDateHumanFormat()}"
-            . "\n✏ Оценка:" . " ({$this->totalsRate}) " . str_repeat('⭐', (int)$this->rating) . "({$this->rating} из 5)\n\n"
-            . ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null)
-            . ($this->text ? " 📝 Отзыв:\n {$this->text}" : "");
-    }
+        $markers = ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null);
+        $stars = str_repeat('⭐', (int)$this->rating) . " ({$this->rating} из 5)";
+        $text = $this->text ? <<<EOF
+📝 {$markers}Отзыв:
+{$this->text}
+EOF : "";
+
+        return <<<EOF
+☕ Кофейня: #{$this->branchDto?->name}
+👤 Управляющий: {$this->branchDto?->upr}
+📣 Платформа: <a href=\"{$this->link}\">{$this->resource}</a>
+📆 Дата: {$this->getDateHumanFormat()}
+✏ Оценка: {$this->totalsRate} {$stars}
+
+{$text}
+EOF;
+//        return "☕ Кофейня: #{$this->branchDto?->name}"
+//            . "\n👤 Управляющий: {$this->branchDto?->upr}"
+//            . "\n📣 Платформа: <a href=\"{$this->link}\">{$this->resource}</a>"
+//            . "\n📆 Дата: {$this->getDateHumanFormat()}"
+//            . "\n✏ Оценка:" . " ({$this->totalsRate}) " . str_repeat('⭐', (int)$this->rating) . "({$this->rating} из 5)\n\n"
+//            . ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null)
+//            . ($this->text ? " 📝 Отзыв:\n {$this->text}" : "");
+//    }
 }
