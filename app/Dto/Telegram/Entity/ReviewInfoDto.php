@@ -27,8 +27,34 @@ class ReviewInfoDto
 
     public function getDateHumanFormat(): string
     {
-        $ru_month = array( 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь');
-        $en_month = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+        $ru_month = array(
+            'Январь',
+            'Февраль',
+            'Март',
+            'Апрель',
+            'Май',
+            'Июнь',
+            'Июль',
+            'Август',
+            'Сентябрь',
+            'Октябрь',
+            'Ноябрь',
+            'Декабрь'
+        );
+        $en_month = array(
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        );
 
         $date = $this->time->format('d F Y, H:i');
         return str_replace($en_month, $ru_month, $date);
@@ -41,7 +67,7 @@ class ReviewInfoDto
         $text = $this->text ? <<<EOF
 📝 {$markers}Отзыв:
 {$this->text}
-EOF : "";
+EOF: "";
 
         return <<<EOF
 ☕ Кофейня: #{$this->branchDto?->name}
@@ -59,5 +85,5 @@ EOF;
 //            . "\n✏ Оценка:" . " ({$this->totalsRate}) " . str_repeat('⭐', (int)$this->rating) . "({$this->rating} из 5)\n\n"
 //            . ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null)
 //            . ($this->text ? " 📝 Отзыв:\n {$this->text}" : "");
-//    }
+    }
 }
