@@ -10,14 +10,14 @@ class NotifyMediaGroupDtoFactory
 {
     public function __construct(
         protected TelegramKeyboardFactory $keyboardFactory,
-    )
-    {
+    ) {
     }
 
     public function fromDtos(ReviewInfoDto $dto, ForNotifyDto $user): NotifyMediaGroupDto
     {
         if (mb_strlen($dto->getTelegramFormat()) < 1024) {
             $dto->photos[0]['caption'] = $dto->getTelegramFormat();
+            $dto->photos[0]['parse_mode'] = 'HTML';
         }
 
         return new NotifyMediaGroupDto(

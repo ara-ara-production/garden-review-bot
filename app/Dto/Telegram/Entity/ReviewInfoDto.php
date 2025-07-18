@@ -72,7 +72,7 @@ EOF: "";
         return <<<EOF
 ☕ Кофейня: #{$this->branchDto?->name}
 👤 Управляющий: {$this->branchDto?->upr}
-📣 Платформа: <a href=\"{$this->link}\">{$this->resource}</a>
+📣 Платформа: <a href="{$this->link}">{$this->resource}</a>
 📆 Дата: {$this->getDateHumanFormat()}
 ✏ Оценка: {$this->totalsRate} {$stars}
 
