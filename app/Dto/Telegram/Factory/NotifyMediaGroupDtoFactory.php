@@ -15,14 +15,10 @@ class NotifyMediaGroupDtoFactory
 
     public function fromDtos(ReviewInfoDto $dto, ForNotifyDto $user): NotifyMediaGroupDto
     {
-        if (mb_strlen($dto->getTelegramFormat()) < 1024) {
-            $dto->photos[0]['caption'] = $dto->getTelegramFormat();
-            $dto->photos[0]['parse_mode'] = 'HTML';
-        }
-
         return new NotifyMediaGroupDto(
             $user->chat_id,
             json_encode($dto->photos),
+            $dto->getTelegramFormat(),
             $user->isKeyborded() ? $this->keyboardFactory->forControlFirstNotify($dto->dbId) : null
         );
     }

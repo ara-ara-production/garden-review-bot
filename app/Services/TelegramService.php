@@ -34,15 +34,18 @@ class TelegramService
 
     public function sendMediaMessage(TelegramMessage $dto): Message
     {
-        $message = $this->telegram->sendMediaGroup((array)$dto);
-        if ($dto->reply_markup !== null) {
-            $this->telegram->sendMessage([
-                'chat_id' => $dto->chat_id,
-                'text' => '^',
-                'reply_markup' => $dto->reply_markup,
-            ]);
-        }
-        return $message;
+        $mediaContent = (array)$dto;
+        unset($mediaContent['text']);
+        unset($mediaContent['parse_mode']);
+
+        $textContent = (array)$dto;
+        unset($textContent['media']);
+
+        $message = $this->telegram->sendMediaGroup($mediaContent);
+
+        $textContent['reply_to_message_id'] = $message[0]['message_id'];
+
+        return $this->telegram->sendMessage($textContent);
     }
 
 
@@ -99,14 +102,11 @@ class TelegramService
                     )->exists())) || $user->role !== UserRoleEnum::Control->name)) {
             return null;
         }
-        $message = null;
-        if (!empty($dto->photos)) {
-            $message = $this->sendMediaMessage($this->mediaGroupDtoFactory->fromDtos($dto, $user));
-        }
 
-        if (mb_strlen($dto->getTelegramFormat()) >= 1024 || empty($dto->photos)) {
-            $message = $this->sendSimpleMessage($this->messageDtoFactory->fromDtos($dto, $user));
-        }
+        $message = !empty($dto->photos)
+            ? $this->sendMediaMessage($this->mediaGroupDtoFactory->fromDtos($dto, $user))
+            : $this->sendSimpleMessage($this->messageDtoFactory->fromDtos($dto, $user));
+
         return $message->get('message_id') ? $this->telegramMessageReviewDtoFactory->fromData(
             $dto,
             $message,

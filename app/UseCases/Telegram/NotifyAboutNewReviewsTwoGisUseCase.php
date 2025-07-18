@@ -22,7 +22,7 @@ class NotifyAboutNewReviewsTwoGisUseCase
 
     public function use()
     {
-        try {
+//        try {
         $rawData = $this->twoGisApiService->foreachBrunches();
 
         $reviewDtos = $this->reviewDtoFactory->withMeta($rawData);
@@ -33,8 +33,8 @@ class NotifyAboutNewReviewsTwoGisUseCase
         $messagesToStore = $this->telegramService->firstNotify($reviewDtos);
         $messagesToStore = $messagesToStore->filter();
         $this->messageService->store($messagesToStore);
-        } catch (\Throwable $exception) {
-            Log::error($exception);
-        }
+//        } catch (\Throwable $exception) {
+//            Log::error($exception);
+//        }
     }
 }
