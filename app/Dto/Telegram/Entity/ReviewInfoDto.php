@@ -64,10 +64,11 @@ class ReviewInfoDto
     {
         $markers = ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null);
         $stars = str_repeat('⭐', (int)$this->rating) . " ({$this->rating} из 5)";
-        $text = $this->text ? <<<EOF
+        $text = $this->text ? e(<<<EOF
 📝 {$markers}Отзыв:
 {$this->text}
-EOF: "";
+EOF): "";
+
 
         return <<<EOF
 ☕ Кофейня: #{$this->branchDto?->name}
