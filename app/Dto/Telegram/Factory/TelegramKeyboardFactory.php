@@ -2,9 +2,6 @@
 
 namespace App\Dto\Telegram\Factory;
 
-use App\Jobs\HandleNoWorkRequired;
-use App\Jobs\HandleReportInsert;
-use App\Jobs\HandleWorkStart;
 use Telegram\Bot\Keyboard\Keyboard;
 
 class TelegramKeyboardFactory
@@ -73,6 +70,25 @@ class TelegramKeyboardFactory
 //                                'fill' => 'control_review'
 //                            ],
 //                        ]),
+                    ]
+                ),
+            ]);
+    }
+
+    public function forControlAfterReview(int $reviewId)
+    {
+        return Keyboard::make()->inline()
+            ->row([
+                Keyboard::inlineButton(
+                    [
+                        'text' => '✏',
+                        'callback_data' => "action:handle_report_insert|review_id:{$reviewId}|fill:control_review"
+                    ]
+                ),
+                Keyboard::inlineButton(
+                    [
+                        'text' => '❌',
+                        'callback_data' => "action:handle_hide_buttons"
                     ]
                 ),
             ]);

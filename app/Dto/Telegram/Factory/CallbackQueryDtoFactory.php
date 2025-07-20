@@ -7,6 +7,7 @@ use App\Dto\Telegram\Entity\FillReportPayloadDto;
 use App\Jobs\HandleNoWorkRequired;
 use App\Jobs\HandleReportInsert;
 use App\Jobs\HandleWorkStart;
+use App\UseCases\Telegram\HideKeyboardUseCase;
 use App\UseCases\Telegram\InsertReportUseCase;
 use App\UseCases\Telegram\NotifyAboutNoWorkRequiredUseCase;
 use App\UseCases\Telegram\NotifyAboutWorkStart;
@@ -26,6 +27,8 @@ class CallbackQueryDtoFactory
         $payloadDtoFactory = match ($action) {
             'handle_no_work_required', 'handle_work_start' => app(ReviewIdPayloadFactory::class),
             'handle_report_insert' => app(FillReportPayloadDtoFactory::class),
+            'handle_hide_buttons' => app(NullPayloadDtoFactory::class),
+            default => null,
         };
 
         return new CallbackQueryDto(
@@ -48,6 +51,7 @@ class CallbackQueryDtoFactory
             'handle_no_work_required' => NotifyAboutNoWorkRequiredUseCase::class,
             'handle_work_start' => NotifyAboutWorkStart::class,
             'handle_report_insert' => InsertReportUseCase::class,
+            'handle_hide_buttons' => HideKeyboardUseCase::class,
             default => null,
         };
     }
@@ -67,5 +71,4 @@ class CallbackQueryDtoFactory
 
         return $result;
     }
-
 }

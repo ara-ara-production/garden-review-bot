@@ -128,7 +128,7 @@ class MessageHandleService
         }
 
         $cacheKey = "chatId-{$dto->chat_id}";
-        Cache::put($cacheKey, $payload, now()->addMinutes(30));
+        Cache::put($cacheKey, $dto, now()->addMinutes(30));
 
         $this->telegram->sendMessage([
             'chat_id' => $dto->chat_id,
@@ -155,8 +155,11 @@ class MessageHandleService
 
         $cacheKey = "chatId-{$dto->chat_id}";
 
-        /** @var FillReportPayloadDto $payload */
+        /** @var UpdateDto $payload */
         $payload = Cache::get($cacheKey);
+
+        /** @var FillReportPayloadDto  $callbackPayLoad */
+        $callbackPayLoad = $payload->callback_query->data;
 
         if (!$payload) {
             throw new NullPayloadException();
@@ -165,16 +168,16 @@ class MessageHandleService
         Cache::forget($cacheKey);
 
         /** @var Review $review */
-        $review = Review::findOrFail($payload->reviewId);
+        $review = Review::findOrFail($callbackPayLoad->reviewId);
 
 
         $updateFills = [
-            $payload->fill => $dto->message,
+            $callbackPayLoad->fill => $dto->message,
         ];
 
         $text = "Ответ SMM:\n";
         $roles = [UserRoleEnum::Founder->name];
-        if ($payload->fill === 'control_review') {
+        if ($callbackPayLoad->fill === 'control_review') {
             $updateFills['end_work_on'] = new DateTime();
 
             $text = "☕ Ревью управляющего:\n";
@@ -186,6 +189,23 @@ class MessageHandleService
         $this->telegram->sendMessage([
             'chat_id' => $dto->chat_id,
             'text' => 'Отчет принят',
+            'reply_to_message_id' => $payload->message_id,
+        ]);
+
+        if (!$payload->message) {
+            throw new NullPayloadException();
+        }
+
+        $message = $payload->message;
+
+        $message = substr($message, 0, (strpos($message, "\n\n☕ Ревью управляющего:\n") ?: strlen($message)));
+        $message .= "\n\n☕ Ревью управляющего:\n{$dto->message}";
+
+        $this->telegram->editMessageText([
+            'chat_id' => $dto->chat_id,
+            'message_id' => $payload->message_id,
+            'text' => $message,
+            'reply_markup' => $this->telegramKeyboardFactory->forControlAfterReview($review->id),
         ]);
 
 
@@ -207,5 +227,14 @@ class MessageHandleService
             'text' => $text . $dto->message,
             'reply_to_message_id' => $message->message_id
         ]));
+    }
+
+    public function hideButtons(UpdateDto $dto): void
+    {
+        $this->telegram->editMessageReplyMarkup([
+            'chat_id' => $dto->chat_id,
+            'message_id' => $dto->message_id,
+            'reply_markup' => null,
+        ]);
     }
 }

@@ -6,7 +6,6 @@ use App\Dto\Telegram\Factory\UpdateDtoFactory;
 use App\Jobs\HandleReportSave;
 use App\Services\ControlReviewService;
 use App\Services\TelegramService;
-use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Objects\Update;
 
 class AcceptTelegramWebhookUseCase
