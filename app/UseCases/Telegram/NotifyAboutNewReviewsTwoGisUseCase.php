@@ -2,6 +2,8 @@
 
 namespace App\UseCases\Telegram;
 
+use App\Dto\Telegram\Entity\ReviewDto;
+use App\Dto\Telegram\Entity\ReviewInfoDto;
 use App\Dto\Telegram\Factory\ReviewInfoDtoFactory;
 use App\Services\MessageService;
 use App\Services\ReviewService;
@@ -28,7 +30,10 @@ class NotifyAboutNewReviewsTwoGisUseCase
         $reviewDtos = $this->reviewDtoFactory->withMeta($rawData);
 
         $reviewDtos = $this->reviewService->removeExistedReviews($reviewDtos);
+
         $reviewDtos = $this->reviewService->storeReviews($reviewDtos);
+
+        $reviewDtos = $reviewDtos->filter(fn (ReviewInfoDto $reviewDto) => !$reviewDto->updateOnlySmmMessage);
 
         $messagesToStore = $this->telegramService->firstNotify($reviewDtos);
         $messagesToStore = $messagesToStore->filter();

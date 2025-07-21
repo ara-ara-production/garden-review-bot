@@ -22,6 +22,7 @@ class ReviewInfoDto
         public bool $isEdited = false,
         public ?BranchDto $branchDto = null,
         public ?int $dbId = null,
+        public bool $updateOnlySmmMessage = false,
     ) {
     }
 

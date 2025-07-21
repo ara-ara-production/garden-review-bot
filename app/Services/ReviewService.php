@@ -21,20 +21,18 @@ class ReviewService
             throw new NullReviewsException();
         }
 
-        /** @var Collection $existedReviews */
-        Review::select('key', 'posted_at')
+        /** @var Collection $reviews */
+        $reviews = Review::select('key')
             ->whereIn('key', $reviewDtos->pluck('id'))
-            ->get()
-            ->each(function (Review $review) use (&$reviewDtos) {
-                $keys = $reviewDtos
-                    ->where('id', '=', $review->key)
-                    ->where('time', '<=', new DateTime($review->posted_at))
-                    ->keys();
+            ->whereIn('posted_at', $reviewDtos->pluck('time'))
+            ->get();
 
-                $reviewDtos = $reviewDtos->forget($keys);
-            });
-
-        return $reviewDtos;
+        return $reviewDtos->map(function (ReviewInfoDto $dto) use ($reviews) {
+            if ($reviews->where('key', '=', $dto->id)->isNotEmpty()) {
+                $dto->updateOnlySmmMessage = true;
+            }
+            return $dto;
+        });
     }
 
     public function storeReviews(Collection $reviewDtos): Collection
