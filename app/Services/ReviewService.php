@@ -50,7 +50,6 @@ class ReviewService
                     'sender' => $reviewDto->sender,
                     'link' => $reviewDto->link,
                     'final_answer' => $reviewDto->finalAnswer,
-                    'end_work_on' => $reviewDto->answerDate,
                     'is_edited' => $reviewDto->isEdited,
                     'is_on_check' => $reviewDto->isOnCHeck,
                     'total_brunch_rate' => $reviewDto->totalsRate,
