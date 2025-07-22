@@ -4,16 +4,13 @@ import {
     Alert,
     Col,
     Container,
-    Nav,
-    NavItem,
-    NavLink,
     Pagination,
     PaginationItem,
     PaginationLink,
     Row,
     Table
 } from "reactstrap";
-import {Link, router, usePage} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 import React from "react";
 
 const options = {
@@ -26,10 +23,6 @@ const options = {
 };
 
 export default ({paginator}) => {
-
-    const {routes} = usePage().props;
-
-
 
     return (<>
         <Head title="Отзывы"/>
@@ -44,34 +37,36 @@ export default ({paginator}) => {
 
             <Row className="small">
                 <Col>
-                    <Table striped borderless responsive size="sm" hover>
-                        <thead>
+                    <Table responsive size="sm" hover>
+                        <thead >
                         <tr>
-                            <td>#</td>
-                            <td>Дата публикации отзыва</td>
-                            <td>Дата начала проверки</td>
-                            <td>Дата завершения проверки</td>
-                            <td>Комментарий управляющего</td>
-                            <td>Ответ SMM на платформе</td>
-                            <td>Рейтинг</td>
-                            <td>Платформа</td>
-                            <td>Отзыв</td>
-                            <td>Филиал</td>
+                            <th>#</th>
+                            <th className="col-1">Дата публикации отзыва</th>
+                            <th className="col-1">Дата начала проверки</th>
+                            <th className="col-1">Дата завершения проверки</th>
+                            <th>Платформа</th>
+                            <th>Филиал</th>
+                            <th>Текущий рейтинг</th>
+                            <th>Оценка</th>
+                            <th className="col-3">Отзыв</th>
+                            <th className="col-3">Комментарий управляющего</th>
+                            <th className="col-3">Ответ SMM на платформе</th>
                         </tr>
                         </thead>
                         <tbody>
-                            {paginator.data.map((row, i) => (<tr>
-                                <td key={`review_id-${i}`}>{row.review_id}</td>
-                                <td key={`posted_at-${i}`}>{new Date(row.posted_at.replace(/Z$/, '')).toLocaleString('ru-RU', options)}</td>
-                                <td key={`start_work_on-${i}`}>{row.start_work_on ? new Date(row.start_work_on).toLocaleString('ru-RU', options) : '-'}</td>
-                                <td key={`end_work_on-${i}`}>{row.end_work_on ? new Date(row.end_work_on).toLocaleString('ru-RU', options) : '-'}</td>
-                                <td key={`control_review-${i}`}>{row.control_review}</td>
-                                <td key={`final_answer-${i}`}>{row.final_answer}</td>
-                                <td key={`score-${i}`}>{row.score}</td>
-                                <td key={`resource-${i}`}>{row.resource}</td>
-                                <td key={`comment-${i}`}>{row.comment}</td>
-                                <td key={`brunch_name-${i}`}>{row.brunch_name}</td>
-                            </tr>))}
+                        {paginator.data.map((row, i) => (<tr>
+                            <td key={`review_id-${i}`}>{row.review_id}</td>
+                            <td key={`posted_at-${i}`}>{new Date(row.posted_at.replace(/Z$/, '')).toLocaleString('ru-RU', options)}</td>
+                            <td key={`start_work_on-${i}`}>{row.start_work_on ? new Date(row.start_work_on).toLocaleString('ru-RU', options) : '-'}</td>
+                            <td key={`end_work_on-${i}`}>{row.end_work_on ? new Date(row.end_work_on).toLocaleString('ru-RU', options) : '-'}</td>
+                            <td key={`resource-${i}`}>{row.resource}</td>
+                            <td key={`brunch_name-${i}`}>{row.brunch_name}</td>
+                            <td className="text-center" key={`total_brunch_rate-${i}`}>{row.total_brunch_rate}</td>
+                            <td className="text-center" key={`score-${i}`}>{row.score}</td>
+                            <td key={`comment-${i}`}>{row.comment}</td>
+                            <td key={`control_review-${i}`}>{row.control_review}</td>
+                            <td key={`final_answer-${i}`}>{row.final_answer}</td>
+                        </tr>))}
                         </tbody>
                     </Table>
                 </Col>

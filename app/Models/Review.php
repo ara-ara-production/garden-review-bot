@@ -54,7 +54,8 @@ class Review extends Model
                 'comment',
                 'brunches.name AS brunch_name',
                 'reviews.id AS review_id',
-                'final_answer'
+                'final_answer',
+                'total_brunch_rate'
             )
         ;
     }
