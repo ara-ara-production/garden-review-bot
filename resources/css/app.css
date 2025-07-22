@@ -1,18 +1,3 @@
 html, body, #app {
     height: 100%;
 }
-
-table thead tr{
-    display:block;
-}
-
-table th,table td{
-    width:80vh;//fixed width
-}
-
-
-table  tbody{
-    display:block;
-    height:80vh;
-    overflow:auto;//set tbody to auto
-}
