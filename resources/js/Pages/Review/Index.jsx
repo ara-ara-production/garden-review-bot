@@ -39,7 +39,7 @@ export default ({paginator}) => {
                 <Col>
                     <Table responsive size="sm" hover>
                         <thead >
-                        <tr>
+                        <tr className="text-center">
                             <th>#</th>
                             <th className="col-1">Дата публикации отзыва</th>
                             <th className="col-1">Дата начала проверки</th>
