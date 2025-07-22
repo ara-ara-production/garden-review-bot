@@ -208,9 +208,8 @@ class MessageHandleService
             'reply_markup' => $this->telegramKeyboardFactory->forControlAfterReview($review->id),
         ]);
 
-
         /** @var Collection<TelegramMessage> $replyMessages */
-        $replyMessages = TelegramMessage::where('review_id', $payload->reviewId)
+        $replyMessages = TelegramMessage::where('review_id', $callbackPayLoad->reviewId)
             ->whereIn('users.role', $roles)
             ->leftJoin('users', 'users.id', '=', 'telegram_messages.user_id')
             ->get();
