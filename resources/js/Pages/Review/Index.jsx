@@ -59,7 +59,7 @@ export default ({paginator}) => {
                             <td key={`posted_at-${i}`}>{new Date(row.posted_at.replace(/Z$/, '')).toLocaleString('ru-RU', options)}</td>
                             <td key={`start_work_on-${i}`}>{row.start_work_on ? new Date(row.start_work_on).toLocaleString('ru-RU', options) : '-'}</td>
                             <td key={`end_work_on-${i}`}>{row.end_work_on ? new Date(row.end_work_on).toLocaleString('ru-RU', options) : '-'}</td>
-                            <td key={`resource-${i}`}>{row.resource}</td>
+                            <td key={`resource-${i}`}>{row.resource.toUpperCase()}</td>
                             <td key={`brunch_name-${i}`}>{row.brunch_name}</td>
                             <td className="text-center" key={`total_brunch_rate-${i}`}>{row.total_brunch_rate}</td>
                             <td className="text-center" key={`score-${i}`}>{row.score}</td>
