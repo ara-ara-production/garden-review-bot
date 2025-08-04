@@ -62,7 +62,7 @@ export default ({paginator}) => {
                             <td key={`resource-${i}`}>{row.resource.toUpperCase()}</td>
                             <td key={`brunch_name-${i}`}>{row.brunch_name}</td>
                             <td className="text-center" key={`total_brunch_rate-${i}`}>{row.total_brunch_rate}</td>
-                            <td className="text-center" key={`score-${i}`}>{row.score}</td>
+                            <td className="text-center" key={`score-${i}`}> {row.score < 3 ? <Alert color="danger">{row.score}</Alert> : row.score}</td>
                             <td key={`comment-${i}`}>{row.comment}</td>
                             <td key={`control_review-${i}`}>{row.control_review}</td>
                             <td key={`final_answer-${i}`}>{row.final_answer}</td>

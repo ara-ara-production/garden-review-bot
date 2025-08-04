@@ -71,7 +71,7 @@ class User extends Authenticatable
             telegram_username,
             role,
             (telegram_chat IS NOT NULL) AS "is_subscribed"'
-        );
+        )->orderBy('id');
     }
 
     public function scopeByTgUsername(Builder $query, string $username): Builder
