@@ -180,7 +180,7 @@ class MessageHandleService
         if ($callbackPayLoad->fill === 'control_review') {
             $updateFills['end_work_on'] = new DateTime();
 
-            $text = "☕ Ревью управляющего:\n";
+            $text = "☕ Комментарий управляющего:\n";
             $roles[] = UserRoleEnum::Ssm->name;
         }
 
