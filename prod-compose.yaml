@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: .deploy/nginx/nginx.prod.dockerfile
     volumes:
+#      - .dev/nginx:/etc/letsencrypt/live/bot-reviewer.ru:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
     ports:
       - "80:80"
@@ -46,29 +47,32 @@ services:
       - default
 
   cronicle:
+    image: bluet/cronicle:latest
     container_name: cronicle
-    build:
-      context: .
-      dockerfile: .deploy/cron/Dockerfile
     restart: always
+    volumes:
+      - cronicle_data:/opt/cronicle/data
+      - cronicle_logs:/opt/cronicle/logs
     environment:
-      TZ: Asia/Yekaterinburg
+      TZ: Europe/Moscow
+    ports:
+      - "3012:3012" # web UI внутри сети
     networks:
       - default
 
-#  certbot:
-#    build:
-#      context: .
-#      dockerfile: .deploy/certbot/Dockerfile
-#    volumes:
-#      - /etc/letsencrypt:/etc/letsencrypt
-#      - ./public:/var/www/certbot
-#    healthcheck:
-#      test: [ "CMD", "test", "-f", "/etc/letsencrypt/live/bot-reviewer.ru/fullchain.pem" ]
-#      interval: 1m
-#      retries: 5
-#    networks:
-#      - default
+  certbot:
+    build:
+      context: .
+      dockerfile: .deploy/certbot/Dockerfile
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./public:/var/www/certbot
+    healthcheck:
+      test: [ "CMD", "test", "-f", "/etc/letsencrypt/live/bot-reviewer.ru/fullchain.pem" ]
+      interval: 1m
+      retries: 5
+    networks:
+      - default
 
 networks:
   default:
