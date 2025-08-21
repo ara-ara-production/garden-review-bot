@@ -12,7 +12,7 @@ services:
     depends_on:
       - php
       - cronicle
-      - certbot
+#      - certbot
     networks:
       - default
 
@@ -56,19 +56,19 @@ services:
     networks:
       - default
 
-  certbot:
-    build:
-      context: .
-      dockerfile: .deploy/certbot/Dockerfile
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - ./public:/var/www/certbot
-    healthcheck:
-      test: [ "CMD", "test", "-f", "/etc/letsencrypt/live/bot-reviewer.ru/fullchain.pem" ]
-      interval: 1m
-      retries: 5
-    networks:
-      - default
+#  certbot:
+#    build:
+#      context: .
+#      dockerfile: .deploy/certbot/Dockerfile
+#    volumes:
+#      - /etc/letsencrypt:/etc/letsencrypt
+#      - ./public:/var/www/certbot
+#    healthcheck:
+#      test: [ "CMD", "test", "-f", "/etc/letsencrypt/live/bot-reviewer.ru/fullchain.pem" ]
+#      interval: 1m
+#      retries: 5
+#    networks:
+#      - default
 
 networks:
   default:
