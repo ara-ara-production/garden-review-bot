@@ -61,7 +61,7 @@ services:
       context: .
       dockerfile: .deploy/certbot/Dockerfile
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /etc/letsencrypt:/etc/letsencrypt
       - ./public:/var/www/certbot
     healthcheck:
       test: [ "CMD", "test", "-f", "/etc/letsencrypt/live/bot-reviewer.ru/fullchain.pem" ]
