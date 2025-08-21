@@ -105,7 +105,7 @@ export default () => {
                             <DropdownItem
                                 onClick={e => {
                                     e.preventDefault();
-                                    location.href=`https://croner.rezone-random.ru/`
+                                    location.href=`https://cron.bot-reviewer.ru/`
                                 }}
                             >Кронер
                             </DropdownItem>
