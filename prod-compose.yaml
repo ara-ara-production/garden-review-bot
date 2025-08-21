@@ -5,8 +5,7 @@ services:
       context: .
       dockerfile: .deploy/nginx/nginx.prod.dockerfile
     volumes:
-      - certbot_var:/var/lib/letsencrypt
-      - certbot_etc:/etc/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     ports:
       - "80:80"
       - "443:443"
@@ -62,8 +61,7 @@ services:
       context: .
       dockerfile: .deploy/certbot/Dockerfile
     volumes:
-      - certbot_etc:/etc/letsencrypt
-      - certbot_var:/var/lib/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - ./public:/var/www/certbot
     healthcheck:
       test: [ "CMD", "test", "-f", "/etc/letsencrypt/live/bot-reviewer.ru/fullchain.pem" ]
@@ -83,5 +81,3 @@ volumes:
     driver: local
   cronicle_logs:
     driver: local
-  certbot_etc:
-  certbot_var:
