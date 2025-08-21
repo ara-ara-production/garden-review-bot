@@ -41,6 +41,14 @@ services:
     networks:
       - default
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "3000:8080"
+    networks:
+      - default
+
   redis:
     image: redis:7-alpine
     networks:
