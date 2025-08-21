@@ -46,19 +46,16 @@ services:
     networks:
       - default
 
+
   cronicle:
-    image: bluet/cronicle:latest
-    container_name: cronicle
+    image: soulteary/cronicle
+    container_name: bot-cronicle
     restart: always
     volumes:
-      - cronicle_data:/opt/cronicle/data
-      - cronicle_logs:/opt/cronicle/logs
+      - .deploy/cron/data:/opt/cronicle/data
+      - .deploy/cron/logs:/opt/cronicle/logs
     environment:
-      TZ: Europe/Moscow
-    ports:
-      - "3012:3012" # web UI внутри сети
-    networks:
-      - default
+      - TZ=Asia/Yekaterinburg
 
   certbot:
     build:
@@ -80,8 +77,4 @@ networks:
 
 volumes:
   database:
-    driver: local
-  cronicle_data:
-    driver: local
-  cronicle_logs:
     driver: local
