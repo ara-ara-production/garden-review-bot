@@ -158,12 +158,12 @@ class MessageHandleService
         /** @var UpdateDto $payload */
         $payload = Cache::get($cacheKey);
 
-        /** @var FillReportPayloadDto  $callbackPayLoad */
-        $callbackPayLoad = $payload->callback_query->data;
-
         if (!$payload) {
             throw new NullPayloadException();
         }
+
+        /** @var FillReportPayloadDto  $callbackPayLoad */
+        $callbackPayLoad = $payload->callback_query->data;
 
         Cache::forget($cacheKey);
 
@@ -213,8 +213,6 @@ class MessageHandleService
             ->whereIn('users.role', $roles)
             ->leftJoin('users', 'users.id', '=', 'telegram_messages.user_id')
             ->get();
-
-        Log::debug(var_export($replyMessages, true));
 
         if (!$replyMessages) {
             throw new ModelNotFoundException('cant get founder messages');

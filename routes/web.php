@@ -7,11 +7,14 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TelegramController;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
+
 Route::prefix('tg-bot')->group(function () {
     Route::prefix(config('telegram.webhook_prefix'))->group(function () {
         Route::get('/', fn() => Telegram::bot()->getMe());
 
-        Route::post('webhook', [TelegramController::class, 'getWebhookUpdate'])->withoutMiddleware([VerifyCsrfToken::class]);
+        Route::post('webhook', [TelegramController::class, 'getWebhookUpdate'])->withoutMiddleware(
+            [VerifyCsrfToken::class]
+        );
     });
 });
 
@@ -31,7 +34,6 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
-
 
 
     Route::prefix(config('resourseroutes.backendprefix'))->group(function () {

@@ -1,0 +1,160 @@
+openapi: 3.0.0
+info:
+  title: Swagger Garden reviewer
+  contact:
+    email: tamanit.dev@yandex.ru
+  version: 1.0.0
+servers:
+  - url: https://bot-reviewer.ru/api/v1
+tags:
+  - name: review
+    description: Everything about Review
+  - name: Auth
+    description: get token
+paths:
+  /reviews:
+    post:
+      security:
+        - SanctumBearer: []
+      tags:
+        - review
+      summary: Add a new reivew
+      description: Add a new reivew
+      requestBody:
+        description: Create a new reivew
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Review'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        200:
+          description: OK!
+        422:
+          description: validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: The team name must be a string. (and 4 more errors)
+                  errors:
+                    type: object
+                    properties:
+                      text:
+                        type: array
+                        items:
+                          type: string
+                          enum: [text is required]
+                      score:
+                        type: array
+                        items:
+                          type: string
+                          enum: [score in required]
+  /auth:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: get token
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+        required: true
+      responses:
+        200:
+          description: OK!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        422:
+          description: validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: The team name must be a string. (and 4 more errors)
+                  errors:
+                    type: object
+                    properties:
+                      text:
+                        type: array
+                        items:
+                          type: string
+                          enum: [ text is required ]
+                      score:
+                        type: array
+                        items:
+                          type: string
+                          enum: [ score in required ]
+        403:
+          description: incorrect password or login
+
+components:
+  securitySchemes:
+    SanctumBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Review:
+      type: object
+      properties:
+        inner_id:
+          type: string
+          description: id отзыва самого сервиса, по нему буд отслеживаю уникальность отзыва
+          example: 24092
+        posted_at:
+          type: string
+          format: date-time
+          description: дата создания отзыва на стороне сервиса
+        brunch:
+          type: string
+          enum:
+            - Свердлова
+            - Арсиб
+            - Советская
+            - Калинка
+            - Европейский
+            - Парус
+            - Океан
+            - Видный
+            - Преображенский
+            - Газпром
+            - Драмтеатр
+            - Панорама
+            - Новин
+            - Мельникайте
+        score:
+          type: integer
+          example: 5
+        text:
+          type: string
+          example: место уютное,катя милашка🤩
+        sender:
+          type: string
+          description: создатель отзыва
+security:
+  - SanctumBearer: []

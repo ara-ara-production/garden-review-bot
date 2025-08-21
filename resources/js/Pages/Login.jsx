@@ -7,6 +7,11 @@ import SubmitButton from "@/Components/SubmitButton.jsx";
 import NavBar from "@/Components/NavBar.jsx";
 
 export default () => {
+
+    const { csrf } = usePage().props;
+
+    console.log(csrf);
+
     const {
         data,
         setData,
@@ -18,6 +23,7 @@ export default () => {
         email: '',
         password: '',
         remember: false,
+        _token: csrf,
     })
 
     const submit = (e) => {

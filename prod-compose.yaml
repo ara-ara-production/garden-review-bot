@@ -1,0 +1,87 @@
+services:
+  nginx:
+    restart: always
+    build:
+      context: .
+      dockerfile: .deploy/nginx/nginx.prod.dockerfile
+    volumes:
+      - certbot_var:/var/lib/letsencrypt
+      - certbot_etc:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php
+      - cronicle
+      - certbot
+    networks:
+      - default
+
+  php:
+    restart: always
+    build:
+      context: .
+      dockerfile: .deploy/php/php.prod.Dockerfile
+    depends_on:
+      - pgsql
+      - redis
+    networks:
+      - default
+
+
+  pgsql:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - default
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - default
+
+  cronicle:
+    container_name: cronicle
+    build:
+      context: .
+      dockerfile: .deploy/cron/Dockerfile
+    restart: always
+    environment:
+      TZ: Asia/Yekaterinburg
+    networks:
+      - default
+
+  certbot:
+    build:
+      context: .
+      dockerfile: .deploy/certbot/Dockerfile
+    volumes:
+      - certbot_etc:/etc/letsencrypt
+      - certbot_var:/var/lib/letsencrypt
+      - ./public:/var/www/certbot
+    healthcheck:
+      test: [ "CMD", "test", "-f", "/etc/letsencrypt/live/bot-reviewer.ru/fullchain.pem" ]
+      interval: 1m
+      retries: 5
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  database:
+    driver: local
+  cronicle_data:
+    driver: local
+  cronicle_logs:
+    driver: local
+  certbot_etc:
+  certbot_var:

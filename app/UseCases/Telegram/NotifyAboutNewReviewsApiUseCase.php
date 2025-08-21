@@ -11,7 +11,7 @@ use App\Services\TelegramService;
 use App\Services\TwoGisApiService;
 use Illuminate\Support\Facades\Log;
 
-class NotifyAboutNewReviewsTwoGisUseCase
+class NotifyAboutNewReviewsApiUseCase
 {
     public function __construct(
         protected TwoGisApiService $twoGisApiService,
@@ -22,14 +22,13 @@ class NotifyAboutNewReviewsTwoGisUseCase
     ) {
     }
 
-    public function use()
+    public function use(array $data)
     {
 //        try {
-        $rawData = $this->twoGisApiService->foreachBrunches();
 
-        $reviewDtos = $this->reviewDtoFactory->withMeta($rawData);
+        $reviewDtoInfo = $this->reviewDtoFactory->fromApi($data);
 
-        $reviewDtos = $this->reviewService->removeExistedReviews($reviewDtos);
+        $reviewDtos = collect([$reviewDtoInfo]);
 
         $this->reviewService->storeReviews($reviewDtos);
 

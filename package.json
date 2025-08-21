@@ -22,6 +22,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "react-date-range": "^2.0.1",
         "reactstrap": "^9.2.3"
     }
 }

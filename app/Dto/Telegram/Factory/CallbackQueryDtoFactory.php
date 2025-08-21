@@ -22,8 +22,6 @@ class CallbackQueryDtoFactory
 
         $action = $arrayData['action'];
 
-        Log::debug($action);
-
         $payloadDtoFactory = match ($action) {
             'handle_no_work_required', 'handle_work_start' => app(ReviewIdPayloadFactory::class),
             'handle_report_insert' => app(FillReportPayloadDtoFactory::class),

@@ -4,12 +4,19 @@ namespace App\Dto\Telegram\Factory;
 
 use App\Dto\Telegram\Entity\ReviewInfoDto;
 use App\Models\Brunch;
+use App\Models\Review;
+use App\Services\ReviewService;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Collection;
 
 class ReviewInfoDtoFactory
 {
+    public function __construct(
+        protected BranchDtoFactory $branchDtoFactory
+    ) {
+    }
+
     public function withMeta(array $data): Collection
     {
         $reviews = collect();
@@ -76,6 +83,44 @@ class ReviewInfoDtoFactory
     {
         return collect($reviews)->map(
             fn($review) => $this->fromTwoGis($review)
+        );
+    }
+
+    public function fromEntity(Review $review): ReviewInfoDto
+    {
+        return new ReviewInfoDto(
+            id: $review->key,
+            text: $review->comment,
+            rating: $review->score,
+            sender: $review->sender,
+            time: $review->posted_at,
+            resource: $review->resource,
+            totalsRate: $review->total_brunch_rate,
+            finalAnswer: $review->final_answer,
+            answerDate: null,
+            isOnCHeck: $review->is_on_check,
+            link: $review->link,
+            photos: $review->photos,
+            isEdited: $review->is_edited,
+            branchDto: $this->branchDtoFactory->create($review->brunch),
+            dbId: $review->id,
+        );
+    }
+
+    /**
+     * @throws \DateMalformedStringException
+     */
+    public function fromApi(array $data): ReviewInfoDto
+    {
+        return new ReviewInfoDto(
+            id: $data['inner_id'],
+            text: $data['text'],
+            rating: $data['score'],
+            sender: $data['sender'],
+            time: new DateTime($data['posted_at']),
+            resource: 'Бот',
+            totalsRate: '',
+            branchDto: BranchDtoFactory::create(Brunch::where('name', $data['brunch'])->first()),
         );
     }
 

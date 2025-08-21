@@ -7,10 +7,16 @@ use Inertia\Inertia;
 
 class GetReviewReportUseCase
 {
-    public function use()
+    public function use(array $data)
     {
         try {
-            $paginator = Review::getDataForIndex()->paginate(20);
+            $prePagination =Review::getDataForIndex();
+
+            if (key_exists('column', $data) && key_exists('orderBy', $data)) {
+                $prePagination = $prePagination->orderBy($data['column'], $data['orderBy']);
+            }
+
+            $paginator = $prePagination->paginate(20);
 
             return Inertia::render('Review/Index', [
                 'paginator' => $paginator,

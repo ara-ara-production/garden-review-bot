@@ -13,6 +13,11 @@ import {
 import {router, usePage} from "@inertiajs/react";
 import React from "react";
 
+import strBlackDown from '../../../svg/bstr-black-down.svg';
+import strBlackUp from '../../../svg/bstr-black-up.svg';
+import strGrayDown from '../../../svg/bstr-gray-down.svg';
+import strGrayUp from '../../../svg/bstr-gray-up.svg';
+
 const options = {
     day: '2-digit',
     month: 'long',
@@ -23,6 +28,14 @@ const options = {
 };
 
 export default ({paginator}) => {
+
+    const {routes} = usePage().props;
+    const route = '/' + routes.review_table_prefix + '/' + routes.review
+
+    // Получаем текущий URL
+    const queryString = window.location.search;
+
+    const urlParams = new URLSearchParams(queryString);
 
     return (<>
         <Head title="Отзывы"/>
@@ -38,16 +51,77 @@ export default ({paginator}) => {
             <Row className="small">
                 <Col>
                     <Table responsive size="sm" hover>
-                        <thead >
+                        <thead>
                         <tr className="text-center">
                             <th>#</th>
-                            <th className="col-1">Дата публикации отзыва</th>
-                            <th className="col-1">Дата начала проверки</th>
-                            <th className="col-1">Дата завершения проверки</th>
+                            <th className="col-1">
+                                <div className="mr-1">Дата публикации отзыва</div>
+                                <div className="d-flex justify-content-center align-items-center gap-2">
+                                    <img src={urlParams.get('column') === 'posted_at' && urlParams.get('orderBy') === 'ASC' ? strBlackUp : strGrayUp} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=posted_at&orderBy=ASC')
+                                    }}/>
+                                    <img src={urlParams.get('column') == 'posted_at' && urlParams.get('orderBy') == 'DESC' ? strBlackDown : strGrayDown} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=posted_at&orderBy=DESC')
+                                    }}/>
+                                </div>
+                            </th>
+                            <th className="col-1">
+                                <div>Дата начала проверки</div>
+                                <div className="d-flex justify-content-center align-items-center gap-2">
+                                    <img src={urlParams.get('column') === 'start_work_on' && urlParams.get('orderBy') === 'ASC' ? strBlackUp : strGrayUp} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=start_work_on&orderBy=ASC')
+                                    }}/>
+                                    <img src={urlParams.get('column') === 'start_work_on' && urlParams.get('orderBy') === 'DESC' ? strBlackDown : strGrayDown} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=start_work_on&orderBy=DESC')
+                                    }}/>
+                                </div>
+                            </th>
+                            <th className="col-1">
+                                <div>Дата завершения проверки</div>
+                                <div className="d-flex justify-content-center align-items-center gap-2">
+                                    <img src={urlParams.get('column') === 'end_work_on' && urlParams.get('orderBy') === 'ASC' ? strBlackUp : strGrayUp} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=end_work_on&orderBy=ASC')
+                                    }}/>
+                                    <img src={urlParams.get('column') === 'end_work_on' && urlParams.get('orderBy') === 'DESC' ? strBlackDown : strGrayDown} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=end_work_on&orderBy=DESC')
+                                    }}/>
+                                </div>
+                            </th>
                             <th>Платформа</th>
                             <th>Филиал</th>
-                            <th>Текущий рейтинг</th>
-                            <th>Оценка</th>
+                            <th>
+                                <div>Текущий рейтинг</div>
+                                <div className="d-flex justify-content-center align-items-center">
+                                    <img src={urlParams.get('column') === 'total_brunch_rate' && urlParams.get('orderBy') === 'ASC' ? strBlackUp : strGrayUp} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=total_brunch_rate&orderBy=ASC')
+                                    }}/>
+                                    <img src={urlParams.get('column') === 'total_brunch_rate' && urlParams.get('orderBy') === 'DESC' ? strBlackDown : strGrayDown} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=total_brunch_rate&orderBy=DESC')
+                                    }}/>
+                                </div>
+                            </th>
+                            <th>
+                                <div>Оценка</div>
+                                <div className="d-flex justify-content-center align-items-center gap-2">
+
+                                    <img src={urlParams.get('column') === 'score' && urlParams.get('orderBy') === 'ASC' ? strBlackUp : strGrayUp } width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=score&orderBy=ASC')
+                                    }}/>
+                                    <img src={urlParams.get('column') === 'score' && urlParams.get('orderBy') === 'DESC' ? strBlackDown : strGrayDown} width={15} height={15} onClick={(e) => {
+                                        e.preventDefault();
+                                        router.visit(route + '?column=score&orderBy=DESC')
+                                    }}/>
+                                </div>
+                            </th>
                             <th className="col-3">Отзыв</th>
                             <th className="col-3">Комментарий управляющего</th>
                             <th className="col-3">Ответ SMM на платформе</th>
@@ -62,7 +136,9 @@ export default ({paginator}) => {
                             <td key={`resource-${i}`}>{row.resource.toUpperCase()}</td>
                             <td key={`brunch_name-${i}`}>{row.brunch_name}</td>
                             <td className="text-center" key={`total_brunch_rate-${i}`}>{row.total_brunch_rate}</td>
-                            <td className="text-center" key={`score-${i}`}> {row.score <= 3 ? <Alert color="danger">{row.score}</Alert> : row.score}</td>
+                            <td className="text-center" key={`score-${i}`}><Alert
+                                color={row.score <= 3 ? "danger" : (row.score == 4 ? "warning" : "success")}>{row.score}</Alert>
+                            </td>
                             <td key={`comment-${i}`}>{row.comment}</td>
                             <td key={`control_review-${i}`}>{row.control_review}</td>
                             <td key={`final_answer-${i}`}>{row.final_answer}</td>

@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Observers\ReviewObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static Builder getDataForIndex()
  */
+
+#[ObservedBy([ReviewObserver::class])]
 class Review extends Model
 {
     protected $fillable = [
@@ -28,6 +33,7 @@ class Review extends Model
         'is_edited',
         'is_on_check',
         'total_brunch_rate',
+        'photos',
     ];
 
     public function casts()
@@ -36,7 +42,8 @@ class Review extends Model
             'posted_at' => 'datetime',
             'start_work_on' => 'datetime',
             'end_work_on' => 'datetime',
-            'message_id' => 'array'
+            'message_id' => 'array',
+            'photos' => 'array',
         ];
     }
 
@@ -44,7 +51,6 @@ class Review extends Model
     {
         $query
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
-            ->orderByDesc('posted_at')
             ->select('posted_at',
                 'start_work_on',
                 'end_work_on',
@@ -58,5 +64,10 @@ class Review extends Model
                 'total_brunch_rate'
             )
         ;
+    }
+
+    public function brunch(): BelongsTo
+    {
+        return $this->belongsTo(Brunch::class);
     }
 }
