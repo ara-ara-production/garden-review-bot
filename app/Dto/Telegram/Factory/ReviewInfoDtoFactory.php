@@ -120,7 +120,7 @@ class ReviewInfoDtoFactory
             time: new DateTime($data['posted_at']),
             resource: 'Бот',
             totalsRate: '',
-            branchDto: BranchDtoFactory::create(Brunch::where('name', $data['brunch'])->first()),
+            branchDto: BranchDtoFactory::create(Brunch::where('address', $data['brunch'])->first()),
         );
     }
 

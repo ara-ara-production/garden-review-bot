@@ -27,7 +27,7 @@ class ReviewApiRequest extends FormRequest
         return [
             'inner_id' => 'required|integer',
             'posted_at' => 'required|date',
-            'brunch' => 'required|string|exists:brunches,name',
+            'brunch' => 'required|string|exists:brunches,address',
             'score' => 'required|integer',
             'text' => 'nullable|string',
             'sender' => 'nullable|string',
