@@ -30,7 +30,8 @@ class ReviewController extends Controller
         return $this->useCase->use($request->all());
     }
 
-    public function create(Request $request) {
-        $this->notifyAboutNewReviewsApiUseCase->use($request->all());
+    public function create(ReviewApiRequest $request)
+    {
+        $this->notifyAboutNewReviewsApiUseCase->use($request->validated());
     }
 }

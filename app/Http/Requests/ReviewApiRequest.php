@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
-class ApiAuthRequest extends FormRequest
+class ReviewApiRequest extends FormRequest
 {
     public function wantsJson(): bool { return true; }
     public function expectsJson(): bool { return true; }
@@ -20,22 +22,15 @@ class ApiAuthRequest extends FormRequest
         );
     }
 
-    protected function failedAuthorization()
-    {
-        throw new HttpResponseException(
-            response()->json(['message' => 'Forbidden'], 403)
-        );
-    }
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string',
+            'inner_id' => 'required|integer',
+            'posted_at' => 'required|date',
+            'brunch' => 'required|string|exists:brunches,name',
+            'score' => 'required|integer',
+            'text' => 'nullable|string',
+            'sender' => 'nullable|string',
         ];
     }
 }

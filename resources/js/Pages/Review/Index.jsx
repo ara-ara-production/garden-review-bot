@@ -151,43 +151,43 @@ export default ({paginator}) => {
                 <Col className=" d-flex justify-content-center">
                     <Pagination className=" d-flex justify-content-center gap-3">
                         <PaginationItem>
-                            <PaginationLink first href={paginator.first_page_url} onClick={(e) => {
+                            <PaginationLink first href={paginator.first_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : '')} onClick={(e) => {
                                 e.preventDefault();
-                                router.visit(paginator.first_page_url)
+                                router.visit(paginator.first_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : ''))
                             }}/>
                         </PaginationItem>
                         {
                             paginator.prev_page_url
                                 ? <PaginationItem><PaginationLink previous
-                                                                  href={paginator.prev_page_url}
+                                                                  href={paginator.prev_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : '')}
                                                                   onClick={(e) => {
                                                                       e.preventDefault();
-                                                                      router.visit(paginator.prev_page_url)
+                                                                      router.visit(paginator.prev_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : ''))
                                                                   }}/></PaginationItem>
                                 : null
                         }
                         {paginator.links.slice(1, paginator.links.length - 1).map((link) => {
                             return (<PaginationItem disabled={!link.url}
                                                     active={link.active}><PaginationLink
-                                href={link.url} onClick={(e) => {
+                                href={link.url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : '')} onClick={(e) => {
                                 e.preventDefault();
-                                router.visit(link.url)
+                                router.visit(link.url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : ''))
                             }}>{link.label}</PaginationLink> </PaginationItem>)
                         })}
                         {
                             paginator.next_page_url
                                 ?
-                                <PaginationItem><PaginationLink next href={paginator.next_page_url}
+                                <PaginationItem><PaginationLink next href={paginator.next_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : '')}
                                                                 onClick={(e) => {
                                                                     e.preventDefault();
-                                                                    router.visit(paginator.next_page_url)
+                                                                    router.visit(paginator.next_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : ''))
                                                                 }}/></PaginationItem>
                                 : null
                         }
                         <PaginationItem>
-                            <PaginationLink last href={paginator.last_page_url} onClick={(e) => {
+                            <PaginationLink last href={paginator.last_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : '')} onClick={(e) => {
                                 e.preventDefault();
-                                router.visit(paginator.last_page_url)
+                                router.visit(paginator.last_page_url + (urlParams.get('column') ? ('&column=' + urlParams.get('column')) : '') + (urlParams.get('orderBy') ? ('&orderBy=' + urlParams.get('orderBy')) : ''))
                             }}/>
                         </PaginationItem>
 

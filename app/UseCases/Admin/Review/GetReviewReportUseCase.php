@@ -14,6 +14,8 @@ class GetReviewReportUseCase
 
             if (key_exists('column', $data) && key_exists('orderBy', $data)) {
                 $prePagination = $prePagination->orderBy($data['column'], $data['orderBy']);
+            } else {
+                $prePagination->orderBy('posted_at','desc');
             }
 
             $paginator = $prePagination->paginate(20);
