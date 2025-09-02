@@ -22,6 +22,7 @@ export default ({values, users}) => {
         user_id: values.user_id ?? '',
         two_gis_id: values.two_gis_id ?? '',
         pupr_user_id: values.pupr_user_id ?? '',
+        address: values.address ?? ''
     })
 
     const {routes} = usePage().props;

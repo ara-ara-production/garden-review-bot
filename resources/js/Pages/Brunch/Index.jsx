@@ -62,7 +62,7 @@ export default ({paginator}) => {
                                 <td key={`id-${i}`}>{row.id}</td>
                                 <td key={`name-${i}`}>{row.name}</td>
                                 <td key={`role-${i}`}>{row.upr}</td>
-                                <td key={`pupr-${id}`}>{row.pupr}</td>
+                                <td key={`pupr-${i}`}>{row.pupr}</td>
                                 <td key={`two-gis-id-${i}`}>{row.two_gis_id}</td>
                                 <td key={`address-${i}`}>{row.address}</td>
                                 <td>
