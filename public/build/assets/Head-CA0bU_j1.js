@@ -1,0 +1,1 @@
+import{j as e,H as r}from"./app-CMoGvAWF.js";const a=({title:n,description:t})=>e.jsxs(r,{children:[n?e.jsx("title",{children:n}):null,t?e.jsx("meta",{name:"description",content:"Garden review bot это бот для получения информации о отзывах гостей с разных платформ. Помогает оператвно реагировать на оставленные отзывы."}):null]});export{a as H};

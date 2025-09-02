@@ -87,6 +87,13 @@ export default ({values, users}) => {
                         onChange={e => setData('two_gis_id', e.target.value)}
                         error={errors.two_gis_id}
                     />
+                    <RowFormGroup
+                        label="Адрес (используется для api)"
+                        inputType="text"
+                        value={data.address}
+                        onChange={e => setData('address', e.target.value)}
+                        error={errors.address}
+                    />
                 </Col>
                 <Col
                     className="

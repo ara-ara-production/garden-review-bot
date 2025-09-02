@@ -16,6 +16,7 @@ class BrunchUpdateDtoFactory
             $dataCollection->get('user_id'),
             $dataCollection->get('pupr_user_id'),
             $dataCollection->get('two_gis_id'),
+            $dataCollection->get('address'),
         );
     }
 }

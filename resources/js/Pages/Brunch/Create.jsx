@@ -22,6 +22,7 @@ export default ({users}) => {
         user_id: users[0]?.name,
         two_gis_id: '',
         pupr_user_id: users[0]?.name,
+        address: '',
     })
 
     const {routes} = usePage().props;
@@ -86,6 +87,13 @@ export default ({users}) => {
                         value={data.two_gis_id}
                         onChange={e => setData('two_gis_id', e.target.value)}
                         error={errors.two_gis_id}
+                    />
+                    <RowFormGroup
+                        label="Адрес (используется для api)"
+                        inputType="text"
+                        value={data.address}
+                        onChange={e => setData('address', e.target.value)}
+                        error={errors.address}
                     />
                 </Col>
                 <Col

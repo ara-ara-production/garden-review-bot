@@ -10,5 +10,6 @@ class BrunchUpdateDto
         public ?string $user_id,
         public ?string $pupr_user_id,
         public ?string $two_gis_id,
+        public ?string $address,
     ){}
 }

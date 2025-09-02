@@ -51,7 +51,9 @@ export default ({paginator}) => {
                             <td>#</td>
                             <td>Название</td>
                             <td>Управялющий</td>
+                            <td>Помошник управляющего</td>
                             <td>id 2Гиса</td>
+                            <td>Адрес</td>
                             <th></th>
                         </tr>
                         </thead>
@@ -60,7 +62,9 @@ export default ({paginator}) => {
                                 <td key={`id-${i}`}>{row.id}</td>
                                 <td key={`name-${i}`}>{row.name}</td>
                                 <td key={`role-${i}`}>{row.upr}</td>
-                                <td key={`role-${i}`}>{row.two_gis_id}</td>
+                                <td key={`pupr-${id}`}>{row.pupr}</td>
+                                <td key={`two-gis-id-${i}`}>{row.two_gis_id}</td>
+                                <td key={`address-${i}`}>{row.address}</td>
                                 <td>
                                     <i className="ni ni-fat-remove" onClick={e => {
                                         e.preventDefault();
