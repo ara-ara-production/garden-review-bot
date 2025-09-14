@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Admin\Review;
 
+use App\Models\Brunch;
 use App\Models\Review;
 use Inertia\Inertia;
 
@@ -10,7 +11,7 @@ class GetReviewReportUseCase
     public function use(array $data)
     {
         try {
-            $prePagination =Review::getDataForIndex();
+            $prePagination = Review::getDataForIndex();
 
             if (key_exists('column', $data) && key_exists('orderBy', $data)) {
                 $prePagination = $prePagination->orderBy($data['column'], $data['orderBy']);
@@ -22,6 +23,7 @@ class GetReviewReportUseCase
 
             return Inertia::render('Review/Index', [
                 'paginator' => $paginator,
+                'brunches' => Brunch::dataForFilter()->get(),
             ]);
         } catch (\Throwable $exception) {
             return redirect()->back()->with('message', ['status' => 'danger', 'text' => $exception->getMessage()]);

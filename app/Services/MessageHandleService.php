@@ -7,6 +7,7 @@ use App\Dto\Telegram\Entity\CallbackQueryPayloadDto;
 use App\Dto\Telegram\Entity\FillReportPayloadDto;
 use App\Dto\Telegram\Entity\ReviewIdPayloadDto;
 use App\Dto\Telegram\Entity\UpdateDto;
+use App\Dto\Telegram\Factory\ReviewInfoDtoFactory;
 use App\Dto\Telegram\Factory\TelegramKeyboardFactory;
 use App\Enums\MessageToUser;
 use App\Enums\UserRoleEnum;
@@ -28,6 +29,7 @@ class MessageHandleService
     public function __construct(
         protected Api $telegram,
         protected TelegramKeyboardFactory $telegramKeyboardFactory,
+        protected ReviewInfoDtoFactory $reviewInfoDtoFactory,
     )
     {
     }
@@ -51,6 +53,34 @@ class MessageHandleService
             'end_work_on' => $dateTime,
             'control_review' => MessageToUser::NoWorkNeeded->value
         ]);
+
+        $roles = [UserRoleEnum::Founder->name, UserRoleEnum::Ssm->name];
+
+        /** @var Collection<TelegramMessage> $replyMessages */
+        $replyMessages = TelegramMessage::where('review_id', $dto->reviewId)
+            ->whereIn('users.role', $roles)
+            ->leftJoin('users', 'users.id', '=', 'telegram_messages.user_id')
+            ->get();
+
+        if (!$replyMessages) {
+            throw new ModelNotFoundException('cant get founder messages');
+        }
+
+        $dto = $this->reviewInfoDtoFactory->fromEntity($review);
+
+        $message = $dto->getTelegramFormat();
+
+        $message = substr($message, 0, (strpos($message, "\n\n☕ Комментарий управляющего:\n") ?: strlen($message)));
+        $message .= "\n\n☕ Комментарий управляющего:\nМеры не требуются";
+
+        $replyMessages->each(fn(TelegramMessage $telegramMessage)
+        => $this->telegram->editMessageText([
+            'chat_id' => $telegramMessage->user->telegram_chat,
+            'message_id' => $telegramMessage->message_id,
+            'text' => $message,
+            'parse_mode' => 'html',
+            'disable_web_page_preview' => true,
+        ]));
     }
 
     /**
@@ -180,7 +210,7 @@ class MessageHandleService
         if ($callbackPayLoad->fill === 'control_review') {
             $updateFills['end_work_on'] = new DateTime();
 
-            $text = "☕ Комментарий управляющего:\n";
+            $text = "☕ Управляющий оставил коменнтарий\n";
             $roles[] = UserRoleEnum::Ssm->name;
         }
 
@@ -198,8 +228,8 @@ class MessageHandleService
 
         $message = $payload->message;
 
-        $message = substr($message, 0, (strpos($message, "\n\n☕ Ревью управляющего:\n") ?: strlen($message)));
-        $message .= "\n\n☕ Ревью управляющего:\n{$dto->message}";
+        $message = substr($message, 0, (strpos($message, "\n\n☕ Комментарий управляющего:\n") ?: strlen($message)));
+        $message .= "\n\n☕ Комментарий управляющего:\n{$dto->message}";
 
         $this->telegram->editMessageText([
             'chat_id' => $dto->chat_id,
@@ -218,10 +248,17 @@ class MessageHandleService
             throw new ModelNotFoundException('cant get founder messages');
         }
 
+        $replyMessages->each(fn(TelegramMessage $telegramMessage)
+        => $this->telegram->editMessageText([
+            'chat_id' => $telegramMessage->user->telegram_chat,
+            'message_id' => $telegramMessage->message_id,
+            'text' => $message,
+        ]));
+
         $replyMessages->each(fn(TelegramMessage $message)
         => $this->telegram->sendMessage([
             'chat_id' => $message->user->telegram_chat,
-            'text' => $text . $dto->message,
+            'text' => $text,
             'reply_to_message_id' => $message->message_id
         ]));
     }

@@ -2,21 +2,30 @@ import NavBar from "@/Components/NavBar.jsx";
 import Head from "@/Components/Head.jsx";
 import {
     Alert,
+    Button,
     Col,
     Container,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Form,
+    FormFeedback,
+    FormGroup, Input,
+    Label,
     Pagination,
     PaginationItem,
     PaginationLink,
     Row,
-    Table
+    Table, UncontrolledDropdown
 } from "reactstrap";
-import {router, usePage} from "@inertiajs/react";
-import React from "react";
+import {router, useForm, usePage} from "@inertiajs/react";
+import React, {useEffect, useState} from "react";
 
 import strBlackDown from '../../../svg/bstr-black-down.svg';
 import strBlackUp from '../../../svg/bstr-black-up.svg';
 import strGrayDown from '../../../svg/bstr-gray-down.svg';
 import strGrayUp from '../../../svg/bstr-gray-up.svg';
+import RowFormGroupSelect from "@/Components/RowFormGroupSelect.jsx";
 
 const options = {
     day: '2-digit',
@@ -27,7 +36,7 @@ const options = {
     hour12: false,
 };
 
-export default ({paginator}) => {
+export default ({paginator, brunches}) => {
 
     const {routes} = usePage().props;
     const route = '/' + routes.review_table_prefix + '/' + routes.review
@@ -37,6 +46,28 @@ export default ({paginator}) => {
 
     const urlParams = new URLSearchParams(queryString);
 
+    const {
+        data,
+        setData,
+        post,
+        processing,
+        errors,
+
+    } = useForm({
+        brunches: [],
+        user_id: '',
+        two_gis_id: '',
+        pupr_user_id: '',
+        address: '',
+    })
+
+    const [createAnotherOne, setCreateAnotherOne] = useState(false);
+
+    const submit = (e) => {
+        e.preventDefault();
+        post(`/${routes.backendprefix}/${routes.brunch}` + (createAnotherOne ? `?redirectOnCreation=true` : ''));
+    }
+
     return (<>
         <Head title="Отзывы"/>
         <NavBar/>
@@ -45,6 +76,71 @@ export default ({paginator}) => {
                 <Col>
                     <h2>Отзывы</h2>
                     <Alert color="info">Всего записей: {paginator.total}</Alert>
+                    <Form className="row" onSubmit={submit}>
+                        <Col
+                            className="
+                        border
+                        border-primary
+                        rounded
+                        col-12
+                        mb-4
+                        pt-4
+                        "
+                        >
+                            <FormGroup row className="mb-4">
+                                <Label sm={3}>Филиал</Label>
+                                <Col sm={9}>
+                                    
+
+
+                                    <UncontrolledDropdown>
+                                        <DropdownToggle caret>Выбрано: {data.brunches.length}</DropdownToggle>
+                                        <DropdownMenu>
+                                            {brunches.map((item, i) => (<DropdownItem className='d-flex p-0' color={data.brunches.includes(item.id)} toggle={false} onClick={(e) => e.preventDefault()}>
+                                                <Label
+                                                    className=""
+                                                >
+                                                    <span>{item.name}</span>
+                                                    <Input onChange={e => {
+                                                        setData('brunches', [...data.brunches, e.target.value])
+                                                        console.log(data.brunches)
+                                                    }} type='checkbox' key={'brunchFilter-' + i} value={item.id}/>
+                                                </Label>
+
+                                            </DropdownItem>))}
+
+
+
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
+                                    {errors.brunches ? <FormFeedback>{errors.brunches}</FormFeedback> : null}
+                                </Col>
+                            </FormGroup>
+                            <RowFormGroupSelect
+                                label="Управляющий"
+                                value={data.user_id}
+                                onChange={e => setData('user_id', e.target.value)}
+                                error={errors.user_id}
+                            />
+                            <RowFormGroupSelect
+                                label="Помошник управляющего"
+                                value={data.pupr_user_id}
+                                onChange={e => setData('pupr_user_id', e.target.value)}
+                                error={errors.pupr_user_id}
+                            />
+                            <FormGroup>
+                                <Button
+                                    className="w-100"
+                                    type="submit"
+                                    value="Сохранить"
+                                    color="primary"
+                                    outline
+                                    disabled={processing}
+                                    onClick={() => setCreateAnotherOne(false)}
+                                >Фильтровать</Button>
+                            </FormGroup>
+                        </Col>
+                    </Form>
                 </Col>
             </Row>
 

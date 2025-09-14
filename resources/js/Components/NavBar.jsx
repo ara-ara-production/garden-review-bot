@@ -102,13 +102,6 @@ export default () => {
                                 }}
                             >Horizon
                             </DropdownItem>
-                            <DropdownItem
-                                onClick={e => {
-                                    e.preventDefault();
-                                    location.href=`https://cron.bot-reviewer.ru/`
-                                }}
-                            >Кронер
-                            </DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </Nav>

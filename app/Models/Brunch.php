@@ -34,4 +34,9 @@ class Brunch extends Model
         )->leftJoin('users as upr_user', 'upr_user.id', '=', 'brunches.user_id')
             ->leftJoin('users as pupr_user', 'pupr_user.id', '=', 'brunches.pupr_user_id');
     }
+
+    public function scopeDataForFilter(Builder $query): Builder
+    {
+        return $query->select('id', 'name');
+    }
 }

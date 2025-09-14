@@ -50,22 +50,13 @@ services:
       - default
 
   redis:
+    restart: always
     image: redis:7-alpine
     networks:
       - default
 
-
-  cronicle:
-    image: soulteary/cronicle
-    container_name: bot-cronicle
-    restart: always
-    volumes:
-      - .deploy/cron/data:/opt/cronicle/data
-      - .deploy/cron/logs:/opt/cronicle/logs
-    environment:
-      - TZ=Asia/Yekaterinburg
-
   certbot:
+    restart: always
     build:
       context: .
       dockerfile: .deploy/certbot/Dockerfile
