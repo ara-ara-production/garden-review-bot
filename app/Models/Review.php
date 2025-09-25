@@ -51,17 +51,18 @@ class Review extends Model
     {
         $query
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
-            ->select('posted_at',
+            ->select(
+                'reviews.id AS review_id',
+                'posted_at',
                 'start_work_on',
                 'end_work_on',
-                'control_review',
-                'score',
                 'resource',
-                'comment',
                 'brunches.name AS brunch_name',
-                'reviews.id AS review_id',
+                'total_brunch_rate',
+                'score',
+                'comment',
+                'control_review',
                 'final_answer',
-                'total_brunch_rate'
             )
         ;
     }

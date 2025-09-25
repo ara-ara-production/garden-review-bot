@@ -12,20 +12,49 @@ class GetReviewReportUseCase
     {
         try {
             $prePagination = Review::getDataForIndex();
+            $filters = collect($data);
 
-            if (key_exists('column', $data) && key_exists('orderBy', $data)) {
-                $prePagination = $prePagination->orderBy($data['column'], $data['orderBy']);
-            } else {
-                $prePagination->orderBy('posted_at','desc');
+            if ($filters->has('brunches')) {
+                $filters['brunches'] = collect($filters['brunches'])
+                    ->map(fn($item) => key_exists('value', $item) ? array_pop($item) : null)
+                    ->filter()
+                    ->values();
             }
 
-            $paginator = $prePagination->paginate(20);
+            if ($filters->has('platform')) {
+                $filters['platform'] = collect($filters['platform'])
+                    ->map(fn($item) => key_exists('value', $item) ? array_pop($item) : null)
+                    ->filter()
+                    ->values();
+            }
+
+            $paginator = $prePagination
+                ->when(
+                    $filters->has('date') && is_array($filters['date']),
+                    fn() => $prePagination->whereBetween('posted_at', $filters['date'])
+                )
+                ->when(
+                    $filters->has('brunches'),
+                    fn() => $prePagination->whereIn('brunch_id', $filters['brunches'])
+                )
+                ->when(
+                    $filters->has('platform'),
+                    fn() => $prePagination->whereIn('resource', $filters['platform'])
+                )
+                ->when(
+                    $filters->has('orderBy') && $filters['orderBy'] && $filters->has('sort') && $filters['sort'],
+                    fn() => $prePagination->orderBy($filters['sort'], $filters['orderBy']),
+                    fn() => $prePagination->orderBy('posted_at', 'desc')
+                )
+                ->paginate(20);
 
             return Inertia::render('Review/Index', [
                 'paginator' => $paginator,
                 'brunches' => Brunch::dataForFilter()->get(),
+                'filtersAndSort' => $filters,
             ]);
-        } catch (\Throwable $exception) {
+        } catch
+        (\Throwable $exception) {
             return redirect()->back()->with('message', ['status' => 'danger', 'text' => $exception->getMessage()]);
         }
     }

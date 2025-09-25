@@ -37,6 +37,6 @@ class Brunch extends Model
 
     public function scopeDataForFilter(Builder $query): Builder
     {
-        return $query->select('id', 'name');
+        return $query->select('id as value', 'name as label');
     }
 }

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\GoodsSupplyExport;
+use App\Exports\ReviewExport;
 use App\Http\Requests\ReviewApiRequest;
 use App\Jobs\GetReviewsFromTwoGis;
+use App\Models\Review;
 use App\UseCases\Admin\Review\GetReviewReportUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsApiUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsTwoGisUseCase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReviewController extends Controller
 {
@@ -27,11 +30,53 @@ class ReviewController extends Controller
 
     public function index(Request $request)
     {
-        return $this->useCase->use($request->all());
+        return $this->useCase->use($request->query());
     }
 
     public function create(ReviewApiRequest $request)
     {
         $this->notifyAboutNewReviewsApiUseCase->use($request->validated());
+    }
+
+    public function export(Request $request)
+    {
+        $prePagination = Review::getDataForIndex();
+        $filters = collect($request->query());
+
+        if ($filters->has('brunches')) {
+            $filters['brunches'] = collect($filters['brunches'])
+                ->map(fn($item) => $item['value'])
+                ->filter()
+                ->values();
+        }
+
+        if ($filters->has('platform')) {
+            $filters['platform'] = collect($filters['platform'])
+                ->map(fn($item) => $item['value'])
+                ->filter()
+                ->values();
+        }
+
+        $paginator = $prePagination
+            ->when(
+                $filters->has('date') && is_array($filters['date']),
+                fn() => $prePagination->whereBetween('posted_at', $filters['date'])
+            )
+            ->when(
+                $filters->has('brunches'),
+                fn() => $prePagination->whereIn('brunch_id', $filters['brunches'])
+            )
+            ->when(
+                $filters->has('platform'),
+                fn() => $prePagination->whereIn('resource', $filters['platform'])
+            )
+            ->when(
+                $filters->has('orderBy') && $filters['orderBy'] && $filters->has('sort') && $filters['sort'],
+                fn() => $prePagination->orderBy($filters['sort'], $filters['orderBy']),
+                fn() => $prePagination->orderBy('posted_at', 'desc')
+            )
+        ->get();
+
+        return Excel::download(new GoodsSupplyExport($paginator), "export.xlsx");
     }
 }

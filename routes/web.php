@@ -20,6 +20,7 @@ Route::prefix('tg-bot')->group(function () {
 
 Route::prefix('reviews')->group(function () {
     Route::prefix(config('resourseroutes.review_table_prefix'))->get('/', [ReviewController::class, 'index']);
+    Route::prefix(config('resourseroutes.review_table_prefix'))->get('export', [ReviewController::class, 'export']);
     Route::get('find-and-notify', [ReviewController::class, 'findAndNotify']);
 });
 
