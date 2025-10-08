@@ -53,6 +53,11 @@ class ReviewObserver
                 ]);
             });
 
+            TelegramMessage::query()
+                ->where('review_id', $reviewInfoDto->dbId)
+                ->delete();
+
+
             $messagesToStore = $this->telegramService->firstNotify(collect([$reviewInfoDto]));
             $messagesToStore = $messagesToStore->filter();
             $this->messageService->store($messagesToStore);
