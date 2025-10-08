@@ -11,7 +11,7 @@ class GetReviewStatsUseCase
 {
     public function use(array $data)
     {
-        try {
+//        try {
         $prePagination = Review::selectRaw('brunches.name, score, count(*) as count')
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
             ->groupBy('brunches.name', 'score');
@@ -137,9 +137,9 @@ class GetReviewStatsUseCase
             'brunches' => Brunch::dataForFilter()->get(),
             'filtersAndSort' => $filters,
         ]);
-        } catch
-        (\Throwable $exception) {
-            return redirect()->back()->with('message', ['status' => 'danger', 'text' => $exception->getMessage()]);
-        }
+//        } catch
+//        (\Throwable $exception) {
+//            return redirect()->back()->with('message', ['status' => 'danger', 'text' => $exception->getMessage()]);
+//        }
     }
 }
