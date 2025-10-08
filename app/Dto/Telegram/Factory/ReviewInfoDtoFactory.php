@@ -97,6 +97,7 @@ class ReviewInfoDtoFactory
             resource: $review->resource,
             totalsRate: $review->total_brunch_rate,
             finalAnswer: $review->final_answer,
+            controlReview: $review->control_review,
             answerDate: null,
             isOnCHeck: $review->is_on_check,
             link: $review->link,

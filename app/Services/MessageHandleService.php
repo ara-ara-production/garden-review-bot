@@ -70,9 +70,6 @@ class MessageHandleService
 
         $message = $dto->getTelegramFormat();
 
-        $message = substr($message, 0, (strpos($message, "\n\n☕ Комментарий управляющего:\n") ?: strlen($message)));
-        $message .= "\n\n☕ Комментарий управляющего:\nМеры не требуются";
-
         $replyMessages->each(fn(TelegramMessage $telegramMessage)
         => $this->telegram->editMessageText([
             'chat_id' => $telegramMessage->user->telegram_chat,
@@ -226,15 +223,14 @@ class MessageHandleService
             throw new NullPayloadException();
         }
 
-        $message = $payload->message;
+        $reviewDto = $this->reviewInfoDtoFactory->fromEntity($review);
 
-        $message = substr($message, 0, (strpos($message, "\n\n☕ Комментарий управляющего:\n") ?: strlen($message)));
-        $message .= "\n\n☕ Комментарий управляющего:\n{$dto->message}";
+        $message = $reviewDto->getTelegramFormat();
 
         $this->telegram->editMessageText([
             'chat_id' => $dto->chat_id,
             'message_id' => $payload->message_id,
-            'text' => $message,
+            'text' => $review->ge,
             'reply_markup' => $this->telegramKeyboardFactory->forControlAfterReview($review->id),
         ]);
 

@@ -16,11 +16,15 @@ class GetReviewStatsUseCase
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
             ->groupBy('brunches.name', 'score');
 
-        $twoGisCurrentRate = Review::select('brunches.name as brunch_name', 'total_brunch_rate')
+        $twoGisCurrentRate = Review::query()
+            ->selectRaw('DISTINCT ON (reviews.brunch_id) brunches.name as brunch_name, reviews.total_brunch_rate as total_brunch_rate')
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
-            ->orderBy('posted_at', 'desc')
-            ->limit(200)
-            ->get();
+            ->where('resource', '2Гис')
+            ->orderBy('brunch_id', 'desc')
+            ->get()
+            ->toArray();
+
+        $twoGisCurrentRate = collect($twoGisCurrentRate);
 
         $filters = collect($data);
 
@@ -104,7 +108,7 @@ class GetReviewStatsUseCase
                 });
                 $readyBrunchRate[] = [
                     'name' => $item[0]['name'],
-                    'avg' => $sum / $count,
+                    'avg' => round($sum / $count, 1),
                     'twoGis' => $twoGisCurrentRate
                         ->where('brunch_name', $item[0]['name'])
                         ->first()['total_brunch_rate'],

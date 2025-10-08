@@ -14,4 +14,12 @@ class SimpleMessageDtoFactory
             $text
         );
     }
+
+    public function fromRawParameters(string $chat_id, string $text): SimpleMessageDto
+    {
+        return new SimpleMessageDto(
+            $chat_id,
+            $text
+        );
+    }
 }

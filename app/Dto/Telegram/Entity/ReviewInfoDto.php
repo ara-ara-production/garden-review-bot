@@ -15,6 +15,7 @@ class ReviewInfoDto
         public string $resource,
         public string $totalsRate,
         public ?string $finalAnswer = '',
+        public ?string $controlReview = '',
         public ?DateTime $answerDate = null,
         public bool $isOnCHeck = false,
         public ?string $link = null,
@@ -65,6 +66,8 @@ class ReviewInfoDto
     {
         $markers = ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null);
         $stars = str_repeat('⭐', (int)$this->rating) . " ({$this->rating} из 5)";
+        $controlReview = $this->controlReview ? "☕️ Комментарий управляющего:</br>{$this->controlReview}" : null;
+
         $text = $this->text ? e(<<<EOF
 📝 {$markers}Отзыв:
 {$this->text}
@@ -79,6 +82,8 @@ EOF): "";
 ✏ Оценка: {$this->totalsRate} {$stars}
 
 {$text}
+
+{$controlReview}
 EOF;
 //        return "☕ Кофейня: #{$this->branchDto?->name}"
 //            . "\n👤 Управляющий: {$this->branchDto?->upr}"
