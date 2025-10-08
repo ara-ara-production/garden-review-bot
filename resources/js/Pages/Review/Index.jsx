@@ -2,12 +2,8 @@ import NavBar from "@/Components/NavBar.jsx";
 import Head from "@/Components/Head.jsx";
 import {
     Alert,
-    Button,
     Col,
     Container,
-    Form,
-    FormGroup,
-    Label,
     Pagination,
     PaginationItem,
     PaginationLink,
@@ -15,17 +11,12 @@ import {
     Table
 } from "reactstrap";
 import {router, useForm, usePage} from "@inertiajs/react";
-import React, {useEffect} from "react";
-
+import React from "react";
 import strBlackDown from '../../../svg/bstr-black-down.svg';
 import strBlackUp from '../../../svg/bstr-black-up.svg';
 import strGrayDown from '../../../svg/bstr-gray-down.svg';
 import strGrayUp from '../../../svg/bstr-gray-up.svg';
-import exelIcon from '../../../svg/microsoft-excel-svgrepo-com.svg';
-import statisticIcon from '../../../svg/pie-chart-svgrepo-com.svg'
-import Select from 'react-select';
-import {DateRangePicker} from 'rsuite';
-import qs from "qs";
+import Filter from "@/Components/Filter.jsx";
 
 const options = {
     day: '2-digit',
@@ -36,20 +27,20 @@ const options = {
     hour12: false,
 };
 
-export default ({paginator, brunches, filtersAndSort}) => {
-    const {routes} = usePage().props;
+export default ({paginator}) => {
+    const {brunches, filtersAndSort, routes} = usePage().props;
     const route = '/' + routes.review_table_prefix + '/' + routes.review
 
     const params = new URLSearchParams(window.location.search);
     params.delete('page');
 
+    console.log(filtersAndSort)
+
     const {
         data,
         setData,
         get,
-        processing,
-        errors,
-
+        processing
     } = useForm({
         date: 'date' in filtersAndSort && Array.isArray(filtersAndSort.date) ? filtersAndSort.date.map(stringDate => new Date(stringDate)) : [],
         brunches: 'brunches' in filtersAndSort ? brunches.filter(item => filtersAndSort.brunches.map(Number).includes(item.value)) : [],
@@ -58,20 +49,6 @@ export default ({paginator, brunches, filtersAndSort}) => {
         orderBy: filtersAndSort.orderBy ?? '',
         commit: false,
     })
-
-    console.log(data)
-
-    useEffect(() => {
-        if (data.commit) {
-            get(`/${routes.review_table_prefix}/${routes.review}`);
-        }
-    }, [data]);
-
-
-    const submit = (e) => {
-        e.preventDefault();
-        setData('commit', true)
-    }
 
     return (<>
             <Head title="Отзывы"/>
@@ -83,108 +60,7 @@ export default ({paginator, brunches, filtersAndSort}) => {
                         <Alert color="info">Всего записей: {paginator.total}</Alert>
                         <Container fluid className="p-0">
                             <Col xl={8}>
-                                <Form className="row" onSubmit={submit}>
-                                    <Col className="border border-primary rounded col-12 mb-4 pt-4">
-                                        <FormGroup row className="mb-4">
-                                            <Label sm={3}>Дата публикации</Label>
-                                            <Col sm={4}>
-                                                <DateRangePicker
-                                                    // date={}
-                                                    value={data.date}
-                                                    onChange={e => setData('date', e)}
-                                                />
-                                            </Col>
-                                        </FormGroup>
-                                        <FormGroup row className="mb-4">
-                                            <Label sm={3}>Филиал</Label>
-                                            <Col sm={4}>
-                                                <Select
-                                                    value={data.brunches}
-                                                    onChange={e => {
-                                                        setData('brunches', e)
-                                                    }}
-                                                    options={brunches}
-                                                    isMulti
-                                                    closeMenuOnSelect={false}
-                                                ></Select>
-                                            </Col>
-                                        </FormGroup>
-                                        <FormGroup row className="mb-4">
-                                            <Label sm={3}>Платформа</Label>
-                                            <Col sm={4}>
-                                                <Select
-                                                    value={data.platform}
-                                                    onChange={e => {
-                                                        setData('platform', e)
-                                                    }}
-                                                    options={
-                                                        [
-                                                            {
-                                                                label: '2Гис',
-                                                                value: '2Гис'
-                                                            },
-                                                            {
-                                                                label: 'Бот',
-                                                                value: 'Бот'
-                                                            }
-                                                        ]
-                                                    }
-                                                    isMulti
-                                                    closeMenuOnSelect={false}
-                                                ></Select>
-                                            </Col>
-                                        </FormGroup>
-                                        <FormGroup row className="mb-4">
-                                            <Col
-                                                sm={8}
-                                            >
-                                                <Button
-                                                    className="w-100"
-                                                    type="submit"
-                                                    value="Сохранить"
-                                                    color="primary"
-                                                    outline
-                                                    disabled={processing}
-                                                >Фильтровать</Button>
-                                            </Col>
-                                            <Col
-                                                sm={2}
-                                            >
-                                                <Button
-                                                    className="w-100 d-flex justify-content-center align-items-center"
-                                                    color="success"
-                                                    outline
-                                                    disabled={processing}
-                                                    onClick={(() => {
-                                                        window.location.href = `/${routes.review_table_prefix}/${routes.review}/export?` + qs.stringify(data)
-                                                    })}
-                                                >
-                                                    <img
-                                                        alt="Экспортировать"
-                                                        height={20}
-                                                        width={20}
-                                                        src={exelIcon}
-                                                    />
-                                                </Button>
-                                            </Col>
-                                            <Col sm={2}>
-                                                <Button
-                                                    className="w-100 d-flex justify-content-center align-items-center"
-                                                    color="info"
-                                                    outline
-                                                    disabled={processing}
-                                                >
-                                                    <img
-                                                        alt="Статистика"
-                                                        height={20}
-                                                        width={20}
-                                                        src={statisticIcon}
-                                                    />
-                                                </Button>
-                                            </Col>
-                                        </FormGroup>
-                                    </Col>
-                                </Form>
+                                <Filter data={data} get={get} setData={setData} processing={processing}/>
                             </Col>
                         </Container>
                     </Col>

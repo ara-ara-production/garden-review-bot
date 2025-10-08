@@ -8,9 +8,11 @@ use App\Http\Requests\ReviewApiRequest;
 use App\Jobs\GetReviewsFromTwoGis;
 use App\Models\Review;
 use App\UseCases\Admin\Review\GetReviewReportUseCase;
+use App\UseCases\Admin\Review\GetReviewStatsUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsApiUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsTwoGisUseCase;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReviewController extends Controller
@@ -19,6 +21,7 @@ class ReviewController extends Controller
         protected NotifyAboutNewReviewsTwoGisUseCase $notifyAboutNewReviewsTwoGisUseCase,
         protected NotifyAboutNewReviewsApiUseCase $notifyAboutNewReviewsApiUseCase,
         protected GetReviewReportUseCase $useCase,
+        protected GetReviewStatsUseCase $statsUseCase,
     ) {
     }
 
@@ -78,5 +81,10 @@ class ReviewController extends Controller
         ->get();
 
         return Excel::download(new GoodsSupplyExport($paginator), "export.xlsx");
+    }
+
+    public function stats(Request $request)
+    {
+        return $this->statsUseCase->use($request->query());
     }
 }

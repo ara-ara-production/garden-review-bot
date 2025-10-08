@@ -16,14 +16,14 @@ class GetReviewReportUseCase
 
             if ($filters->has('brunches')) {
                 $filters['brunches'] = collect($filters['brunches'])
-                    ->map(fn($item) => key_exists('value', $item) ? array_pop($item) : null)
+                    ->map(fn($item) => key_exists('value', $item) ? $item['value'] : null)
                     ->filter()
                     ->values();
             }
 
             if ($filters->has('platform')) {
                 $filters['platform'] = collect($filters['platform'])
-                    ->map(fn($item) => key_exists('value', $item) ? array_pop($item) : null)
+                    ->map(fn($item) => key_exists('value', $item) ? $item['value'] : null)
                     ->filter()
                     ->values();
             }

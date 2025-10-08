@@ -22,10 +22,12 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "chart.js": "^4.5.0",
         "qs": "^6.14.0",
         "react-date-range": "^2.0.1",
         "react-select": "^5.10.2",
         "reactstrap": "^9.2.3",
+        "recharts": "^3.2.1",
         "rsuite": "^5.83.3"
     }
 }
