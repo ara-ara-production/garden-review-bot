@@ -66,7 +66,7 @@ class ReviewInfoDto
     {
         $markers = ($this->isEdited ? "Измененный " : null) . ($this->isOnCHeck ? "Непотвержденный " : null);
         $stars = str_repeat('⭐', (int)$this->rating) . " ({$this->rating} из 5)";
-        $controlReview = $this->controlReview ? "☕️ Комментарий управляющего:</br>{$this->controlReview}" : null;
+        $controlReview = $this->controlReview ? "☕️ Комментарий управляющего:<br/>{$this->controlReview}" : null;
 
         $text = $this->text ? e(<<<EOF
 📝 {$markers}Отзыв:

@@ -30,8 +30,7 @@ class MessageHandleService
         protected Api $telegram,
         protected TelegramKeyboardFactory $telegramKeyboardFactory,
         protected ReviewInfoDtoFactory $reviewInfoDtoFactory,
-    )
-    {
+    ) {
     }
 
     /**
@@ -54,7 +53,11 @@ class MessageHandleService
             'control_review' => MessageToUser::NoWorkNeeded->value
         ]);
 
-        $roles = [UserRoleEnum::Founder->name, UserRoleEnum::Ssm->name];
+        $roles = [
+            UserRoleEnum::Founder->name,
+            UserRoleEnum::Ssm->name,
+            UserRoleEnum::Control->name,
+        ];
 
         /** @var Collection<TelegramMessage> $replyMessages */
         $replyMessages = TelegramMessage::where('review_id', $dto->reviewId)
@@ -70,8 +73,7 @@ class MessageHandleService
 
         $message = $dto->getTelegramFormat();
 
-        $replyMessages->each(fn(TelegramMessage $telegramMessage)
-        => $this->telegram->editMessageText([
+        $replyMessages->each(fn(TelegramMessage $telegramMessage) => $this->telegram->editMessageText([
             'chat_id' => $telegramMessage->user->telegram_chat,
             'message_id' => $telegramMessage->message_id,
             'text' => $message,
@@ -189,7 +191,7 @@ class MessageHandleService
             throw new NullPayloadException();
         }
 
-        /** @var FillReportPayloadDto  $callbackPayLoad */
+        /** @var FillReportPayloadDto $callbackPayLoad */
         $callbackPayLoad = $payload->callback_query->data;
 
         Cache::forget($cacheKey);
@@ -227,12 +229,22 @@ class MessageHandleService
 
         $message = $reviewDto->getTelegramFormat();
 
-        $this->telegram->editMessageText([
+        /** @var Collection<TelegramMessage> $replyMessages */
+        $controlReplyMessages = TelegramMessage::where('review_id', $callbackPayLoad->reviewId)
+            ->where('users.role', UserRoleEnum::Control->name)
+            ->leftJoin('users', 'users.id', '=', 'telegram_messages.user_id')
+            ->get();
+
+        if (!$controlReplyMessages) {
+            throw new ModelNotFoundException('cant get control messages');
+        }
+
+        $controlReplyMessages->each(fn(TelegramMessage $message) => $this->telegram->editMessageText([
             'chat_id' => $dto->chat_id,
             'message_id' => $payload->message_id,
             'text' => $review->ge,
             'reply_markup' => $this->telegramKeyboardFactory->forControlAfterReview($review->id),
-        ]);
+        ]));
 
         /** @var Collection<TelegramMessage> $replyMessages */
         $replyMessages = TelegramMessage::where('review_id', $callbackPayLoad->reviewId)
