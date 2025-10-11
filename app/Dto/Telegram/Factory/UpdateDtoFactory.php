@@ -3,6 +3,7 @@
 namespace App\Dto\Telegram\Factory;
 
 use App\Dto\Telegram\Entity\UpdateDto;
+use Error;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Objects\Update;
 
@@ -16,6 +17,7 @@ class UpdateDtoFactory
     public function fromUpdate(Update $update): UpdateDto
     {
         $message = $update->getMessage();
+        Log::debug($message);
         return new UpdateDto(
             $message->get('message_id'),
             $message->get('chat')->get('id'),
