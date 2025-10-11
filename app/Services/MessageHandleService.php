@@ -239,11 +239,13 @@ class MessageHandleService
             throw new ModelNotFoundException('cant get control messages');
         }
 
-        $controlReplyMessages->each(fn(TelegramMessage $message) => $this->telegram->editMessageText([
-            'chat_id' => $dto->chat_id,
-            'message_id' => $payload->message_id,
-            'text' => $review->ge,
+        $controlReplyMessages->each(fn(TelegramMessage $telegramMessage) => $this->telegram->editMessageText([
+            'chat_id' => $telegramMessage->user->telegram_chat,
+            'message_id' => $telegramMessage->message_id,
+            'text' => $message,
             'reply_markup' => $this->telegramKeyboardFactory->forControlAfterReview($review->id),
+            'parse_mode' => 'HTML',
+            'disable_web_page_preview' => true,
         ]));
 
         /** @var Collection<TelegramMessage> $replyMessages */
@@ -256,18 +258,20 @@ class MessageHandleService
             throw new ModelNotFoundException('cant get founder messages');
         }
 
-        $replyMessages->each(fn(TelegramMessage $telegramMessage)
-        => $this->telegram->editMessageText([
+        $replyMessages->each(fn(TelegramMessage $telegramMessage) => $this->telegram->editMessageText([
             'chat_id' => $telegramMessage->user->telegram_chat,
             'message_id' => $telegramMessage->message_id,
             'text' => $message,
+            'parse_mode' => 'HTML',
+            'disable_web_page_preview' => true,
         ]));
 
-        $replyMessages->each(fn(TelegramMessage $message)
-        => $this->telegram->sendMessage([
+        $replyMessages->each(fn(TelegramMessage $message) => $this->telegram->sendMessage([
             'chat_id' => $message->user->telegram_chat,
             'text' => $text,
-            'reply_to_message_id' => $message->message_id
+            'reply_to_message_id' => $message->message_id,
+            'parse_mode' => 'HTML',
+            'disable_web_page_preview' => true,
         ]));
     }
 
