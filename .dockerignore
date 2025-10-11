@@ -1,4 +1,5 @@
-.deploy
+
+.dev
 vendor
 node_modules
 compose.yaml
