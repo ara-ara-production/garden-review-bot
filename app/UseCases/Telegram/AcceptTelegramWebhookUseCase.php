@@ -19,7 +19,7 @@ class AcceptTelegramWebhookUseCase
 
     public function use(Update $updates): void
     {
-        if (!$updates->isEmpty() && $updates->getMessage()->isEmpty()) {
+        if (!$updates->isEmpty() && !$updates->getMessage()->isEmpty()) {
             $dto = $this->updateDtoFactory->fromUpdate($updates);
 
             if ($dto->callback_query) {
