@@ -23,6 +23,27 @@ class TelegramKeyboardFactory
             ]);
     }
 
+    public function forSMM(int $reviewId)
+    {
+        return null;
+//        return Keyboard::make()->inline()
+//            ->row([
+//                Keyboard::inlineButton(
+//                    [
+//                        'text' => 'Ответ гостю',
+//                        'callback_data' => "action:handle_report_insert|review_id:{$reviewId}|fill:final_answer"
+////                        'callback_data' => json_encode([
+////                            'action' => 'handle_report_insert',
+////                            'payload' => [
+////                                'review_id' => $reviewId,
+////                                'fill' => 'final_answer'
+////                            ],
+////                        ]),
+//                    ]
+//                ),
+//            ]);
+    }
+
     public function forControlSetReview(int $reviewId)
     {
         return Keyboard::make()->inline()
