@@ -25,6 +25,8 @@ services:
       - redis
     networks:
       - default
+    env_file:
+      - .env
 
 
   pgsql:

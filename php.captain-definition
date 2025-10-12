@@ -1,4 +1,0 @@
-{
-  "schemaVersion": 2,
-  "dockerfilePath": ".deploy/php/php.prod.Dockerfile"
- }

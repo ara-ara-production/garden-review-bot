@@ -23,9 +23,8 @@ WORKDIR /var/www
 COPY . ./
 
 # Composer + deps install
-RUN curl -sS https://getcomposer.org/installer | php -- \
-      --install-dir=/usr/local/bin --filename=composer \
- && composer install --optimize-autoloader --no-interaction --no-progress --prefer-dist
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN composer install
 # если это прод — можно добавить:  --no-dev
 
 # ---------------- RUNTIME ----------------
@@ -49,6 +48,7 @@ COPY --from=builder /usr/local/etc/php/conf.d/     /usr/local/etc/php/conf.d/
 
 # Код приложения
 COPY --from=builder --chown=www-data:www-data /var/www /var/www
+
 WORKDIR /var/www
 
 # Supervisor

@@ -47,7 +47,19 @@ export default () => {
         {name: "Май", sales: 1890},
     ];
 
-    console.log(statsDataPercent)
+    console.log(statsDataChart)
+
+    function calculateAvg(object, key)
+    {
+
+        const sum = Object.values(object)
+            .filter(v => typeof v === 'number')
+            .reduce((acc, val) => acc + val, 0);
+
+        console.log(object[key])
+        if (object[key] === undefined) return null;
+        return Math.round(object[key] / sum * 100);
+    }
 
     return <>
         <Head title="Статистика"/>
@@ -74,8 +86,9 @@ export default () => {
                 </Col>
             </Row>
             <Row>
-                <Col xl={6}>
-                    <Table size="sm">
+                <Col xl={12} className="mb-4">
+                    <h2 className="text-center">Общая статистика</h2>
+                    <Table size="sm" hover responsive>
                         <thead>
                         <tr>
                             <th></th>
@@ -107,18 +120,42 @@ export default () => {
                     </Table>
                 </Col>
                 <Col xl={6}>
-                    <Table size="sm">
+                    <h2 className='fs-5 font-weight-bold text-center'>По филиалам(Процетовка)</h2>
+                    <Table size="sm" hover responsive>
                         <thead>
                         <tr>
-                            <th></th>
-                            <th>Выбранный период</th>
-                            <th>2ГИС (текущий)</th>
+                            <th className="col-1 text-center">Филиал</th>
+                            <th className="table-success text-center"><span className="d-none d-sm-inline">Положительный</span>(5)</th>
+                            <th className="table-warning text-center"><span className="d-none d-sm-inline">Нейтральный</span> (4)</th>
+                            <th className="table-danger text-center"><span className="d-none d-sm-inline">Отрицательный</span> (1-3)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {statsDataChart.map(item => {
+                            return <tr>
+                                <td className="text-right">{item.name}</td>
+                                <td className="table-success text-center">{item['5']} {calculateAvg(item, '5') !== null ? `(${calculateAvg(item, '5')}%)` : null}</td>
+                                <td className="table-warning text-center">{item['4']} {calculateAvg(item, '5') !== null  ? `(${calculateAvg(item, '4')}%)` : null}</td>
+                                <td className="table-danger text-center">{item['1-3']} {calculateAvg(item, '5') !== null  ? `(${calculateAvg(item, '1-3')}%)` : null}</td>
+                            </tr>
+                        })}
+                        </tbody>
+                    </Table>
+                </Col>
+                <Col xl={6}>
+                    <h2 className='fs-5 font-weight-bold text-center'>По филиалам(Средняя)</h2>
+                    <Table size="sm" hover responsive>
+                        <thead>
+                        <tr>
+                            <th className="col-1"></th>
+                            <th className="text-center">Выбранный период</th>
+                            <th className="text-center">2ГИС (текущий)</th>
                         </tr>
                         </thead>
                         <tbody>
                         {statsBrunchRate.map(item => {
                             return <tr>
-                                <td>{item.name}</td>
+                                <td className="text-right">{item.name}</td>
                                 <td>{item.avg}</td>
                                 <td>{item.twoGis}</td>
                             </tr>
@@ -126,7 +163,7 @@ export default () => {
                         </tbody>
                     </Table>
                 </Col>
-                <Col>
+                <Col xl={12}>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart
                             data={statsDataChart}
