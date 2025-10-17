@@ -69,6 +69,10 @@ export default ({data, get, setData, processing}) => {
                                 {
                                     label: 'Бот',
                                     value: 'Бот'
+                                },
+                                {
+                                    label: 'Яндекс.Еда',
+                                    value: 'Яндекс.Еда'
                                 }
                             ]
                         }
