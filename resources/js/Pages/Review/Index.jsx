@@ -182,6 +182,7 @@ export default ({paginator}) => {
                                         }}/>
                                     </div>
                                 </th>
+                                <th className="text-center" >Отправитель</th>
                                 <th className="col-3">Отзыв</th>
                                 <th className="col-3">Комментарий управляющего</th>
                                 <th className="col-3">Ответ SMM на платформе</th>
@@ -199,6 +200,7 @@ export default ({paginator}) => {
                                 <td className="text-center" key={`score-${i}`}><Alert
                                     color={row.score <= 3 ? "danger" : (row.score == 4 ? "warning" : "success")}>{row.score}</Alert>
                                 </td>
+                                <td className="text-center" key={`sender-${i}`}>{row.sender}</td>
                                 <td key={`comment-${i}`}>{row.comment}</td>
                                 <td key={`control_review-${i}`}>{row.control_review}</td>
                                 <td key={`final_answer-${i}`}>{row.final_answer}</td>

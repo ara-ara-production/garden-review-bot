@@ -128,16 +128,30 @@ class GetReviewStatsUseCase
         $readyDataPercentRate = $readyDataPercentRate->map(function ($item) use ($sum) {
             return [
                 'count' => $item,
-                'percent' => round($item / $sum * 100)
+                'percent' => $item === 0 ? 0 : round($item / $sum * 100)
             ];
         });
 
-        $readyDataChart = array_values($readyDataChart);
+        $readyDataChart = collect($readyDataChart)->values();
+
+        $statsByBranches = collect($readyDataChart)->map(function ($item) {
+            $item = collect($item);
+            $name = $item->get('name');
+            unset($item['name']);
+            $sum = $item->sum();
+            $item['percent5'] = round($item->get('5') / $sum * 100);
+            $item['percent4'] = round($item->get('4') / $sum * 100);
+            $item['percent1-3'] = round($item->get('1-3') / $sum * 100);
+            $item['name'] = $name;
+
+            return $item;
+        })->sortByDesc('percent5')->values();
 
         return Inertia::render('Review/Stats', [
             'statsDataChart' => $readyDataChart,
             'statsDataPercent' => $readyDataPercentRate,
             'statsBrunchRate' => $readyBrunchRate,
+            'statsByBranches' => $statsByBranches,
             'brunches' => Brunch::dataForFilter()->get(),
             'filtersAndSort' => $filters,
         ]);

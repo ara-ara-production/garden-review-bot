@@ -2,7 +2,8 @@ import {Button, Col, Form, FormGroup, Label} from "reactstrap";
 import exelIcon from '../../svg/microsoft-excel-svgrepo-com.svg';
 import statisticIcon from '../../svg/pie-chart-svgrepo-com.svg'
 import Select from 'react-select';
-import {DateRangePicker} from 'rsuite';
+import {CustomProvider, DateRangePicker} from 'rsuite';
+import ruRU from 'rsuite/locales/ru_RU';
 import qs from "qs";
 import {router, usePage} from "@inertiajs/react";
 import {useEffect} from "react";
@@ -26,11 +27,15 @@ export default ({data, get, setData, processing}) => {
             <FormGroup row className="mb-4">
                 <Label sm={3}>Дата публикации</Label>
                 <Col sm={4}>
-                    <DateRangePicker
-                        // date={}
-                        value={data.date}
-                        onChange={e => setData('date', e)}
-                    />
+                    <CustomProvider locale={ruRU}>
+                        <div style={{padding: 20}}>
+                            <DateRangePicker
+                                //date={}
+                                value={data.date}
+                                onChange={e => setData('date', e)}
+                            />
+                        </div>
+                    </CustomProvider>
                 </Col>
             </FormGroup>
             <FormGroup row className="mb-4">

@@ -63,6 +63,7 @@ class Review extends Model
                 'comment',
                 'control_review',
                 'final_answer',
+                'sender'
             )
         ;
     }

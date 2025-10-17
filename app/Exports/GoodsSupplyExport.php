@@ -39,6 +39,7 @@ class GoodsSupplyExport implements FromCollection, WithHeadings, ShouldAutoSize,
             'Филиал',
             'Текущий рейтинг',
             'Оценка',
+            'Отправитель',
             'Отзыв',
             'Комментарий управляющего',
             'Ответ SMM на платформе'
@@ -47,15 +48,18 @@ class GoodsSupplyExport implements FromCollection, WithHeadings, ShouldAutoSize,
 
     public function map($row): array
     {
+
+
         return [
             $row->review_id,
             $row->posted_at ? Date::dateTimeToExcel($row->posted_at) : null,
-            $row->start_work_on ? Date::dateTimeToExcel($row->start_work_on) : null,
-            $row->end_work_on ? Date::dateTimeToExcel($row->end_work_on) : null,
+            $row->start_work_on ? Date::dateTimeToExcel($row->start_work_on->add('5 hours')) : null,
+            $row->end_work_on ? Date::dateTimeToExcel($row->end_work_on->add('5 hours')) : null,
             $row->resource,
             $row->brunch_name,
             $row->total_brunch_rate,
             $row->score,
+            $row->sender,
             $row->comment,
             $row->control_review,
             $row->final_answer,
