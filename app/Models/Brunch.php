@@ -13,9 +13,17 @@ class Brunch extends Model
         'name',
         'user_id',
         'two_gis_id',
+        'yandex_vendor_id',
         'pupr_user_id',
         'address'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'yandex_vendor_id' => 'integer',
+        ];
+    }
 
     public function user()
     {

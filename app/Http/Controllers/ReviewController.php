@@ -6,6 +6,7 @@ use App\Exports\GoodsSupplyExport;
 use App\Exports\ReviewExport;
 use App\Http\Requests\ReviewApiRequest;
 use App\Jobs\GetReviewsFromTwoGis;
+use App\Jobs\GetReviewsFromYandexVendor;
 use App\Models\Review;
 use App\UseCases\Admin\Review\GetReviewReportUseCase;
 use App\UseCases\Admin\Review\GetReviewStatsUseCase;
@@ -27,7 +28,7 @@ class ReviewController extends Controller
 
     public function findAndNotify()
     {
-//        $this->notifyAboutNewReviewsTwoGisUseCase->use();
+        GetReviewsFromYandexVendor::dispatch();
         GetReviewsFromTwoGis::dispatch();
     }
 

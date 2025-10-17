@@ -45,4 +45,3 @@ Route::middleware('auth')->group(function () {
         Route::get('logs', [LogViewerController::class, 'index']);
     });
 });
-

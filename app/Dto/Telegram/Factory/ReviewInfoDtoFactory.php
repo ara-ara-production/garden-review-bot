@@ -17,6 +17,40 @@ class ReviewInfoDtoFactory
     ) {
     }
 
+    public function fromYandexVendorArray(array $data): Collection
+    {
+        $reviews = collect();
+        collect($data)
+            ->each(function ($item) use (&$reviews) {
+                $reviews->push($this->fromYandexVendor($item));
+            });
+
+        return $reviews->flatten();
+    }
+
+    public function fromYandexVendor(array $data): ReviewInfoDto
+    {
+        if (Brunch::where('yandex_vendor_id', $data['order']['place_id'])->exists()) {
+            $branch = Brunch::where('yandex_vendor_id', $data['order']['place_id'])->first();
+        } else {
+            $branchFaked = new Brunch;
+            $branchFaked->yandex_vendor_id = $data['order']['place_id'];
+            $branchFaked->name = $data['order']['place_id'];
+            $branch = $branchFaked;
+        }
+
+        return new ReviewInfoDto(
+            id: 'y-' . $data['order_feedback']['id'],
+            text: key_exists('comment', $data['order_feedback']) ? $data['order_feedback']['comment'] : '',
+            rating: $data['order_feedback']['rating'],
+            sender: $data['order']['eater_name'],
+            time: $this->parseDate($data['order_feedback']['feedback_filled_at']),
+            resource: 'Яндекс.Еда',
+            totalsRate: '-',
+            branchDto: BranchDtoFactory::create($branch),
+        );
+    }
+
     public function withMeta(array $data): Collection
     {
         $reviews = collect();
