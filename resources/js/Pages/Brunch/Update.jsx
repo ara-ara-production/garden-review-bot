@@ -21,6 +21,8 @@ export default ({values, users}) => {
         name: values.name ?? '',
         user_id: values.user_id ?? '',
         two_gis_id: values.two_gis_id ?? '',
+        yandex_vendor_id: values.yandex_vendor_id ?? '',
+        google_map_id: values.google_map_id ?? '',
         pupr_user_id: values.pupr_user_id ?? '',
         address: values.address ?? ''
     })
@@ -87,6 +89,20 @@ export default ({values, users}) => {
                         value={data.two_gis_id}
                         onChange={e => setData('two_gis_id', e.target.value)}
                         error={errors.two_gis_id}
+                    />
+                    <RowFormGroup
+                        label="id Google филиала"
+                        inputType="text"
+                        value={data.google_map_id}
+                        onChange={e => setData('google_map_id', e.target.value)}
+                        error={errors.google_map_id}
+                    />
+                    <RowFormGroup
+                        label="id Yandex.vendor филиала"
+                        inputType="text"
+                        value={data.yandex_vendor_id}
+                        onChange={e => setData('yandex_vendor_id', e.target.value)}
+                        error={errors.yandex_vendor_id}
                     />
                     <RowFormGroup
                         label="Адрес (используется для api)"

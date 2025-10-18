@@ -14,6 +14,7 @@ class Brunch extends Model
         'user_id',
         'two_gis_id',
         'yandex_vendor_id',
+        'google_map_id',
         'pupr_user_id',
         'address'
     ];

@@ -9,6 +9,8 @@ class BrunchCreateDto
         public ?string $user_id,
         public ?string $pupr_user_id,
         public ?string $two_gis_id,
+        public ?string $yandex_vendor_id,
+        public ?string $google_map_id,
         public ?string $address,
     ){}
 }

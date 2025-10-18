@@ -69,21 +69,20 @@ class ReviewInfoDto
         $controlReview = $this->controlReview ? "☕️ Комментарий управляющего:\n{$this->controlReview}" : null;
 
         $text = $this->text ? e(<<<EOF
+
 📝 {$markers}Отзыв:
 {$this->text}
+
 EOF): "";
 
-
         return <<<EOF
-☕: #{$this->branchDto?->name}
-🤵🏻: {$this->branchDto?->upr}
-📣: <a href="{$this->link}">{$this->resource}</a>
-📆: {$this->getDateHumanFormat()}
-👤: {$this->sender}
-✏: {$this->totalsRate} {$stars}
-
+☕ #{$this->branchDto?->name}
+🤵🏻 {$this->branchDto?->upr}
+📣 <a href="{$this->link}">{$this->resource}</a>
+📆 {$this->getDateHumanFormat()}
+👤 {$this->sender}
+✏ {$this->totalsRate} {$stars}
 {$text}
-
 {$controlReview}
 EOF;
 //        return "☕ Кофейня: #{$this->branchDto?->name}"

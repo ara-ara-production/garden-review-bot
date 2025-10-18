@@ -16,6 +16,7 @@ class BrunchRequest extends FormRequest
             'user_id' => ['required', 'integer', Rule::exists('users', 'id')->where('role', UserRoleEnum::Control->name)],
             'pupr_user_id' => ['required', 'integer', Rule::exists('users', 'id')->where('role', UserRoleEnum::Control->name)],
             'two_gis_id' => 'nullable|string|max:255',
+            'google_map_id' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
         ];
     }

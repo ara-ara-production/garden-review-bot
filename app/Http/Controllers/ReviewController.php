@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Exports\GoodsSupplyExport;
 use App\Exports\ReviewExport;
 use App\Http\Requests\ReviewApiRequest;
+use App\Jobs\GetReviewsFromGoogleMaps;
 use App\Jobs\GetReviewsFromTwoGis;
 use App\Jobs\GetReviewsFromYandexVendor;
 use App\Models\Review;
 use App\UseCases\Admin\Review\GetReviewReportUseCase;
 use App\UseCases\Admin\Review\GetReviewStatsUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsApiUseCase;
+use App\UseCases\Telegram\NotifyAboutNewReviewsGoogleMapsUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsTwoGisUseCase;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -30,6 +32,7 @@ class ReviewController extends Controller
     {
         GetReviewsFromYandexVendor::dispatch();
         GetReviewsFromTwoGis::dispatch();
+//        GetReviewsFromGoogleMaps::dispatch();
     }
 
     public function index(Request $request)
