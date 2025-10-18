@@ -31,7 +31,7 @@ class NotifyAboutNewReviewsGoogleMapsUseCase
         dd($rawData);
         $reviewDtos = $this->reviewDtoFactory->withMeta($rawData);
 
-        $reviewDtos = $this->reviewService->removeExistedReviews($reviewDtos);
+        $reviewDtos = $this->resshviewService->removeExistedReviews($reviewDtos);
 
         $this->reviewService->storeReviews($reviewDtos);
 
