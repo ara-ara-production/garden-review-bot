@@ -1,14 +1,14 @@
 import NavBar from "@/Components/NavBar.jsx";
 import Head from "@/Components/Head.jsx";
 import {
-    Alert,
+    Alert, Button,
     Col,
     Container,
     Pagination,
     PaginationItem,
     PaginationLink,
     Row,
-    Table
+    Table, UncontrolledCollapse
 } from "reactstrap";
 import {router, useForm, usePage} from "@inertiajs/react";
 import React from "react";
@@ -60,7 +60,16 @@ export default ({paginator}) => {
                         <Alert color="info">Всего записей: {paginator.total}</Alert>
                         <Container fluid className="p-0">
                             <Col xl={8}>
+                                <Button
+                                    className="w-100 m-0 mb-1"
+                                    color="primary"
+                                    id="toggler"
+                                >
+                                    Фильтр
+                                </Button>
+                                <UncontrolledCollapse toggler="#toggler">
                                 <Filter data={data} get={get} setData={setData} processing={processing}/>
+                                </UncontrolledCollapse>
                             </Col>
                         </Container>
                     </Col>
