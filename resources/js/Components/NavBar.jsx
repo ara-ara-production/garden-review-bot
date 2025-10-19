@@ -64,6 +64,7 @@ export default () => {
                             }}
                         >Отзывы</NavLink>
                     </NavItem>
+                    {auth.user ?
                     <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret>
                             Реестры
@@ -83,7 +84,8 @@ export default () => {
                             >Филиалы
                             </DropdownItem>
                         </DropdownMenu>
-                    </UncontrolledDropdown>
+                    </UncontrolledDropdown>  : null}
+                    {auth.user ?
                     <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret>
                             Тех. часть
@@ -103,7 +105,7 @@ export default () => {
                             >Horizon
                             </DropdownItem>
                         </DropdownMenu>
-                    </UncontrolledDropdown>
+                    </UncontrolledDropdown> : null}
                 </Nav>
                 <NavbarText>
 
@@ -114,7 +116,12 @@ export default () => {
                         }}>
                             Выйти
                         </Button>
-                        : null}
+                        :                         <Button onClick={e => {
+                            e.preventDefault();
+                            router.get('/login')
+                        }}>
+                            Войти
+                        </Button>}
                 </NavbarText>
             </Collapse>
         </Navbar>
