@@ -143,14 +143,16 @@ export default () => {
                             <th className="col-1"></th>
                             <th className="text-center">Средний за период</th>
                             <th className="text-center">2ГИС (текущий)</th>
+                            <th className="text-center">Яндекс.Еда (текущий)</th>
                         </tr>
                         </thead>
                         <tbody>
                         {statsBrunchRate.map(item => {
                             return <tr>
                                 <td className="text-right">{item.name}</td>
-                                <td>{item.avg}</td>
-                                <td>{item.twoGis}</td>
+                                <td className="text-center">{item.avg}</td>
+                                <td className="text-center">{item.twoGis}</td>
+                                <td className="text-center">{item.yEda}</td>
                             </tr>
                         })}
                         </tbody>

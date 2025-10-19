@@ -21,10 +21,14 @@ class GetReviewStatsUseCase
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
             ->where('resource', '2Гис')
             ->orderBy('brunch_id', 'desc')
-            ->get()
-            ->toArray();
+            ->get();
 
-        $twoGisCurrentRate = collect($twoGisCurrentRate);
+        $yandexEdaCurrentRate = Review::query()
+            ->selectRaw('brunches.name as brunch_name, avg(score) as avg_score')
+            ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
+            ->where('resource', 'Яндекс.Еда')
+            ->groupBy('brunches.name')
+            ->get();
 
         $filters = collect($data);
 
@@ -99,7 +103,7 @@ class GetReviewStatsUseCase
                 }
             })
             ->groupBy('name')
-            ->each(function ($item) use (&$readyBrunchRate, $twoGisCurrentRate) {
+            ->each(function ($item) use (&$readyBrunchRate, $twoGisCurrentRate, $yandexEdaCurrentRate) {
                 $sum = 0;
                 $count = 0;
                 collect($item)->each(function ($item) use (&$sum, &$count) {
@@ -112,6 +116,9 @@ class GetReviewStatsUseCase
                     'twoGis' => $twoGisCurrentRate
                         ->where('brunch_name', $item[0]['name'])
                         ->first()['total_brunch_rate'],
+                    'yEda' => round(collect($yandexEdaCurrentRate
+                    ->where('brunch_name', $item[0]['name'])
+                    ->first())->get('avg_score'), 1),
                 ];
             });
 
@@ -119,7 +126,6 @@ class GetReviewStatsUseCase
             ->sortByDesc('avg')
             ->values()
             ->toArray();
-
 
         $readyDataPercentRate = collect($readyDataPercentRate);
 
