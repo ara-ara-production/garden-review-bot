@@ -8,6 +8,7 @@ use App\Models\TelegramMessage;
 use App\Services\MessageService;
 use App\Services\TelegramService;
 
+use DateTime;
 use Illuminate\Support\Facades\Log;
 
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -20,7 +21,8 @@ class ReviewObserver
         protected ReviewInfoDtoFactory $reviewInfoDtoFactory,
         protected TelegramService $telegramService,
         protected MessageService $messageService,
-    ) {}
+    ) {
+    }
 
     /**
      * Handle the Review "created" event.
@@ -46,12 +48,15 @@ class ReviewObserver
             TelegramMessage::query()
                 ->where('review_id', $reviewInfoDto->dbId)
                 ->get()
-            ->each(function (TelegramMessage $message) use ($reviewInfoDto) {
-                Telegram::deleteMessage([
-                    'chat_id' => $message->user->telegram_chat,
-                    'message_id' => $message->message_id,
-                ]);
-            });
+                ->each(function (TelegramMessage $message) use ($reviewInfoDto) {
+
+                    if (date_diff(new DateTime(), $message->created_at)->days < 2) {
+                        Telegram::deleteMessage([
+                            'chat_id' => $message->user->telegram_chat,
+                            'message_id' => $message->message_id,
+                        ]);
+                    }
+                });
 
             TelegramMessage::query()
                 ->where('review_id', $reviewInfoDto->dbId)
