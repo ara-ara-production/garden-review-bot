@@ -40,10 +40,11 @@ class YandexVendorApiService extends ApiService
     public function requestReviewsFromApi(int $brunchId): array
     {
         $date = new DateTime('today 23:59:59', new DateTimeZone('UTC'));
+        $startDate = clone $date;
 
         $data = [
             "limit" => 20,
-            "from" => $date->modify('-1 month')->format('Y-m-d\TH:i:s\Z'),
+            "from" => $startDate->modify('-1 month')->format('Y-m-d\TH:i:s\Z'),
             "place_ids" => [$brunchId],
             "to" => $date->format('Y-m-d\TH:i:s\Z'),
         ];

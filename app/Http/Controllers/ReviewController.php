@@ -14,6 +14,7 @@ use App\UseCases\Admin\Review\GetReviewStatsUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsApiUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsGoogleMapsUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsTwoGisUseCase;
+use App\UseCases\Telegram\NotifyAboutNewReviewsYandexVendorUseCase;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
