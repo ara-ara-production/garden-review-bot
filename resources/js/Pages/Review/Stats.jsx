@@ -63,7 +63,7 @@ export default () => {
                             <Col xl={1}>
                                 <Button onClick={() => exportComponentAsPNG(componentRef, {
                                     fileName: "statistics",
-                                    html2CanvasOptions: {backgroundColor: "#fff", scale: 2}
+                                    html2CanvasOptions: {backgroundColor: "#fff", scale: 1}
                                 })}><i className="ni ni-album-2"></i></Button>
                             </Col>
                         </Row>
