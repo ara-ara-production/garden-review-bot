@@ -115,7 +115,6 @@ class GetReviewStatsUseCase
                 fn() => $rawDataQuerySelect->whereBetween('posted_at', $filters['date'])
             )
             ->where('resource', '2Гис')
-            ->orderBy('brunch_id', 'desc')
             ->get();
 
         $yandexEdaCurrentRate = Review::query()
