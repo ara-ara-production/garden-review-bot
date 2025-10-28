@@ -178,6 +178,7 @@ class GetReviewStatsUseCase
             'pieChartData' => $dataForPieChart,
             'statsBrunchRate' => $readyBrunchRate,
             'brunches' => Brunch::dataForFilter()->get(),
+            'brunchesStat' => $brunches,
             'filtersAndSort' => $filters,
         ]);
 //        } catch

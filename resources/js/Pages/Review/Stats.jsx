@@ -20,7 +20,8 @@ export default () => {
         filtersAndSort,
         barChartData,
         pieChartData,
-        statsBrunchRate
+        statsBrunchRate,
+        brunchesStat
     } = usePage().props;
 
     const componentRef = useRef(null);
@@ -176,21 +177,7 @@ export default () => {
                         <span>Примечания</span>
                         <div className="d-flex flex-column"
                              style={{maxHeight: 567, paddingTop: 8, paddingBottom: 8, gap: 10}}>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
-                            <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>
+                            {brunchesStat.map(() => <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>)}
                         </div>
                     </Col>
 
