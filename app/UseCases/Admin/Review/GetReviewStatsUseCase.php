@@ -12,23 +12,9 @@ class GetReviewStatsUseCase
     public function use(array $data)
     {
 //        try {
-        $prePagination = Review::selectRaw('brunches.name, score, count(*) as count')
+        $rawDataQuerySelect = Review::selectRaw('brunches.name, score, count(*) as count')
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
             ->groupBy('brunches.name', 'score');
-
-        $twoGisCurrentRate = Review::query()
-            ->selectRaw('DISTINCT ON (reviews.brunch_id) brunches.name as brunch_name, reviews.total_brunch_rate as total_brunch_rate')
-            ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
-            ->where('resource', '2Гис')
-            ->orderBy('brunch_id', 'desc')
-            ->get();
-
-        $yandexEdaCurrentRate = Review::query()
-            ->selectRaw('brunches.name as brunch_name, avg(score) as avg_score')
-            ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
-            ->where('resource', 'Яндекс.Еда')
-            ->groupBy('brunches.name')
-            ->get();
 
         $filters = collect($data);
 
@@ -46,118 +32,141 @@ class GetReviewStatsUseCase
                 ->values();
         }
 
-        $paginator = $prePagination
+        $rawData = $rawDataQuerySelect
             ->when(
                 $filters->has('date') && is_array($filters['date']),
-                fn() => $prePagination->whereBetween('posted_at', $filters['date'])
+                fn() => $rawDataQuerySelect->whereBetween('posted_at', $filters['date'])
             )
             ->when(
                 $filters->has('brunches'),
-                fn() => $prePagination->whereIn('brunch_id', $filters['brunches'])
+                fn() => $rawDataQuerySelect->whereIn('brunch_id', $filters['brunches'])
             )
             ->when(
                 $filters->has('platform'),
-                fn() => $prePagination->whereIn('resource', $filters['platform'])
+                fn() => $rawDataQuerySelect->whereIn('resource', $filters['platform'])
             )
             ->get()
             ->toArray();
 
+        $rawData = collect($rawData);
 
-        $readyDataChart = [];
-        $readyDataPercentRate = [
-            5 => 0,
-            4 => 0,
-            '1-3' => 0
-        ];
-        $readyBrunchRate = [];
-        collect($paginator)
-            ->each(function ($item) use (&$readyDataChart) {
-                if (!key_exists($item['name'], $readyDataChart)) {
-                    $readyDataChart[$item['name']] = [];
-                }
+        $total = $rawData->sum('count');
 
-                $readyDataChart[$item['name']]['name'] = $item['name'];
-                if ($item['score'] < 4) {
-                    if (!key_exists('1-3', $readyDataChart[$item['name']])) {
-                        $readyDataChart[$item['name']]['1-3'] = 0;
-                    }
+        $brunches = $rawData
+            ->pluck('name')
+            ->unique()
+            ->values();
 
-                    $readyDataChart[$item['name']]['1-3'] += $item['count'];
-                } else {
-                    $readyDataChart[$item['name']][$item['score']] = $item['count'];
-                }
-            })
-            ->each(function ($item) use (&$readyDataPercentRate) {
-                if ($item['score'] < 4) {
-                    if (!key_exists('1-3', $readyDataPercentRate)) {
-                        $readyDataPercentRate['1-3'] = 0;
-                    }
+        $dataForBarChar = $brunches->map(function ($item) use ($rawData, $total) {
+            $bad = $rawData->where('name', $item)->where('score', '<', 4)->sum('count');
+            $good = $rawData->where('name', $item)->where('score', 4)->sum('count');
+            $best = $rawData->where('name', $item)->where('score', 5)->sum('count');
 
-                    $readyDataPercentRate['1-3'] += $item['count'];
-                } else {
-                    if (!key_exists($item['score'], $readyDataPercentRate)) {
-                        $readyDataPercentRate[$item['score']] = 0;
-                    }
+            $total = $best + $bad + $good;
 
-                    $readyDataPercentRate[$item['score']] += $item['count'];
-                }
-            })
-            ->groupBy('name')
-            ->each(function ($item) use (&$readyBrunchRate, $twoGisCurrentRate, $yandexEdaCurrentRate) {
-                $sum = 0;
-                $count = 0;
-                collect($item)->each(function ($item) use (&$sum, &$count) {
-                    $sum += $item['score'] * $item['count'];
-                    $count += $item['count'];
-                });
-                $readyBrunchRate[] = [
-                    'name' => $item[0]['name'],
-                    'avg' => round($sum / $count, 1),
-                    'twoGis' => $twoGisCurrentRate
-                        ->where('brunch_name', $item[0]['name'])
-                        ->first()['total_brunch_rate'],
-                    'yEda' => round(collect($yandexEdaCurrentRate
-                    ->where('brunch_name', $item[0]['name'])
-                    ->first())->get('avg_score'), 1),
-                ];
-            });
+            return [
+                'name' => $item,
 
-        $readyBrunchRate = collect($readyBrunchRate)
-            ->sortByDesc('avg')
+                'bad' => $bad,
+                'good' => $good,
+                'best' => $best,
+
+                'bad_p' => round(($bad / $total) * 100),
+                'good_p' => round(($good / $total) * 100),
+                'best_p' => round(($best / $total) * 100),
+
+                'bad_title' => $bad ? "{$bad} (" . round(($bad / $total) * 100) . '%)' : null,
+                'good_title' => $good ? "{$good} (" . round(($good / $total) * 100) . '%)' : null,
+                'best_title' => $best ? "{$best} (" . round(($best / $total) * 100) . '%)' : null,
+            ];
+        })
+            ->sortByDesc('best_p')
             ->values()
             ->toArray();
 
-        $readyDataPercentRate = collect($readyDataPercentRate);
+        $dataForPieChart = [
+            [
+                'name' => 'Положительных',
+                'value' => $rawData->where('score', 5)->sum('count'),
+                'percent' => round(($rawData->where('score', 5)->sum('count')) / $total * 100),
+                'color' => '#4fd69c'
+            ],
+            [
+                'name' => 'Нейтральных',
+                'value' => $rawData->where('score', 4)->sum('count'),
+                'percent' => round(($rawData->where('score', 4)->sum('count')) / $total * 100),
+                'color' => '#FFC107',
+            ],
+            [
+                'name' => 'Отрицательных',
+                'value' => $rawData->where('score', '<', 4)->sum('count'),
+                'percent' => round(($rawData->where('score', '<', 4)->sum('count')) / $total * 100),
+                'color' => '#f75676',
+            ],
+        ];
 
-        $sum = $readyDataPercentRate->sum();
+        $twoGisCurrentRate = Review::query()
+            ->selectRaw(
+                'DISTINCT ON (reviews.brunch_id) brunches.name as brunch_name, reviews.total_brunch_rate as total_brunch_rate'
+            )
+            ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
+            ->when(
+                $filters->has('date') && is_array($filters['date']),
+                fn() => $rawDataQuerySelect->whereBetween('posted_at', $filters['date'])
+            )
+            ->where('resource', '2Гис')
+            ->orderBy('brunch_id', 'desc')
+            ->get();
 
-        $readyDataPercentRate = $readyDataPercentRate->map(function ($item) use ($sum) {
-            return [
-                'count' => $item,
-                'percent' => $item === 0 ? 0 : round($item / $sum * 100)
-            ];
-        });
+        $yandexEdaCurrentRate = Review::query()
+            ->selectRaw('brunches.name as brunch_name, avg(score) as avg_score')
+            ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
+            ->when(
+                $filters->has('date') && is_array($filters['date']),
+                fn() => $rawDataQuerySelect->whereBetween('posted_at', $filters['date'])
+            )
+            ->where('resource', 'Яндекс.Еда')
+            ->groupBy('brunches.name')
+            ->get();
 
-        $readyDataChart = collect($readyDataChart)->values();
+        $readyBrunchRate = $brunches
+            ->map(function ($item) use ($rawData, $yandexEdaCurrentRate, $twoGisCurrentRate) {
+                $brunchData = $rawData->where('name', $item);
 
-        $statsByBranches = collect($readyDataChart)->map(function ($item) {
-            $item = collect($item);
-            $name = $item->get('name');
-            unset($item['name']);
-            $sum = $item->sum();
-            $item['percent5'] = round($item->get('5') / $sum * 100);
-            $item['percent4'] = round($item->get('4') / $sum * 100);
-            $item['percent1-3'] = round($item->get('1-3') / $sum * 100);
-            $item['name'] = $name;
+                $topParameter = $brunchData
+                    ->map(
+                        fn($item) => (key_exists('score', $item) && key_exists('count', $item))
+                            ? $item['score'] * $item['count']
+                            : 0
+                    )
+                    ->sum();
 
-            return $item;
-        })->sortByDesc('percent5')->values();
+                $bottomParameter = $brunchData->sum('count');
+
+                return [
+                    'name' => $item,
+                    'selectedDateRange' => round(($topParameter / $bottomParameter), 2),
+                    'twoGis' => $twoGisCurrentRate
+                        ->where('brunch_name', $item)
+                        ->first()['total_brunch_rate'],
+                    'yEda' => round(
+                        collect(
+                            $yandexEdaCurrentRate
+                                ->where('brunch_name', $item)
+                                ->first()
+                        )->get('avg_score'),
+                        1
+                    ),
+                ];
+            })
+            ->sortByDesc('selectedDateRange')
+            ->values()
+            ->toArray();
 
         return Inertia::render('Review/Stats', [
-            'statsDataChart' => $readyDataChart,
-            'statsDataPercent' => $readyDataPercentRate,
+            'barChartData' => $dataForBarChar,
+            'pieChartData' => $dataForPieChart,
             'statsBrunchRate' => $readyBrunchRate,
-            'statsByBranches' => $statsByBranches,
             'brunches' => Brunch::dataForFilter()->get(),
             'filtersAndSort' => $filters,
         ]);
