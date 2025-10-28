@@ -88,19 +88,25 @@ class GetReviewStatsUseCase
             [
                 'name' => 'Положительных',
                 'value' => $rawData->where('score', 5)->sum('count'),
-                'percent' => round(($rawData->where('score', 5)->sum('count')) / $total * 100),
+                'percent' => $total !== 0
+                    ? round(($rawData->where('score', 5)->sum('count')) / $total * 100)
+                    :0,
                 'color' => '#4fd69c'
             ],
             [
                 'name' => 'Нейтральных',
                 'value' => $rawData->where('score', 4)->sum('count'),
-                'percent' => round(($rawData->where('score', 4)->sum('count')) / $total * 100),
+                'percent' => $total !== 0
+                    ?round(($rawData->where('score', 4)->sum('count')) / $total * 100)
+                    :0,
                 'color' => '#FFC107',
             ],
             [
                 'name' => 'Отрицательных',
                 'value' => $rawData->where('score', '<', 4)->sum('count'),
-                'percent' => round(($rawData->where('score', '<', 4)->sum('count')) / $total * 100),
+                'percent' => $total !== 0
+                    ? round(($rawData->where('score', '<', 4)->sum('count')) / $total * 100)
+                    :0,
                 'color' => '#f75676',
             ],
         ];
@@ -110,22 +116,27 @@ class GetReviewStatsUseCase
                 'DISTINCT ON (reviews.brunch_id) brunches.name as brunch_name, reviews.total_brunch_rate as total_brunch_rate'
             )
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
+            ->where('resource', '2Гис')
+            ->orderBy('brunch_id', 'desc');
+
+            $twoGisCurrentRate = $twoGisCurrentRate
             ->when(
                 $filters->has('date') && is_array($filters['date']),
-                fn() => $rawDataQuerySelect->whereBetween('posted_at', $filters['date'])
+                fn() => $twoGisCurrentRate->whereBetween('posted_at', $filters['date'])
             )
-            ->where('resource', '2Гис')
             ->get();
 
         $yandexEdaCurrentRate = Review::query()
             ->selectRaw('brunches.name as brunch_name, avg(score) as avg_score')
             ->leftJoin('brunches', 'brunches.id', '=', 'reviews.brunch_id')
+            ->where('resource', 'Яндекс.Еда')
+            ->groupBy('brunches.name');
+
+        $yandexEdaCurrentRate = $yandexEdaCurrentRate
             ->when(
                 $filters->has('date') && is_array($filters['date']),
-                fn() => $rawDataQuerySelect->whereBetween('posted_at', $filters['date'])
+                fn() => $yandexEdaCurrentRate->whereBetween('posted_at', $filters['date'])
             )
-            ->where('resource', 'Яндекс.Еда')
-            ->groupBy('brunches.name')
             ->get();
 
         $readyBrunchRate = $brunches
