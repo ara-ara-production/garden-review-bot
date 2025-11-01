@@ -75,27 +75,32 @@ export default () => {
                 <Row className="h-100vh">
                     <Col xl={2} className="mb-4">
                         <span>Общее число отзывов</span>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie
-                                    data={pieChartData}
-                                    dataKey="value"
-                                    nameKey="name"
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={50}
-                                    outerRadius={75}
-                                    // paddingAngle={1}
-                                    labelLine={false}
-                                    label={({value, percent}) => `${value} (${percent}%)`}
-                                    isAnimationActive={true}
-                                >
-                                    {pieChartData.map((entry, i) => (
-                                        <Cell key={`cell-${i}`} fill={entry.color}/>
-                                    ))}
-                                </Pie>
-                            </PieChart>
-                        </ResponsiveContainer>
+                        <Table size="sm" borderless>
+                            <thead>
+                            <tr>
+                                <td className="text-center">⭐</td>
+                                <th className="text-center">Кол-во</th>
+                                <th className="text-center">%</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr style={{backgroundColor: '#4fd69c'}} className="text-white">
+                                <th className="text-center">5</th>
+                                <td className="text-center">{pieChartData[0].value}</td>
+                                <td className="text-center">{pieChartData[0].percent}</td>
+                            </tr>
+                            <tr style={{backgroundColor: '#FFC107'}} className="text-white">
+                                <th className="text-center">4</th>
+                                <td className="text-center">{pieChartData[1].value}</td>
+                                <td className="text-center">{pieChartData[1].percent}</td>
+                            </tr>
+                            <tr style={{backgroundColor: '#f75676'}} className="text-white">
+                                <th className="text-center">1-3</th>
+                                <td className="text-center">{pieChartData[2].value}</td>
+                                <td className="text-center">{pieChartData[2].percent}</td>
+                            </tr>
+                            </tbody>
+                        </Table>
                     </Col>
                     <Col xl={10}>
                         <span>Число отзывов по филиалам</span>
