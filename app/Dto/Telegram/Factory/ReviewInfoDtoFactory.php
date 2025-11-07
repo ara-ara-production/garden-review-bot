@@ -38,10 +38,25 @@ class ReviewInfoDtoFactory
             $branchFaked->name = $data['order']['place_id'];
             $branch = $branchFaked;
         }
+        if (!empty($data['order_feedback']['predefined_comments']))
+        {
+            dd($data);
+        }
+
+        $text = '';
+
+        collect($data['order_feedback']['predefined_comments'])->each(function ($item) use (&$text) {
+            $text .= "{$item['comment']}, }";
+        });
+         $text = trim($text, ',');
+         $text = "[{$text}]\n";
+
+         $text .= key_exists('comment', $data['order_feedback']) ? $data['order_feedback']['comment'] : '';
+
 
         return new ReviewInfoDto(
             id: 'y-' . $data['order_feedback']['id'],
-            text: key_exists('comment', $data['order_feedback']) ? $data['order_feedback']['comment'] : '',
+            text: $text,
             rating: $data['order_feedback']['rating'],
             sender: $data['order']['eater_name'],
             time: $this->parseDate($data['order_feedback']['feedback_filled_at']),
