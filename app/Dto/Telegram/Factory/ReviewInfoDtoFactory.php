@@ -49,7 +49,7 @@ class ReviewInfoDtoFactory
             $text .= "{$item['comment']}, }";
         });
          $text = trim($text, ',');
-         $text = "[{$text}]\n";
+         $text = $text !== '' ? "[{$text}]\n" : '';
 
          $text .= key_exists('comment', $data['order_feedback']) ? $data['order_feedback']['comment'] : '';
 
