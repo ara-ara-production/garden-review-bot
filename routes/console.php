@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\GetReviewsFromTwoGis;
+use App\Jobs\GetReviewsFromYandexVendor;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -9,3 +10,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::job(new GetReviewsFromTwoGis)->everyMinute();
+Schedule::job(new GetReviewsFromYandexVendor())->everyFifteenMinutes();
