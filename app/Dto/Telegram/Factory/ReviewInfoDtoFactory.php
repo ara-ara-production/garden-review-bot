@@ -42,7 +42,7 @@ class ReviewInfoDtoFactory
         $text = '';
 
         collect($data['order_feedback']['predefined_comments'])->each(function ($item) use (&$text) {
-            $text .= "{$item['comment']}, }";
+            $text .= "{$item['comment']}, ";
         });
          $text = trim($text, ',');
          $text = $text !== '' ? "[{$text}]\n" : '';
