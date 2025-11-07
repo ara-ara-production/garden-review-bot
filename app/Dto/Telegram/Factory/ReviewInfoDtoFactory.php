@@ -38,10 +38,6 @@ class ReviewInfoDtoFactory
             $branchFaked->name = $data['order']['place_id'];
             $branch = $branchFaked;
         }
-        if (!empty($data['order_feedback']['predefined_comments']))
-        {
-            dd($data);
-        }
 
         $text = '';
 
