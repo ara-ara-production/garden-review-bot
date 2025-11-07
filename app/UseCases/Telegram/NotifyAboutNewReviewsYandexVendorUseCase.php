@@ -25,7 +25,7 @@ class NotifyAboutNewReviewsYandexVendorUseCase
 
     public function use()
     {
-//        try {
+        try {
         $rawData = $this->yandexVendorApiService->foreachBrunches();
 
         $reviewDtos = $this->reviewDtoFactory->fromYandexVendorArray($rawData);
@@ -34,8 +34,8 @@ class NotifyAboutNewReviewsYandexVendorUseCase
 
         $this->reviewService->storeReviews($reviewDtos);
 
-//        } catch (\Throwable $exception) {
-//            Log::error($exception);
-//        }
+        } catch (\Throwable $exception) {
+            Log::error($exception);
+        }
     }
 }

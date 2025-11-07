@@ -52,12 +52,12 @@ class YandexVendorApiService extends ApiService
         // Заголовки
         $headers = [
             'Content-Type: application/json',
-            'X-App-Version: 1.76.3',
-            'x-yarequestid: 4ba5122a0854f557955f949f6f06d0bf',
+            'X-App-Version: 1.79.0',
+            'x-yarequestid: 67bc1e6409831a9feefffcd6994a8841',
             'X-Language: ru',
-            'X-Idempotency-Token: bea7b636-a62c-42f0-a82b-f498847b4ef1',
-            'X-Oauth: Bearer y0__xCq14mVBhjq5Rog4o7lnxQwyKq3mgg2PndkhkBZigFbFAu1TlqXvEq3Ew',
-            'X-Partner-Id: 65b15280-9e70-4018-93fe-5e919bd68d80',
+            'X-Idempotency-Token: 81fab4a3-e2e3-424d-896b-0372d3b16d10',
+            'X-Oauth: Bearer y0_AgAAAAB0C0r4AAay6gAAAAD6VB-2AABHxjnpN-lHd6vGou-AOiUEq62Lrg',
+            'X-Partner-Id: 4677519f-2328-4ffc-8af2-37074392b420',
             'X-Device-Id: web_device_id'
         ];
 
