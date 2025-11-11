@@ -6,6 +6,7 @@ use App\Dto\Telegram\Factory\SimpleMessageDtoFactory;
 use App\Dto\Telegram\Factory\SubscribeMessageDtoFactory;
 use App\Enums\MessageToUser;
 use App\Exeptions\Telegram\NullUsernameException;
+use App\Services\ReviewService;
 use App\Services\TelegramService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +32,8 @@ class SendReiewLinkUserUseCase
 
 //            $this->answerDtoFactory->fromUpdateAndText($update, );
 
-            $answerText = "Ссылка:\nhttps://bot-reviewer.ru/a4a0d805-6680-422f-aed7-6fce5bd3425e/reviews";
+            $token = app(ReviewService::class)->getUrlToken();
+            $answerText = "Ссылка:\nhttps://bot-reviewer.ru/{$token}/reviews";
 
         } catch (NullUsernameException $exception) {
             Log::warning($exception);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\ReviewService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
@@ -37,7 +38,10 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'csrf' => csrf_token(),
-            'routes' => config('resourseroutes'),
+            'routes' => [
+                ...config('resourseroutes'),
+                'review_table_prefix' => app(ReviewService::class)->getUrlToken()
+                ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message')
             ],

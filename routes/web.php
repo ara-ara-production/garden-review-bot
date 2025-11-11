@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrunchController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TelegramController;
+use App\Http\Middleware\CheckTokenInUrl;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
@@ -18,12 +19,14 @@ Route::prefix('tg-bot')->group(function () {
     });
 });
 
-Route::prefix('reviews')->group(function () {
-    Route::prefix(config('resourseroutes.review_table_prefix'))->get('/', [ReviewController::class, 'index']);
-    Route::prefix(config('resourseroutes.review_table_prefix'))->get('export', [ReviewController::class, 'export']);
-    Route::prefix(config('resourseroutes.review_table_prefix'))->get('stats', [ReviewController::class, 'stats']);
-    Route::get('find-and-notify', [ReviewController::class, 'findAndNotify']);
+
+Route::prefix('{token}/reviews')->middleware([CheckTokenInUrl::class])->group(function () {
+    Route::get('/', [ReviewController::class, 'index']);
+    Route::get('export', [ReviewController::class, 'export']);
+    Route::get('stats', [ReviewController::class, 'stats']);
 });
+
+Route::get('reviews/find-and-notify', [ReviewController::class, 'findAndNotify']);
 
 Route::middleware('guest')->group(function () {
     Route::inertia('/', 'Welcome');
@@ -45,3 +48,4 @@ Route::middleware('auth')->group(function () {
         Route::get('logs', [LogViewerController::class, 'index']);
     });
 });
+

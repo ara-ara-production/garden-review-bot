@@ -9,6 +9,8 @@ use App\Exeptions\Api\NullReviewsException;
 use App\Models\Review;
 use DateTime;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 
 class ReviewService
 {
@@ -61,5 +63,23 @@ class ReviewService
 
             $reviewDto->dbId = $review->id;
         });
+    }
+
+    public function getUrlToken()
+    {
+        return Cache::remember(
+            'review_table_prefix',
+            60 * 60 * 24 * 3,
+            function () {
+                $id = Review::query()
+                    ->select('id')
+                    ->orderByDesc('created_at')
+                    ->first();
+
+                $date = now()->unix();
+
+                return str_replace('/', '', Hash::make($id.$date)) ;
+            }
+        );
     }
 }

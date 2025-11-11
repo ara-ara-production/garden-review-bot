@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ReviewService;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -29,5 +30,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
         Vite::prefetch(concurrency: 3);
+
+        config(['review_table_prefix' => app(ReviewService::class)->getUrlToken()]);
     }
 }
