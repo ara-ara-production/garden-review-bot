@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\ReviewService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +16,11 @@ class CheckTokenInUrl
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = $request->route()->parameter('token');
+        $tokenInUrl = $request->route()->parameter('token');
 
-        if ($token !== config('review_table_prefix')) {
+        $rightToken = app(ReviewService::class)->getUrlToken();
+
+        if ($rightToken !== $tokenInUrl) {
             abort(Response::HTTP_FORBIDDEN);
         }
 

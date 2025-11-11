@@ -30,7 +30,5 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
         Vite::prefetch(concurrency: 3);
-
-        config(['review_table_prefix' => app(ReviewService::class)->getUrlToken()]);
     }
 }
