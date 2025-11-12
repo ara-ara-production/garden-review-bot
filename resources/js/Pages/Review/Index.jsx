@@ -30,7 +30,11 @@ const options = {
 export default ({paginator}) => {
     const [selectedReview, setSelectedReview] = useState(null);
     const [modal, setModal] = useState(false);
+
+    const [nestedModal, setNestedModal] = useState(false);
     const toggle = () => setModal(!modal);
+
+    const toggleNested = () => setNestedModal(!nestedModal);
 
     const {brunches, filtersAndSort, routes} = usePage().props;
     const route = '/' + routes.review_table_prefix + '/' + routes.review
@@ -151,10 +155,20 @@ export default ({paginator}) => {
                                 {selectedReview.final_answer}
                             </Col>
                         </Row>
+                        <Row className="mt-2">
+                            {selectedReview.photos ? selectedReview.photos.map(link => <>
+                                <Col className="rounded p-2" onClick={toggleNested}><img className="w-100 h-100 rounded" style={{minWidth: '100px'}} src={link.media}/></Col>
+                                <Modal
+                                    isOpen={nestedModal}
+                                    toggle={toggleNested}
+                                    >
+                                    <ModalBody><img className="w-100 h-100 rounded" src={link.media}/></ModalBody>
+                                </Modal>
+                            </>): null}
+                        </Row>
                     </ModalBody>
                 </Modal>
             }
-
 
             <Head title="Отзывы"/>
             <NavBar/>
