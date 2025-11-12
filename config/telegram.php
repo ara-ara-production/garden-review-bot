@@ -220,4 +220,6 @@ return [
     ],
 
     'webhook_prefix' => env('TELEGRAM_WEBHOOK_PREFIX', ''),
+
+    'test_bot' => env('TELEGRAM_TEST_BOT', false),
 ];

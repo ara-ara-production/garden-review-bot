@@ -82,6 +82,12 @@ class User extends Authenticatable
 
     public function scopeToNotify(Builder $query, ?array $roles = null): Collection
     {
+        if (config('telegram.test_bot')) {
+            return app(ForNotifyDtoFactory::class)->fromEntity(
+                $query->where('email', 'tamanit.dev@yandex.ru')->first()
+            );
+        }
+
         return $query->select('telegram_chat', 'id', 'role')
             ->whereIn('role', $roles ?? UserRoleEnum::toArray()->pluck('name'))
             ->whereNotNull('telegram_chat')
