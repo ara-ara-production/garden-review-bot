@@ -158,15 +158,15 @@ class GetReviewStatsUseCase
                     'selectedDateRange' => round(($topParameter / $bottomParameter), 2),
                     'twoGis' => $twoGisCurrentRate
                         ->where('brunch_name', $item)
-                        ->first()['total_brunch_rate'],
-                    'yEda' => round(
+                        ->first()?->getAttribute('total_brunch_rate'),
+                    'yEda' => ($yEdaMean = round(
                         collect(
                             $yandexEdaCurrentRate
                                 ->where('brunch_name', $item)
                                 ->first()
                         )->get('avg_score'),
                         1
-                    ),
+                    )) > 0 ? $yEdaMean : null ,
                 ];
             })
             ->sortByDesc('selectedDateRange')
