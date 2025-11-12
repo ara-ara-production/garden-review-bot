@@ -34,6 +34,7 @@ class Review extends Model
         'is_on_check',
         'total_brunch_rate',
         'photos',
+        'extra_data'
     ];
 
     public function casts()

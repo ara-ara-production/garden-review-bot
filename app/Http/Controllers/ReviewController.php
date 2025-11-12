@@ -31,9 +31,11 @@ class ReviewController extends Controller
 
     public function findAndNotify()
     {
-        GetReviewsFromYandexVendor::dispatch();
-        GetReviewsFromTwoGis::dispatch();
+//        GetReviewsFromYandexVendor::dispatch();
+//        GetReviewsFromTwoGis::dispatch();
 //        GetReviewsFromGoogleMaps::dispatch();
+
+        app(NotifyAboutNewReviewsYandexVendorUseCase::class)->use();
     }
 
     public function index(Request $request)

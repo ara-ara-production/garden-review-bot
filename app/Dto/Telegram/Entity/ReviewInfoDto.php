@@ -24,6 +24,7 @@ class ReviewInfoDto
         public ?BranchDto $branchDto = null,
         public ?int $dbId = null,
         public bool $updateOnlySmmMessage = false,
+        public ?string $extraData = null,
     ) {
     }
 
@@ -68,6 +69,11 @@ class ReviewInfoDto
         $stars = str_repeat('⭐', (int)$this->rating) . " ({$this->rating} из 5)";
         $controlReview = $this->controlReview ? "☕️ Комментарий управляющего:\n{$this->controlReview}" : null;
 
+        $extraInfo = '';
+        if ($this->resource === 'Яндекс.Еда' && $this->extraData) {
+            $extraInfo = " Заказ *{$this->extraData}";
+        }
+
         $text = $this->text ? e(<<<EOF
 
 📝 {$markers}Отзыв:
@@ -78,7 +84,7 @@ EOF): "";
         return <<<EOF
 ☕ #{$this->branchDto?->name}
 🤵🏻 {$this->branchDto?->upr}
-📣 <a href="{$this->link}">{$this->resource}</a>
+📣 <a href="{$this->link}">{$this->resource}</a>{$extraInfo}
 📆 {$this->getDateHumanFormat()}
 👤 {$this->sender}
 ✏ {$this->totalsRate} {$stars}

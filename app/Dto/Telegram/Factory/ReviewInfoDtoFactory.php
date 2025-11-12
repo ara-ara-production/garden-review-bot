@@ -59,6 +59,11 @@ class ReviewInfoDtoFactory
             resource: 'Яндекс.Еда',
             totalsRate: '-',
             branchDto: BranchDtoFactory::create($branch),
+            extraData: mb_substr(
+                $data['order']['order_nr'],
+                strlen($data['order']['order_nr']) - 4,
+                4
+            )
         );
     }
 
@@ -150,6 +155,7 @@ class ReviewInfoDtoFactory
             isEdited: $review->is_edited,
             branchDto: $this->branchDtoFactory->create($review->brunch),
             dbId: $review->id,
+            extraData: $review->extra_data,
         );
     }
 

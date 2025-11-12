@@ -56,6 +56,7 @@ class ReviewService
                     'is_on_check' => $reviewDto->isOnCHeck,
                     'total_brunch_rate' => $reviewDto->totalsRate,
                     'photos' => $reviewDto->photos,
+                    'extra_data' => $reviewDto->extraData
                 ]
             );
 
