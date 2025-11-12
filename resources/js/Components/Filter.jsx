@@ -82,6 +82,21 @@ export default ({data, get, setData, processing}) => {
                 </Col>
             </FormGroup>
             <FormGroup row className="mb-4">
+                <Col sm={4}>
+                    <Button
+                        active={data.without_reply}
+                        color="info"
+                        onClick={
+                        e => {
+                            e.preventDefault();
+                            setData('without_reply', !data.without_reply)
+                        }
+                    }
+                    >Без ответа SMM</Button>
+                </Col>
+            </FormGroup>
+
+            <FormGroup row className="mb-4">
                 <Col
                     sm={8}
                 >

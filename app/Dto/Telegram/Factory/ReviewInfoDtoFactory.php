@@ -44,7 +44,7 @@ class ReviewInfoDtoFactory
         collect($data['order_feedback']['predefined_comments'])->each(function ($item) use (&$text) {
             $text .= "{$item['comment']}, ";
         });
-         $text = trim($text, ',');
+         $text = rtrim($text, ' ,');
          $text = $text !== '' ? "[{$text}]\n" : '';
 
          $text .= key_exists('comment', $data['order_feedback']) ? $data['order_feedback']['comment'] : '';
