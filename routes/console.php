@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\GetReviewsFromTwoGis;
+use App\Jobs\GetReviewsFromYandexMap;
 use App\Jobs\GetReviewsFromYandexVendor;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -11,3 +12,4 @@ Artisan::command('inspire', function () {
 
 Schedule::job(new GetReviewsFromTwoGis)->everyMinute();
 Schedule::job(new GetReviewsFromYandexVendor())->everyFifteenMinutes();
+Schedule::job(new GetReviewsFromYandexMap())->everyFifteenMinutes();

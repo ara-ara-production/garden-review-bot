@@ -7,6 +7,7 @@ use App\Exports\ReviewExport;
 use App\Http\Requests\ReviewApiRequest;
 use App\Jobs\GetReviewsFromGoogleMaps;
 use App\Jobs\GetReviewsFromTwoGis;
+use App\Jobs\GetReviewsFromYandexMap;
 use App\Jobs\GetReviewsFromYandexVendor;
 use App\Models\Review;
 use App\UseCases\Admin\Review\GetReviewReportUseCase;
@@ -32,12 +33,13 @@ class ReviewController extends Controller
 
     public function findAndNotify()
     {
-//        GetReviewsFromYandexVendor::dispatch();
-//        GetReviewsFromTwoGis::dispatch();
+        GetReviewsFromYandexVendor::dispatch();
+        GetReviewsFromTwoGis::dispatch();
+        GetReviewsFromYandexMap::dispatch();
 //        GetReviewsFromGoogleMaps::dispatch();
 
 //        app(NotifyAboutNewReviewsYandexVendorUseCase::class)->use();
-        app(NotifyAboutNewReviewsYandexMapUseCase::class)->use();
+//        app(NotifyAboutNewReviewsYandexMapUseCase::class)->use();
     }
 
     public function index(Request $request)

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\UseCases\Telegram\NotifyAboutNewReviewsTwoGisUseCase;
+use App\UseCases\Telegram\NotifyAboutNewReviewsYandexMapUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsYandexVendorUseCase;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -22,7 +23,7 @@ class GetReviewsFromYandexMap implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(NotifyAboutNewReviewsYandexVendorUseCase $useCase): void
+    public function handle(NotifyAboutNewReviewsYandexMapUseCase $useCase): void
     {
         $useCase->use();
     }
