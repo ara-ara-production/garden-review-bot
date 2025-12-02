@@ -17,6 +17,7 @@ class BrunchUpdateDtoFactory
             $dataCollection->get('pupr_user_id'),
             $dataCollection->get('two_gis_id'),
             $dataCollection->get('yandex_vendor_id'),
+            $dataCollection->get('yandex_map_id'),
             $dataCollection->get('google_map_id'),
             $dataCollection->get('address'),
         );

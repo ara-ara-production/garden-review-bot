@@ -22,6 +22,7 @@ export default ({users}) => {
         user_id: users[0]?.name,
         two_gis_id: '',
         yandex_vendor_id: '',
+        yandex_map_id: '',
         google_map_id: '',
         pupr_user_id: users[0]?.name,
         address: '',
@@ -103,6 +104,13 @@ export default ({users}) => {
                         value={data.yandex_vendor_id}
                         onChange={e => setData('yandex_vendor_id', e.target.value)}
                         error={errors.yandex_vendor_id}
+                    />
+                    <RowFormGroup
+                        label="id Yandex.Карты филиала"
+                        inputType="text"
+                        value={data.yandex_map_id}
+                        onChange={e => setData('yandex_map_id', e.target.value)}
+                        error={errors.yandex_map_id}
                     />
                     <RowFormGroup
                         label="Адрес (используется для api)"

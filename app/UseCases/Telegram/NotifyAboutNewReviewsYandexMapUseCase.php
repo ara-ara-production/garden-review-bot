@@ -1,0 +1,42 @@
+<?php
+
+namespace App\UseCases\Telegram;
+
+use App\Dto\Telegram\Entity\ReviewDto;
+use App\Dto\Telegram\Entity\ReviewInfoDto;
+use App\Dto\Telegram\Factory\ReviewInfoDtoFactory;
+use App\Services\MessageService;
+use App\Services\ReviewService;
+use App\Services\TelegramService;
+use App\Services\TwoGisApiService;
+use App\Services\YandexMapApiService;
+use App\Services\YandexVendorApiService;
+use Illuminate\Support\Facades\Log;
+
+class NotifyAboutNewReviewsYandexMapUseCase
+{
+    public function __construct(
+        protected YandexMapApiService $yandexVendorApiService,
+        protected ReviewInfoDtoFactory $reviewDtoFactory,
+        protected ReviewService $reviewService,
+        protected MessageService $messageService,
+        protected TelegramService $telegramService,
+    ) {
+    }
+
+    public function use()
+    {
+//        try {
+        $rawData = $this->yandexVendorApiService->foreachBrunches();
+
+        $reviewDtos = $this->reviewDtoFactory->fromYandexMapArray($rawData);
+
+        $reviewDtos = $this->reviewService->removeExistedReviews($reviewDtos);
+
+        $this->reviewService->storeReviews($reviewDtos);
+
+//        } catch (\Throwable $exception) {
+//            Log::error($exception);
+//        }
+    }
+}

@@ -46,7 +46,7 @@ class GetReviewReportUseCase
                     fn() => $prePagination->orderBy($filters['sort'], $filters['orderBy']),
                     fn() => $prePagination->orderBy('posted_at', 'desc')
                 )
-                ->when($filters->has('without_reply') && $filters['without_reply'] === 'true', fn() => $prePagination->whereNull('final_answer')->orWhere('final_answer', '=', ''))
+                ->when($filters->has('without_reply') && $filters['without_reply'] === 'true', fn() => $prePagination->where(fn ($query) => $query->whereNull('final_answer')->OrWhere('final_answer', '=', '')) )
                 ->paginate(20);
 
             return Inertia::render('Review/Index', [

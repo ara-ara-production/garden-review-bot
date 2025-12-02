@@ -10,6 +10,7 @@ class BrunchCreateDto
         public ?string $pupr_user_id,
         public ?string $two_gis_id,
         public ?string $yandex_vendor_id,
+        public ?string $yandex_map_id,
         public ?string $google_map_id,
         public ?string $address,
     ){}

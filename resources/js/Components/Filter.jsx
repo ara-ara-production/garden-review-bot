@@ -73,6 +73,10 @@ export default ({data, get, setData, processing}) => {
                                 {
                                     label: 'Яндекс.Еда',
                                     value: 'Яндекс.Еда'
+                                },
+                                {
+                                    label: 'Яндекс.Карты',
+                                    value: 'Яндекс.Карты'
                                 }
                             ]
                         }

@@ -10,6 +10,7 @@ import RowFormGroupSelect from "@/Components/RowFormGroupSelect.jsx";
 
 export default ({values, users}) => {
 
+    console.log(values)
     const {
         data,
         setData,
@@ -22,6 +23,7 @@ export default ({values, users}) => {
         user_id: values.user_id ?? '',
         two_gis_id: values.two_gis_id ?? '',
         yandex_vendor_id: values.yandex_vendor_id ?? '',
+        yandex_map_id:  values.yandex_map_id ?? '',
         google_map_id: values.google_map_id ?? '',
         pupr_user_id: values.pupr_user_id ?? '',
         address: values.address ?? ''
@@ -103,6 +105,13 @@ export default ({values, users}) => {
                         value={data.yandex_vendor_id}
                         onChange={e => setData('yandex_vendor_id', e.target.value)}
                         error={errors.yandex_vendor_id}
+                    />
+                    <RowFormGroup
+                        label="id Yandex.Карты филиала"
+                        inputType="text"
+                        value={data.yandex_map_id}
+                        onChange={e => setData('yandex_map_id', e.target.value)}
+                        error={errors.yandex_map_id}
                     />
                     <RowFormGroup
                         label="Адрес (используется для api)"

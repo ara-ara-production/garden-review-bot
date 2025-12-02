@@ -14,6 +14,7 @@ use App\UseCases\Admin\Review\GetReviewStatsUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsApiUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsGoogleMapsUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsTwoGisUseCase;
+use App\UseCases\Telegram\NotifyAboutNewReviewsYandexMapUseCase;
 use App\UseCases\Telegram\NotifyAboutNewReviewsYandexVendorUseCase;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,11 +32,12 @@ class ReviewController extends Controller
 
     public function findAndNotify()
     {
-        GetReviewsFromYandexVendor::dispatch();
-        GetReviewsFromTwoGis::dispatch();
+//        GetReviewsFromYandexVendor::dispatch();
+//        GetReviewsFromTwoGis::dispatch();
 //        GetReviewsFromGoogleMaps::dispatch();
 
 //        app(NotifyAboutNewReviewsYandexVendorUseCase::class)->use();
+        app(NotifyAboutNewReviewsYandexMapUseCase::class)->use();
     }
 
     public function index(Request $request)

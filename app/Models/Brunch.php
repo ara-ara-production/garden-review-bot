@@ -16,7 +16,8 @@ class Brunch extends Model
         'yandex_vendor_id',
         'google_map_id',
         'pupr_user_id',
-        'address'
+        'address',
+        'yandex_map_id'
     ];
 
     protected function casts(): array

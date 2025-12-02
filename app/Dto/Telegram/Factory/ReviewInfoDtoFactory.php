@@ -17,6 +17,58 @@ class ReviewInfoDtoFactory
     ) {
     }
 
+    public function fromYandexMapArray(array $data):Collection
+    {
+        $reviews = collect();
+        collect($data)->each(function (array $review) use (&$reviews) {
+            $reviews->push($this->fromYandexMap($review));
+        });
+
+        return $reviews->flatten();
+    }
+
+    public function fromYandexMap(array $data):ReviewInfoDto
+    {
+        $reviewBrunchId = str_replace('/sprav/', '', $data['object']['id']);
+        if (Brunch::where('yandex_map_id', $reviewBrunchId)->exists()) {
+            $branch = Brunch::where('yandex_map_id', $reviewBrunchId)->first();
+        } else {
+            $branchFaked = new Brunch;
+            $branchFaked->yandex_map_id = $reviewBrunchId;
+            $branchFaked->name = $reviewBrunchId;
+            $branch = $branchFaked;
+        }
+
+        //https://avatars.mds.yandex.net
+        $photosUrls = null;
+        if (!empty($data['photos'])) {
+            if (count($data['photos']) > 10) {
+                $data['photos'] = array_slice($data['photos'], 0, 10);
+            }
+
+            foreach ($data['photos'] as $photo) {
+                $photosUrls[] = [
+                    'media' => "https://avatars.mds.yandex.net" . $photo['link'],
+                    'type' => 'photo',
+                ];
+            }
+        }
+
+        return new ReviewInfoDto(
+            id: 'ym-' . $data['id'],
+            text: key_exists('full_text', $data) ? $data['full_text'] : '',
+            rating: $data['rating'],
+            sender: $data['author']['user'],
+            time: new DateTime(date('Y-m-d H:i:s', $data['time_created'] / 1000+ 2 * 3600)),
+            resource: 'Яндекс.Карты',
+            totalsRate: '-',
+            finalAnswer: key_exists('owner_comment', $data) ? $data['owner_comment']['text'] : null,
+            link: "https://yandex.ru/maps/org/{$reviewBrunchId}/reviews?reviews%5BpublicId%5D={$data['author']['public_id']}&si=ccg1pb6z3pewm04xu8ep665jj4&utm_source=review",
+            photos: $photosUrls,
+            branchDto: BranchDtoFactory::create($branch)
+        );
+    }
+
     public function fromYandexVendorArray(array $data): Collection
     {
         $reviews = collect();
