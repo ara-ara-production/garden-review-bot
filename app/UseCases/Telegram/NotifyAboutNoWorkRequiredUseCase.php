@@ -18,7 +18,7 @@ class NotifyAboutNoWorkRequiredUseCase
 
             $this->messageHandleService->replyToCallback($dto->callback_query, 'Принято!');
 
-            $this->messageHandleService->clearInlineButtons($dto->callback_query->data);
+//            $this->messageHandleService->clearInlineButtons($dto->callback_query->data);
         } catch (\Throwable $exception) {
             Log::error($exception);
         }

@@ -74,6 +74,8 @@ class ReviewInfoDto
             $extraInfo = " Заказ *{$this->extraData}";
         }
 
+        $resource = $this->resource === '2Гис' ? '2ГИС' : $this->resource;
+
         $text = $this->text ? e(<<<EOF
 
 📝 {$markers}Отзыв:
@@ -84,7 +86,7 @@ EOF): "";
         return <<<EOF
 ☕ #{$this->branchDto?->name}
 🤵🏻 {$this->branchDto?->upr}
-📣 <a href="{$this->link}">{$this->resource}</a>{$extraInfo}
+📣 <a href="{$this->link}">{$resource}</a>{$extraInfo}
 📆 {$this->getDateHumanFormat()}
 👤 {$this->sender}
 ✏ {$this->totalsRate} {$stars}
