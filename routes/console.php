@@ -12,4 +12,4 @@ Artisan::command('inspire', function () {
 
 Schedule::job(new GetReviewsFromTwoGis)->everyMinute();
 Schedule::job(new GetReviewsFromYandexVendor())->everyFifteenMinutes();
-Schedule::job(new GetReviewsFromYandexMap())->everyFifteenMinutes();
+Schedule::job(new GetReviewsFromYandexMap())->everySixHours();
