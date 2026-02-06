@@ -1,6 +1,6 @@
 import Head from "@/Components/Head.jsx";
 import NavBar from "@/Components/NavBar.jsx";
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {Button, Col, Container, Input, Row, Table, UncontrolledCollapse} from "reactstrap";
 import {exportComponentAsPNG} from "react-component-export-image";
 import Filter from "@/Components/Filter.jsx";
@@ -25,6 +25,10 @@ export default () => {
     } = usePage().props;
 
     const componentRef = useRef(null);
+
+    let [marksForBrunch, setMarksForBrunch] = useState(brunchesStat.map(() => ""));
+
+    console.log(marksForBrunch);
 
     const {
         data,
@@ -71,7 +75,7 @@ export default () => {
                     </Container>
                 </Col>
             </Row>
-            <div ref={componentRef}>
+            <div>
                 <Row className="h-100vh">
                     <Col xl={2} className="mb-4">
                         <span>Общее число отзывов</span>
@@ -182,7 +186,11 @@ export default () => {
                         <span>Примечания</span>
                         <div className="d-flex flex-column"
                              style={{maxHeight: 567, paddingTop: 8, paddingBottom: 8, gap: 10}}>
-                            {brunchesStat.map(() => <Input className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}}/>)}
+                            {brunchesStat.map((element, index) => <Input name={index} className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}} value={marksForBrunch[index]} onChange={e => {
+                                let copy = [...marksForBrunch];
+                                copy[index] = e.target.value;
+                                setMarksForBrunch(copy);
+                            }}/>)}
                         </div>
                     </Col>
 
@@ -240,6 +248,180 @@ export default () => {
                         </Table>
                     </Col>
                 </Row>
+            </div>
+            <div ref={componentRef} style={{width: '1865px', height: '1000px', position: "absolute", top: "-10000px", left: "-10000px"}}>
+                <div className="h-100 w-100" style={{display: 'grid', gridTemplateRows: 'repeat(12, 1fr)', gridTemplateColumns: 'repeat(12, 1fr)'}}>
+                    <div style={{gridRow: "1 / span 5", gridColumn: "1 / span 2"}} className="mb-4">
+                        <span>Общее число отзывов</span>
+                        <Table size="sm" borderless>
+                            <thead>
+                            <tr>
+                                <td className="text-center">⭐</td>
+                                <th className="text-center">Кол-во</th>
+                                <th className="text-center">%</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr style={{backgroundColor: '#4fd69c'}} className="text-white">
+                                <th className="text-center">5</th>
+                                <td className="text-center">{pieChartData[0].value}</td>
+                                <td className="text-center">{pieChartData[0].percent}</td>
+                            </tr>
+                            <tr style={{backgroundColor: '#FFC107'}} className="text-white">
+                                <th className="text-center">4</th>
+                                <td className="text-center">{pieChartData[1].value}</td>
+                                <td className="text-center">{pieChartData[1].percent}</td>
+                            </tr>
+                            <tr style={{backgroundColor: '#f75676'}} className="text-white">
+                                <th className="text-center">1-3</th>
+                                <td className="text-center">{pieChartData[2].value}</td>
+                                <td className="text-center">{pieChartData[2].percent}</td>
+                            </tr>
+                            </tbody>
+                        </Table>
+                    </div>
+                    <div style={{gridRow: "1 / span 5", gridColumn: "3 / span 10"}} >
+                        <span>Число отзывов по филиалам</span>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart
+                                data={barChartData}
+                            >
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis
+                                    dataKey="name"
+                                    angle={20}           // угол наклона текста (в градусах)
+                                    textAnchor="start"      // выравнивание текста относительно оси
+                                    height={45}           // увеличиваем высоту под ось, чтобы текст не обрезался
+                                    interval={0}          // показывать все подписи (по умолчанию Recharts может пропускать)
+                                    tick={{fontSize: 12}}
+                                    scale="band"
+                                    type="category"
+                                    tickAlignWithBand={true}
+                                />
+                                <YAxis/>
+                                <Bar dataKey="best" fill="#4fd69c" name="Положительный">
+                                    <LabelList dataKey="best" position="top"/>
+                                </Bar>
+
+                                <Bar dataKey="good" fill="#FFC107" name="Нейтральный">
+                                    <LabelList dataKey="good" position="top"/>
+                                </Bar>
+
+                                <Bar dataKey="bad" fill="#f75676" name="Отрицательный">
+                                    <LabelList dataKey="bad" position="top"/>
+                                </Bar>
+
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div style={{gridRow: "5 / span 7", gridColumn: "1 / span 4"}} className="pr-0" >
+                        <span>Соотношение оценок по филиалам</span>
+                        <ResponsiveContainer width="100%" height={600}>
+                            <BarChart
+                                data={barChartData}
+                                layout="vertical"
+                            >
+                                <XAxis type="number" domain={[0, 100]} tickFormatter={(v) => v + "%"}/>
+                                <YAxis dataKey="name" type="category" width={120}/>
+
+                                {/* Положительные */}
+                                <Bar dataKey="best_p" stackId="a" fill="#4fd69c" name="Положительные">
+                                    <LabelList
+                                        dataKey="best_title"
+                                        position="center"
+                                        fill="#fff"
+                                        fontSize={14}
+                                    />
+                                </Bar>
+
+                                {/* Нейтральные */}
+                                <Bar dataKey="good_p" stackId="a" fill="#FFC107" name="Нейтральные">
+                                    <LabelList
+                                        dataKey="good_title"
+                                        position="center"
+                                        fill="#000"
+                                        fontSize={14}
+                                    />
+                                </Bar>
+
+                                {/* Отрицательные */}
+                                <Bar dataKey="bad_p" stackId="a" fill="#f75676" name="Отрицательные">
+                                    <LabelList
+                                        dataKey="bad_title"
+                                        position="center"
+                                        fill="#fff"
+                                        fontSize={14}
+                                    />
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div style={{gridRow: "5 / span 7", gridColumn: "5 / span 4"}} className="pl-0 mr-2">
+                        <span>Примечания</span>
+                        <div className="d-flex flex-column"
+                             style={{maxHeight: 567, paddingTop: 8, paddingBottom: 8, gap: 10}}>
+                            {brunchesStat.map((element, index) => <Input name={index} className="p-0 m-0" type="textarea" style={{height: 'auto', minHeight: 0}} value={marksForBrunch[index]} onChange={e => {
+                                let copy = marksForBrunch;
+                                copy[e.target.name] = e.target.value;
+                                setMarksForBrunch(copy);
+                            }}/>)}
+                        </div>
+                    </div>
+
+                    {/*<Col xl={6}>
+
+
+                    <h2 className='fs-5 font-weight-bold text-center'>По филиалам (Процетовка)</h2>
+                    <Table size="sm" hover responsive>
+                        <thead>
+                        <tr>
+                            <th col className="col-2 text-center">Филиал</th>
+                            <th className="table-success text-center col-1"><span>5</span>
+                            </th>
+                            <th className="table-warning text-center col-1"><span>4</span>
+                            </th>
+                            <th className="table-danger text-center col-1"><span>1-3</span>
+                            </th>
+                            <th>Комментарий</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {statsByBranches.map(item => {
+                            return <tr>
+                                <td className={"text-right " + ((item['percent5'] >= 80) ? "table-success"  : ((item['percent5'] >= 60 ? "table-warning" : "table-danger")))}>{item.name}</td>
+                                <td className="text-center">{item['5']} {(item['percent5'] !== 0) ? `(${item['percent5']}%)` : '-'}</td>
+                                <td className="text-center">{item['4']} {(item['percent4'] !== 0) ? `(${item['percent4']}%)` : '-'}</td>
+                                <td className="text-center">{item['1-3']} {(item['percent1-3'] !== 0) ? `(${item['percent1-3']}%)` : '-'}</td>
+                                <td className="p-0"><Input bsSize="sm" type="textarea" className="border-0 m-0 h-100"/></td>
+                            </tr>
+                        })}
+                        </tbody>
+                    </Table>
+                </Col>*/}
+                    <div style={{gridRow: "5 / span 7", gridColumn: "9 / span 4"}}>
+                        <span>Срение оценки по филиалам</span>
+                        <Table size="sm" hover responsive>
+                            <thead>
+                            <tr>
+                                <th className="col-1"></th>
+                                <th className="text-center">Средний за период</th>
+                                <th className="text-center">2ГИС (текущий)</th>
+                                <th className="text-center">Яндекс.Еда (текущий)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {statsBrunchRate.map(item => {
+                                return <tr>
+                                    <td className="text-right">{item.name}</td>
+                                    <td className="text-center">{item.selectedDateRange}</td>
+                                    <td className="text-center">{item.twoGis}</td>
+                                    <td className="text-center">{item.yEda}</td>
+                                </tr>
+                            })}
+                            </tbody>
+                        </Table>
+                    </div>
+                </div>
             </div>
         </Container>
     </>;

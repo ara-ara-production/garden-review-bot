@@ -1,0 +1,1 @@
+import{j as e,Q as s}from"./app-OylCr9Tv.js";const o=({title:n,description:r})=>e.jsxs(s,{children:[n?e.jsx("title",{children:n}):null,r?e.jsx("meta",{name:"description",content:"Garden review bot это бот для получения информации о отзывах гостей с разных платформ. Помогает оператвно реагировать на оставленные отзывы."}):null]});export{o as H};
