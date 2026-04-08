@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRoleEnum;
 use App\Models\User;
+use App\Models\UserMessengerAccount;
 use Illuminate\Database\Seeder;
 
 class UserIndexSeeder extends Seeder
@@ -12,10 +14,16 @@ class UserIndexSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        $user = User::create([
             'name' => 'Test name',
             'email' => 'test@test.com',
-            'telegram_username' => 'test',
+            'role' => UserRoleEnum::Founder,
+        ]);
+
+        UserMessengerAccount::create([
+            'user_id' => $user->id,
+            'driver' => 'telegram',
+            'username' => 'test',
         ]);
 
         User::factory(20)->create();

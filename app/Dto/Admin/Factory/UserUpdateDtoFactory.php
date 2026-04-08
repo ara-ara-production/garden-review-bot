@@ -15,8 +15,9 @@ class UserUpdateDtoFactory
             $dataCollection->get('id'),
             $dataCollection->get('name'),
             $dataCollection->get('email'),
-            $dataCollection->get('telegram_username'),
-            $dataCollection->get('role')?->name,
+            $user->telegramAccount?->username,
+            $user->vkAccount?->external_id,
+            $user->role?->name,
         );
     }
 }

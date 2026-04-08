@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,8 +12,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('telegram_messages', function (Blueprint $table) {
-            $table->dropForeign('telegram_messages_user_id_foreign');
+        $tableName = Schema::hasTable('bot_messages') ? 'bot_messages' : 'telegram_messages';
+
+        if (DB::getDriverName() === 'sqlite') {
+            return;
+        }
+
+        Schema::table($tableName, function (Blueprint $table): void {
+            $table->dropForeign(['user_id']);
+        });
+
+        Schema::table($tableName, function (Blueprint $table): void {
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
         });
     }

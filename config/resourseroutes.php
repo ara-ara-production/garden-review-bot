@@ -6,5 +6,6 @@ return [
 
     'user' => 'users',
     'brunch' => 'brunches',
+    'invite' => 'bot-invites',
     'review' => 'reviews',
 ];

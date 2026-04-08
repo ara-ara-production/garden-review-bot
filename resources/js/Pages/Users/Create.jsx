@@ -21,6 +21,7 @@ export default ({roles}) => {
     } = useForm({
         name: '',
         telegram_username: '',
+        vk_user_id: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -65,6 +66,13 @@ export default ({roles}) => {
                         onChange={e => setData('telegram_username', e.target.value)}
                         error={errors.telegram_username}
                         formText="Необходимо заполнить, того, чтоб пользователь мог использовать бота"
+                    />
+                    <RowFormGroup
+                        label="VK user id"
+                        inputType="text"
+                        value={data.vk_user_id}
+                        onChange={e => setData('vk_user_id', e.target.value)}
+                        error={errors.vk_user_id}
                     />
                     <RowFormGroupSelect
                         label="Роль"

@@ -52,7 +52,9 @@ export default ({paginator}) => {
                             <td>Имя</td>
                             <td>Роль</td>
                             <td>tg никнейм</td>
-                            <td>Подписан ?</td>
+                            <td>VK id</td>
+                            <td>TG</td>
+                            <td>VK</td>
                             <th></th>
                         </tr>
                         </thead>
@@ -62,7 +64,11 @@ export default ({paginator}) => {
                                 <td key={`name-${i}`}>{row.name}</td>
                                 <td key={`role-${i}`}>{row.role}</td>
                                 <td key={`telegram_username-${i}`}>{row['telegram_username']}</td>
-                                <td key={`telegram_chat-${i}`}>{row.is_subscribed
+                                <td key={`vk_user_id-${i}`}>{row['vk_user_id']}</td>
+                                <td key={`telegram_chat-${i}`}>{row.telegram_is_subscribed
+                                    ? <i className="ni ni-check-bold"></i>
+                                    : <i className="ni ni-fat-delete"></i>}</td>
+                                <td key={`vk_chat-${i}`}>{row.vk_is_subscribed
                                     ? <i className="ni ni-check-bold"></i>
                                     : <i className="ni ni-fat-delete"></i>}</td>
                                 <td>

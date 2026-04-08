@@ -11,6 +11,7 @@ class UserCreateDto
         public ?string $email,
         public ?string $password,
         public ?string $telegram_username,
+        public ?string $vk_user_id,
         public ?UserRoleEnum $role
-    ){}
+    ) {}
 }

@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TelegramMessage extends Model
 {
+    protected $table = 'bot_messages';
+
     protected $fillable = [
         'review_id',
         'user_id',
-        'message_id'
+        'driver',
+        'bot',
+        'recipient_id',
+        'message_id',
     ];
 
     public function review(): BelongsTo

@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Enums\UserRoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 
 class UserRequest extends FormRequest
 {
@@ -13,10 +12,10 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'nullable|string|email|max:255|unique:users,email' . ($this->user ? ",{$this->user?->id}" : '') ,
+            'email' => 'nullable|string|email|max:255|unique:users,email'.($this->user ? ",{$this->user?->id}" : ''),
             'password' => 'nullable|string|min:8|confirmed',
-//            'password_repeat' => 'nullable|string|min:8|same:password',
             'telegram_username' => 'nullable|string|max:255',
+            'vk_user_id' => 'nullable|string|max:255',
             'role' => ['nullable', Rule::in(UserRoleEnum::toArray()->pluck('name'))],
         ];
     }
@@ -37,12 +36,10 @@ class UserRequest extends FormRequest
             'password.min' => 'Пароль должен содержать минимум 8 символов.',
             'password.confirmed' => 'Пароль и его подтверждение не совпадают.',
 
-//            'password_repeat.string' => 'Повтор пароля должен быть строкой.',
-//            'password_repeat.min' => 'Повтор пароля должен содержать минимум 8 символов.',
-//            'password_repeat.same' => 'Повтор пароля должен совпадать с основным паролем.',
-
             'telegram_username.string' => 'Telegram username должен быть строкой.',
             'telegram_username.max' => 'Telegram username не должен превышать 255 символов.',
+            'vk_user_id.string' => 'VK user id должен быть строкой.',
+            'vk_user_id.max' => 'VK user id не должен превышать 255 символов.',
         ];
 
     }

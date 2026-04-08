@@ -14,25 +14,28 @@ class UserModelTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function scopeDataForIndex(): void
+    public function scope_data_for_index(): void
     {
         // Запускаем сидер, чтобы были данные
         $this->seed(\Database\Seeders\UserIndexSeeder::class);
 
         // Ищем пользователя с telegram_username = 'test'
-        $user = User::dataForIndex()->where('telegram_username', 'test')->first();
+        $user = User::dataForIndex()->get()->firstWhere('telegram_username', 'test');
 
         $this->assertNotNull($user, 'User should not be null');
 
         $this->assertEquals(
             [
-                'id' => $user->id,  // подставляем реальный id
+                'id' => $user->id,
                 'name' => 'Test name',
+                'role' => $user->role,
+                'email' => 'test@test.com',
                 'telegram_username' => 'test',
-                'is_subscribed' => false
+                'vk_user_id' => null,
+                'telegram_is_subscribed' => 0,
+                'vk_is_subscribed' => 0,
             ],
             $user->toArray()
         );
     }
-
 }

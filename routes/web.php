@@ -1,24 +1,17 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\BotInviteController;
 use App\Http\Controllers\Admin\BrunchController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\BotWebhookController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TelegramController;
 use App\Http\Middleware\CheckTokenInUrl;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
-Route::prefix('tg-bot')->group(function () {
-    Route::prefix(config('telegram.webhook_prefix'))->group(function () {
-        Route::get('/', fn() => Telegram::bot()->getMe());
-
-        Route::post('webhook', [TelegramController::class, 'getWebhookUpdate'])->withoutMiddleware(
-            [VerifyCsrfToken::class]
-        );
-    });
-});
-
+Route::post('bots/{bot}/webhook', [BotWebhookController::class, 'handle'])
+    ->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::prefix('{token}/reviews')->middleware([CheckTokenInUrl::class])->group(function () {
     Route::get('/', [ReviewController::class, 'index']);
@@ -40,12 +33,16 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 
-
     Route::prefix(config('resourseroutes.backendprefix'))->group(function () {
         Route::inertia('/', 'WelcomeBackend')->name('dashboard');
         Route::resource(config('resourseroutes.user'), UserController::class);
         Route::resource(config('resourseroutes.brunch'), BrunchController::class);
+        Route::get(config('resourseroutes.invite'), [BotInviteController::class, 'index'])->name(
+            config('resourseroutes.invite').'.index'
+        );
+        Route::post(config('resourseroutes.invite'), [BotInviteController::class, 'store'])->name(
+            config('resourseroutes.invite').'.store'
+        );
         Route::get('logs', [LogViewerController::class, 'index']);
     });
 });
-

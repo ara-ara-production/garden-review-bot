@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -28,8 +26,6 @@ class UserFactory extends Factory
             'email' => null,
             'password' => null,
             'remember_token' => null,
-            'telegram_username' => fake()->userName(),
-            'telegram_chat' => fake()->optional(0.3)->numberBetween(100000, 999999),
         ];
     }
 

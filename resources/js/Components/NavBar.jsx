@@ -83,6 +83,13 @@ export default () => {
                                 }}
                             >Филиалы
                             </DropdownItem>
+                            <DropdownItem
+                                onClick={e => {
+                                    e.preventDefault();
+                                    router.visit(`/${routes.backendprefix}/${routes.invite}`)
+                                }}
+                            >Ссылки подписки
+                            </DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>  : null}
                     {auth.user ?

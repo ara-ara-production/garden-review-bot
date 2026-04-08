@@ -11,12 +11,13 @@ class UserCreateDtoFactory
     {
         $dataCollection = collect($data);
 
-//        dd($dataCollection);
+        //        dd($dataCollection);
         return new UserCreateDto(
             $dataCollection->get('name'),
             $dataCollection->get('email'),
             $dataCollection->get('password'),
             $dataCollection->get('telegram_username'),
+            $dataCollection->get('vk_user_id'),
             UserRoleEnum::tryFromName($dataCollection->get('role'))
         );
     }

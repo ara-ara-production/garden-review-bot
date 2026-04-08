@@ -12,7 +12,6 @@ class ForNotifyDtoFactory
         return new ForNotifyDto(
             $user->id,
             $user->role->name,
-            $user->telegram_chat,
         );
     }
 }
