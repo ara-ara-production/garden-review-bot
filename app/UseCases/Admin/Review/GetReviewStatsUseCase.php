@@ -139,7 +139,7 @@ class GetReviewStatsUseCase
             )
             ->get();
 
-        $readyBrunchRate = $brunches
+/*        $readyBrunchRate = $brunches
             ->map(function ($item) use ($rawData, $yandexEdaCurrentRate, $twoGisCurrentRate) {
                 $brunchData = $rawData->where('name', $item);
 
@@ -171,12 +171,12 @@ class GetReviewStatsUseCase
             })
             ->sortByDesc('selectedDateRange')
             ->values()
-            ->toArray();
+            ->toArray();*/
 
         return Inertia::render('Review/Stats', [
             'barChartData' => $dataForBarChar,
             'pieChartData' => $dataForPieChart,
-            'statsBrunchRate' => $readyBrunchRate,
+//            'statsBrunchRate' => $readyBrunchRate,
             'brunches' => Brunch::dataForFilter()->get(),
             'brunchesStat' => $brunches,
             'filtersAndSort' => $filters,

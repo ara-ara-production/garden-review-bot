@@ -30,7 +30,7 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
+//Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 
     Route::prefix(config('resourseroutes.backendprefix'))->group(function () {
@@ -45,4 +45,4 @@ Route::middleware('auth')->group(function () {
         );
         Route::get('logs', [LogViewerController::class, 'index']);
     });
-});
+//});

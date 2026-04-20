@@ -140,7 +140,7 @@ export default () => {
                             </BarChart>
                         </ResponsiveContainer>
                     </Col>
-                    <Col className="pr-0" xl={4}>
+                    <Col className="pr-0" xl={8}>
                         <span>Соотношение оценок по филиалам</span>
                         <ResponsiveContainer width="100%" height={600}>
                             <BarChart
@@ -224,7 +224,7 @@ export default () => {
                         </tbody>
                     </Table>
                 </Col>*/}
-                    <Col xl={4}>
+                    {/*<Col xl={4}>
                         <span>Срение оценки по филиалам</span>
                         <Table size="sm" hover responsive>
                             <thead>
@@ -246,7 +246,7 @@ export default () => {
                             })}
                             </tbody>
                         </Table>
-                    </Col>
+                    </Col>*/}
                 </Row>
             </div>
             <div ref={componentRef} style={{width: '1865px', height: '1000px', position: "absolute", top: "-10000px", left: "-10000px"}}>
@@ -314,7 +314,7 @@ export default () => {
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
-                    <div style={{gridRow: "5 / span 7", gridColumn: "1 / span 4"}} className="pr-0" >
+                    <div style={{gridRow: "5 / span 7", gridColumn: "1 / span 8"}} className="pr-0" >
                         <span>Соотношение оценок по филиалам</span>
                         <ResponsiveContainer width="100%" height={600}>
                             <BarChart
@@ -356,7 +356,7 @@ export default () => {
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
-                    <div style={{gridRow: "5 / span 7", gridColumn: "5 / span 4"}} className="pl-0 mr-2">
+                    <div style={{gridRow: "5 / span 7", gridColumn: "9 / span 4"}} className="pl-0 mr-2">
                         <span>Примечания</span>
                         <div className="d-flex flex-column"
                              style={{maxHeight: 567, paddingTop: 8, paddingBottom: 8, gap: 10}}>
@@ -398,7 +398,7 @@ export default () => {
                         </tbody>
                     </Table>
                 </Col>*/}
-                    <div style={{gridRow: "5 / span 7", gridColumn: "9 / span 4"}}>
+                    {/*<div style={{gridRow: "5 / span 7", gridColumn: "9 / span 4"}}>
                         <span>Срение оценки по филиалам</span>
                         <Table size="sm" hover responsive>
                             <thead>
@@ -420,7 +420,7 @@ export default () => {
                             })}
                             </tbody>
                         </Table>
-                    </div>
+                    </div>*/}
                 </div>
             </div>
         </Container>

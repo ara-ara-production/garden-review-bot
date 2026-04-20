@@ -1,4 +1,4 @@
-import{a as b,u as v,r as g,j as e}from"./app-CbBDZ2-1.js";import{H as f}from"./Head-C5rbOLc6.js";import{N as w}from"./NavBar-GBX9edZl.js";import{C,R as _,a as n,B as p}from"./Alert-CqTlS43w.js";import{F as y,a as d}from"./Label-BbD99JWr.js";import{a as t,R as N}from"./RowFormGroupSelect-DGNj5Bbf.js";import{R}from"./RowFormGroupWithPrefix-zzPAF2E4.js";import"./Progress-BkDbzNHp.js";import"./FormFeedback-_7wxNjiy.js";import"./Input-BEp1MAUa.js";const H=({roles:c})=>{const{data:a,setData:s,post:x,processing:l,errors:o,reset:h}=b({name:"",telegram_username:"",vk_user_id:"",email:"",password:"",password_confirmation:"",role:"NullRole"}),{routes:i}=v().props,[m,u]=g.useState(!1),j=r=>{r.preventDefault(),x(`/${i.backendprefix}/${i.user}`+(m?"?redirectOnCreation=true":"")),m&&h()};return e.jsxs(e.Fragment,{children:[e.jsx(f,{title:"Создание пользователя"}),e.jsx(w,{}),e.jsxs(C,{children:[e.jsx(_,{children:e.jsx(n,{children:e.jsx("h2",{children:"Cоздание пользователя"})})}),e.jsxs(y,{className:"row",onSubmit:j,children:[e.jsxs(n,{className:`
+import{x as b,J as v,r as g,j as e}from"./app-OKPT5S3I.js";import{H as f}from"./Head-DgijFEdU.js";import{N as w}from"./NavBar-CGYac7tT.js";import{C,R as _,a as n,B as u}from"./Alert-DxwqOTkg.js";import{F as y,a as d}from"./Label-DESziUAu.js";import{a as t,R as N}from"./RowFormGroupSelect-gL5C4VOS.js";import{R}from"./RowFormGroupWithPrefix-DCr9tCya.js";import"./Progress-COrKAHbf.js";import"./FormFeedback-CFSrCRjM.js";import"./Input-C-6XNG1z.js";const H=({roles:c})=>{const{data:a,setData:s,post:x,processing:l,errors:o,reset:h}=b({name:"",telegram_username:"",vk_user_id:"",email:"",password:"",password_confirmation:"",role:"NullRole"}),{routes:i}=v().props,[m,p]=g.useState(!1),j=r=>{r.preventDefault(),x(`/${i.backendprefix}/${i.user}`+(m?"?redirectOnCreation=true":"")),m&&h()};return e.jsxs(e.Fragment,{children:[e.jsx(f,{title:"Создание пользователя"}),e.jsx(w,{}),e.jsxs(C,{children:[e.jsx(_,{children:e.jsx(n,{children:e.jsx("h2",{children:"Cоздание пользователя"})})}),e.jsxs(y,{className:"row",onSubmit:j,children:[e.jsxs(n,{className:`
                         border
                         border-primary
                         rounded
@@ -17,9 +17,9 @@ import{a as b,u as v,r as g,j as e}from"./app-CbBDZ2-1.js";import{H as f}from"./
                         mb-4
                         pl-0
                         pt-4
-                        `,children:e.jsx(d,{children:e.jsx(p,{className:"w-100",type:"submit",value:"Сохранить",color:"primary",outline:!0,disabled:l,onClick:()=>u(!1),children:"Сохранить"})})}),e.jsx(n,{className:`
+                        `,children:e.jsx(d,{children:e.jsx(u,{className:"w-100",type:"submit",value:"Сохранить",color:"primary",outline:!0,disabled:l,onClick:()=>p(!1),children:"Сохранить"})})}),e.jsx(n,{className:`
                         col-4
                         mb-4
                         pl-0
                         pt-4
-                        `,children:e.jsx(d,{children:e.jsx(p,{className:"w-100",type:"submit",value:"Сохранить и создать еще",color:"primary",outline:!0,disabled:l,onClick:()=>u(!0),children:"Сохранить и создать еще"})})})]})]})]})};export{H as default};
+                        `,children:e.jsx(d,{children:e.jsx(u,{className:"w-100",type:"submit",value:"Сохранить и создать еще",color:"primary",outline:!0,disabled:l,onClick:()=>p(!0),children:"Сохранить и создать еще"})})})]})]})]})};export{H as default};
